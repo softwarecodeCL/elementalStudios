@@ -1,19 +1,14 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
-import { RecaptchaModule, RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
+
 
 @Component({
   selector: 'app-contact',
   standalone: true,
   imports: [FormsModule,
-            ReactiveFormsModule, 
-            RecaptchaModule,
-            RecaptchaV3Module],
+            ReactiveFormsModule],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.css',
-  providers: [
-    { provide: RECAPTCHA_V3_SITE_KEY, useValue: 'YOUR_RECAPTCHA_SITE_KEY' } // Reemplaza con tu clave del sitio reCAPTCHA
-  ]
 })
 
 export class ContactComponent {
@@ -34,7 +29,11 @@ export class ContactComponent {
     })
   }
 
-  onSubmit() {
+  onSubmit(e: any) {
+   
+    
+    alert("asdasdasd")
+    e.preventDefault();
     if (this.userForm.valid) {
       console.log(this.userForm.value);
       // Maneja el envío del formulario aquí, incluyendo el captchaResponse si es necesario
@@ -43,7 +42,7 @@ export class ContactComponent {
     }
   }
 
-  onCaptchaResolved(captchaResponse: string) {
+  onCaptchaResolved(captchaResponse: string | null) {
     this.captchaResponse = captchaResponse;
     this.userForm.get('recaptcha')?.setValue(captchaResponse);
   }
