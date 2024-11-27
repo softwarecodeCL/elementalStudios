@@ -916,6 +916,11 @@ section.video .left-content h4 em {
     color: #f5a425;
 }
 
+section.video .left-content h6 strong em {
+  font-style: normal;
+  color: #f5a425;
+}
+
 section.video .left-content .main-button {
   margin-top: 30px;
 }
