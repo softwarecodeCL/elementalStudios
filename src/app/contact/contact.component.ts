@@ -31,7 +31,8 @@ export class ContactComponent {
   }
 
   onSubmit() {
-   /*
+    console.log(this.userForm.value);
+   
     if (this.userForm.valid) {
       const formData = { // Reemplaza con la dirección de destino adecuada
         subject: 'Nuevo mensaje de contacto',
@@ -55,7 +56,7 @@ export class ContactComponent {
         });
     } else {
       console.log('Formulario no válido');
-    } */
+    } 
   }
 
   onCaptchaResolved(captchaResponse: string | null) {

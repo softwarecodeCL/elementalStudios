@@ -14,3 +14,139 @@
 .icon-elemental{
     color: #f5a425;
 }
+
+
+/* General styles for cards */
+.card {
+  border: none; /* Removes default border */
+  border-radius: 15px; /* Rounded corners */
+  overflow: hidden; /* Clips overflow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+.card-img-top {
+  height: 400px; /* Ajusta el alto a tu necesidad */
+  object-fit: cover; /* Mantiene la proporción y recorta si es necesario */
+  width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #333; /* Slightly darker text */
+}
+
+.card-text {
+  font-size: 0.95rem;
+  color: #666; /* Muted text for better contrast */
+}
+
+/* Hover effect */
+.card-hover:hover {
+  transform: translateY(-10px); /* Lift effect */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Adds depth */
+}
+
+.card-body {
+  height: 11rem;
+}
+
+/* tabla */
+
+body {
+  background-color: #162238;
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+}
+.table-container {
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #1e2d4a;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  max-width: 1000px;
+}
+.table {
+  margin-bottom: 0;
+  width: 100%;
+}
+.table thead th {
+  background-color: #243554;
+  color: #f1f1f1;
+  font-weight: bold;
+  text-align: center;
+  padding: 15px;
+  text-transform: uppercase;
+  border-bottom: 2px solid #3a4d71;
+  border-top: none;
+  color: #f5a425;
+}
+.table tbody td {
+  text-align: center;
+  padding: 20px;
+  vertical-align: middle;
+  border-bottom: 1px solid #3a4d71;
+  color: #c0d4f2;
+}
+/* Hover en columna */
+.table tbody td:hover {
+  background-color: #345b99;
+  color: #ffffff;
+  transition: all 0.3s ease;
+}
+.table tbody td:hover ~ td {
+  background-color: transparent;
+}
+.table thead th:hover {
+  background-color: #3c618e;
+  color: #fff;
+}
+/* Fondo alternado para filas */
+.table tbody tr:nth-child(odd) td {
+  background-color: #202d44;
+}
+.table tbody tr:nth-child(even) td {
+  background-color: #1a273d;
+}
+/* Estilo de listas */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+ul li {
+  margin-bottom: 5px;
+}
+ul li::before {
+  content: "•";
+  color: #ffc107;
+  margin-right: 10px;
+}
+/* Agrega sombras al pasar el mouse */
+.table-container:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+}
+
+ul li {
+    margin-bottom: 10px;   /* Ajusta el margen entre los elementos */
+   /* padding: 10px 0;   */    /* Aumenta el espacio dentro de cada <li> */
+    line-height: 1.6;      /* Mejora la altura de las líneas para más amplitud */
+}
+.table-container {
+  width: 90%; /* Ajusta el porcentaje de acuerdo a tus necesidades */
+  max-width: 1200px; /* Ancho máximo si lo deseas */
+}
+
+.table tbody td ul li:last-child {
+  text-align: left;
+}
+
+@media (max-width: 767px) {
+  .table-data {
+      display: none;  /* Oculta la tabla en pantallas pequeñas */
+  }
+}
+
+.title-table {
+  color: #c0d4f2;
+}
+/* end tabla*/
