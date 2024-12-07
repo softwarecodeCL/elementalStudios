@@ -1,7 +1,7 @@
 <!--header-->
 <header class="main-header clearfix" role="header">
     <div class="logo">
-      <a href="#"><img src="assets/brand/logo.png" style="max-height: 140px;" /> </a>
+      <a href="#"><img src="assets/brand/logo.png" /> </a>
     </div>
     <a href="#menu" class="menu-link"><i class="fa fa-bars"></i></a>
     <nav id="menu" class="main-nav" role="navigation">
@@ -138,7 +138,7 @@
         <div class="col-md-6">
           <article class="video-item">
             <div class="video-caption">
-              <h4>Power HTML Template</h4>
+              <h4>Elemental Studios</h4>
             </div>
             <figure>
               <a href="https://www.youtube.com/watch?v=r9LtOG6pNUw" class="play"><img src="assets/images/teacher.jpg"></a>
@@ -158,9 +158,9 @@
           </div>
         </div>
         <div class="col-md-12">
-          <div class="row justify-content-center">
-            <div class="col-md-4">
-              <div class="card shadow card-hover" style="width: 18rem;">
+          <div class="row">
+            <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
+              <div class="card shadow card-hover" style="max-width: 18rem;">
                 <img src="assets/images/postit.png" class="card-img-top rounded-top" alt="...">
                 <div class="card-body">
                   <h5 class="card-title text-center"><i class="fa-solid fa-brain"></i> PIENSA TU PLAN </h5>
@@ -176,8 +176,8 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-4">
-              <div class="card shadow card-hover" style="width: 18rem;">
+            <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
+              <div class="card shadow card-hover" style="max-width: 18rem;">
                 <img src="assets/images/img2.png" class="card-img-top rounded-top" alt="...">
                 <div class="card-body">
                   <h5 class="card-title text-center"><i class="fa-solid fa-microphone-lines"></i> CUÉNTANOS</h5>
@@ -190,8 +190,8 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-4">
-              <div class="card shadow card-hover" style="width: 18rem;">
+            <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
+              <div class="card shadow card-hover" style="max-width: 18rem;">
                 <img src="assets/images/pos.jpeg" class="card-img-top rounded-top" alt="...">
                 <div class="card-body">
                   <h5 class="card-title text-center"><i class="fa-solid fa-clipboard-list"></i> MANOS A LA OBRA</h5>
@@ -209,297 +209,125 @@
     </div>
   </section>
   
-  <!--  <section class="section video table-data" data-section="section5">
+  <section class="section coming-soon accordion-containerr" data-section="section5">
     <div class="container table-container">
-      <h2 class="text-center mb-4 title-table">Tabla de Cursos</h2>
-      <table class="table table-borderless vertical-table">
-          <thead>
-              <tr>
-                  <th>Essential: A1</th>
-                  <th>Essential: A2</th>
-                  <th>Intermediate: B1</th>
-                  <th>Intermediate: B2</th>
-                  <th>Advanced: C1</th>
-                  <th>Advanced: C2</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr>
-                  <td>
-                      <ul>
-                          <li>Inglés esencial 1</li>
-                          <li>Inglés esencial 2</li>
-                          <li>100 horas</li>
-                      </ul>
-                  </td>
-                  <td>
-                      <ul>
-                          <li>Inglés esencial 3</li>
-                          <li>Inglés esencial 4</li>
-                          <li>100 horas</li>
-                      </ul>
-                  </td>
-                  <td>
-                      <ul>
-                          <li>Inglés intermedio bajo 1</li>
-                          <li>Inglés intermedio bajo 2</li>
-                          <li>100 horas</li>
-                      </ul>
-                  </td>
-                  <td>
-                      <ul>
-                          <li>Inglés intermedio alto 3</li>
-                          <li>Inglés intermedio alto 4</li>
-                          <li>100 horas</li>
-                      </ul>
-                  </td>
-                  <td>
-                      <ul>
-                          <li>Inglés avanzado 1</li>
-                          <li>Inglés avanzado 2</li>
-                          <li>100 horas</li>
-                      </ul>
-                  </td>
-                  <td>
-                      <ul>
-                          <li>Inglés maestría 1</li>
-                          <li>Inglés maestría 2</li>
-                          <li>100 horas</li>
-                      </ul>
-                  </td>
-              </tr>
-              <p style="color: #c0d4f2;">La cantidad de horas es aproximada, ya que puede variar según el avance de cada estudiante.</p>
-          </tbody>
-      </table>
-  </div>
-  </section> -->
-<!--
-  <section class="section coming-soon" data-section="section3">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-7 col-xs-12">
-          <div class="continer centerIt">
-            <div>
-                 
-              <h4>Toma <em>cualquier curso en línea </em> y gana 40% OFF para tu próxima clase</h4>
-              <div class="counter">
-
-                <div class="days">
-                  <div class="value">00</div>
-                  <span>Days</span>
+        <h2 class="text-center mb-4 title-table">Tabla de Cursos <i class="fa-solid fa-graduation-cap icon-elemental"></i></h2>
+        <p style="color: #c0d4f2;">* La cantidad de horas es aproximada, ya que puede variar según el avance de cada estudiante.</p>
+        <!-- Accordion -->
+        <div class="accordion" id="courseAccordion">
+            <!-- Curso Essential A1 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingA1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseA1" aria-expanded="true" aria-controls="collapseA1">
+                        Essential: A1
+                    </button>
+                </h2>
+                <div id="collapseA1" class="accordion-collapse collapse show" aria-labelledby="headingA1" data-bs-parent="#courseAccordion">
+                    <div class="accordion-body">
+                        <ul>
+                            <li>Inglés esencial 1</li>
+                            <li>Inglés esencial 2</li>
+                            <li>100 horas</li>
+                        </ul>
+                    </div>
                 </div>
-
-                <div class="hours">
-                  <div class="value">00</div>
-                  <span>Hours</span>
-                </div>
-
-                <div class="minutes">
-                  <div class="value">00</div>
-                  <span>Minutes</span>
-                </div>
-
-                <div class="seconds">
-                  <div class="value">00</div>
-                  <span>Seconds</span>
-                </div>
-
-              </div>
             </div>
-          </div>
-        </div>
-        <div class="col-md-5">
-          <div class="right-content">
-            <div class="top-content">
-              <h6>Register your free account and <em>get immediate</em> access to online courses</h6>
+
+            <!-- Curso Essential A2 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingA2">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseA2" aria-expanded="false" aria-controls="collapseA2">
+                        Essential: A2
+                    </button>
+                </h2>
+                <div id="collapseA2" class="accordion-collapse collapse" aria-labelledby="headingA2" data-bs-parent="#courseAccordion">
+                    <div class="accordion-body">
+                        <ul>
+                            <li>Inglés esencial 3</li>
+                            <li>Inglés esencial 4</li>
+                            <li>100 horas</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <form id="contact" action="" method="get">
-              <div class="row">
-                <div class="col-md-12">
-                  <fieldset>
-                    <input name="name" type="text" class="form-control" id="name" placeholder="Your Name" required="">
-                  </fieldset>
+
+            <!-- Curso Intermediate B1 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingB1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseB1" aria-expanded="false" aria-controls="collapseB1">
+                        Intermediate: B1
+                    </button>
+                </h2>
+                <div id="collapseB1" class="accordion-collapse collapse" aria-labelledby="headingB1" data-bs-parent="#courseAccordion">
+                    <div class="accordion-body">
+                        <ul>
+                            <li>Inglés intermedio bajo 1</li>
+                            <li>Inglés intermedio bajo 2</li>
+                            <li>100 horas</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="col-md-12">
-                  <fieldset>
-                    <input name="email" type="text" class="form-control" id="email" placeholder="Your Email" required="">
-                  </fieldset>
+            </div>
+
+            <!-- Curso Intermediate B2 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingB2">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseB2" aria-expanded="false" aria-controls="collapseB2">
+                        Intermediate: B2
+                    </button>
+                </h2>
+                <div id="collapseB2" class="accordion-collapse collapse" aria-labelledby="headingB2" data-bs-parent="#courseAccordion">
+                    <div class="accordion-body">
+                        <ul>
+                            <li>Inglés intermedio alto 3</li>
+                            <li>Inglés intermedio alto 4</li>
+                            <li>100 horas</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="col-md-12">
-                  <fieldset>
-                    <input name="phone-number" type="text" class="form-control" id="phone-number" placeholder="Your Phone Number" required="">
-                  </fieldset>
+            </div>
+
+            <!-- Curso Advanced C1 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingC1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseC1" aria-expanded="false" aria-controls="collapseC1">
+                        Advanced: C1
+                    </button>
+                </h2>
+                <div id="collapseC1" class="accordion-collapse collapse" aria-labelledby="headingC1" data-bs-parent="#courseAccordion">
+                    <div class="accordion-body">
+                        <ul>
+                            <li>Inglés avanzado 1</li>
+                            <li>Inglés avanzado 2</li>
+                            <li>100 horas</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="col-md-12">
-                  <fieldset>
-                    <button type="submit" id="form-submit" class="button">Get it now</button>
-                  </fieldset>
+            </div>
+
+            <!-- Curso Advanced C2 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingC2">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseC2" aria-expanded="false" aria-controls="collapseC2">
+                        Advanced: C2
+                    </button>
+                </h2>
+                <div id="collapseC2" class="accordion-collapse collapse" aria-labelledby="headingC2" data-bs-parent="#courseAccordion">
+                    <div class="accordion-body">
+                        <ul>
+                            <li>Inglés maestría 1</li>
+                            <li>Inglés maestría 2</li>
+                            <li>100 horas</li>
+                        </ul>
+                    </div>
                 </div>
-              </div>
-            </form>
-          </div>
+            </div>
+
         </div>
-      </div>
+
+ 
     </div>
-  </section>
-
-  <section class="section courses" data-section="section4">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="section-heading">
-            <h2>Choose Your Course</h2>
-          </div>
-        </div>
-        <div class="owl-carousel owl-theme">
-          <div class="item">
-            <img src="assets/images/courses-01.jpg" alt="Course #1">
-            <div class="down-content">
-              <h4>Digital Marketing</h4>
-              <p>You can get free images and videos for your websites by visiting Unsplash, Pixabay, and Pexels.</p>
-              <div class="author-image">
-                <img src="assets/images/author-01.png" alt="Author 1">
-              </div>
-              <div class="text-button-pay">
-                <a href="#">Pay <i class="fa fa-angle-double-right"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <img src="assets/images/courses-02.jpg" alt="Course #2">
-            <div class="down-content">
-              <h4>Business World</h4>
-              <p>Quisque cursus augue ut velit dictum, quis volutpat enim blandit. Maecenas a lectus ac ipsum porta.</p>
-              <div class="author-image">
-                <img src="assets/images/author-02.png" alt="Author 2">
-              </div>
-              <div class="text-button-free">
-                <a href="#">Free <i class="fa fa-angle-double-right"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <img src="assets/images/courses-03.jpg" alt="Course #3">
-            <div class="down-content">
-              <h4>Media Technology</h4>
-              <p>Pellentesque ultricies diam magna, auctor cursus lectus pretium nec. Maecenas finibus lobortis enim.</p>
-              <div class="author-image">
-                <img src="assets/images/author-03.png" alt="Author 3">
-              </div>
-              <div class="text-button-pay">
-                <a href="#">Pay <i class="fa fa-angle-double-right"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <img src="assets/images/courses-04.jpg" alt="Course #4">
-            <div class="down-content">
-              <h4>Communications</h4>
-              <p>Download free images and videos for your websites by visiting Unsplash, Pixabay, and Pexels.</p>
-              <div class="author-image">
-                <img src="assets/images/author-04.png" alt="Author 4">
-              </div>
-              <div class="text-button-free">
-                <a href="#">Free <i class="fa fa-angle-double-right"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <img src="assets/images/courses-05.jpg" alt="">
-            <div class="down-content">
-              <h4>Business Ethics</h4>
-              <p>Pellentesque ultricies diam magna, auctor cursus lectus pretium nec. Maecenas finibus lobortis enim.</p>
-              <div class="author-image">
-                <img src="assets/images/author-05.png" alt="">
-              </div>
-              <div class="text-button-pay">
-                <a href="#">Pay <i class="fa fa-angle-double-right"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <img src="assets/images/courses-01.jpg" alt="">
-            <div class="down-content">
-              <h4>Photography</h4>
-              <p>Quisque cursus augue ut velit dictum, quis volutpat enim blandit. Maecenas a lectus ac ipsum porta.</p>
-              <div class="author-image">
-                <img src="assets/images/author-01.png" alt="">
-              </div>
-              <div class="text-button-free">
-                <a href="#">Free <i class="fa fa-angle-double-right"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <img src="assets/images/courses-02.jpg" alt="">
-            <div class="down-content">
-              <h4>Web Development</h4>
-              <p>Pellentesque ultricies diam magna, auctor cursus lectus pretium nec. Maecenas finibus lobortis enim.</p>
-              <div class="author-image">
-                <img src="assets/images/author-02.png" alt="">
-              </div>
-              <div class="text-button-free">
-                <a href="#">Free <i class="fa fa-angle-double-right"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <img src="assets/images/courses-03.jpg" alt="">
-            <div class="down-content">
-              <h4>Learn HTML CSS</h4>
-              <p>You can get free images and videos for your websites by visiting Unsplash, Pixabay, and Pexels.</p>
-              <div class="author-image">
-                <img src="assets/images/author-03.png" alt="">
-              </div>
-              <div class="text-button-pay">
-                <a href="#">Pay <i class="fa fa-angle-double-right"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <img src="assets/images/courses-04.jpg" alt="">
-            <div class="down-content">
-              <h4>Social Media</h4>
-              <p>Pellentesque ultricies diam magna, auctor cursus lectus pretium nec. Maecenas finibus lobortis enim.</p>
-              <div class="author-image">
-                <img src="assets/images/author-04.png" alt="">
-              </div>
-              <div class="text-button-pay">
-                <a href="#">Pay <i class="fa fa-angle-double-right"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <img src="assets/images/courses-05.jpg" alt="">
-            <div class="down-content">
-              <h4>Digital Arts</h4>
-              <p>Quisque cursus augue ut velit dictum, quis volutpat enim blandit. Maecenas a lectus ac ipsum porta.</p>
-              <div class="author-image">
-                <img src="assets/images/author-05.png" alt="">
-              </div>
-              <div class="text-button-free">
-                <a href="#">Free <i class="fa fa-angle-double-right"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <img src="assets/images/courses-01.jpg" alt="">
-            <div class="down-content">
-              <h4>Media Streaming</h4>
-              <p>Pellentesque ultricies diam magna, auctor cursus lectus pretium nec. Maecenas finibus lobortis enim.</p>
-              <div class="author-image">
-                <img src="assets/images/author-01.png" alt="">
-              </div>
-              <div class="text-button-pay">
-                <a href="#">Pay <i class="fa fa-angle-double-right"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  -->
+</section>
 
 
   <app-contact></app-contact>
@@ -508,10 +336,9 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <p><i class="fa fa-copyright"></i> Copyright 2020 by Grad School  
+          <p>          
+          Developed by: <a href="#" rel="sponsored" target="_parent"> ..:: Softwarecode.cl ::..</a><br>
           
-           | Design: <a href="https://templatemo.com" rel="sponsored" target="_parent">TemplateMo</a><br>
-           Distributed By: <a href="https://themewagon.com" rel="sponsored" target="_blank">ThemeWagon</a>
           
           </p>
         </div>

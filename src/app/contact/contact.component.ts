@@ -2,12 +2,15 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
+
 
 @Component({
   selector: 'app-contact',
   standalone: true,
   imports: [CommonModule, HttpClientModule,
-            ReactiveFormsModule],
+            ReactiveFormsModule, RecaptchaModule,
+            RecaptchaFormsModule],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.css',
 })
