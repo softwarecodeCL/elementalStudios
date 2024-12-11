@@ -17,6 +17,17 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
+  server.use((req, res, next) => {
+    const host = req.headers.host;
+
+    if (host && host.startsWith('www.')) {
+      const newHost = host.slice(4); // Eliminar el prefijo "www."
+      return res.redirect(301, `${req.protocol}://${newHost}${req.originalUrl}`);
+    }
+
+    next();
+  });
+  
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
@@ -26,20 +37,27 @@ export function app(): express.Express {
 
   // All regular routes use the Angular engine
   server.get('*', (req, res, next) => {
-    const { protocol, originalUrl, baseUrl, headers } = req;
-
     commonEngine
       .render({
         bootstrap,
         documentFilePath: indexHtml,
-        url: `${protocol}://${headers.host}${originalUrl}`,
+        url: req.originalUrl,
         publicPath: browserDistFolder,
-        providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
+        providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
       })
       .then((html) => res.send(html))
-      .catch((err) => next(err));
+      .catch((err) => {
+        console.error('Error durante la renderización SSR:', err);
+        res.status(500).send('Hubo un error al procesar su solicitud.');
+      });
+  });
+  
+
+  server.get('/favicon.ico', (req, res) => {
+    res.sendFile(join(browserDistFolder, 'favicon.ico'));
   });
 
+  
   return server;
 }
 

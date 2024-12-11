@@ -55,9 +55,10 @@
   height: 11rem;
 }
 
-/* tabla */
 
+/**tabla */
 
+/* Estilo general */
 body {
   background-color: #162238;
   color: #fff;
@@ -73,6 +74,7 @@ body {
   max-width: 1000px;
 }
 
+/* Botones del acordeón */
 .accordion-button {
   background-color: #243554;
   color: #f1f1f1;
@@ -83,6 +85,7 @@ body {
   text-align: left;
   width: 100%;
   box-sizing: border-box;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .accordion-button:hover {
@@ -93,21 +96,30 @@ body {
   box-shadow: none;
 }
 
+/* Estado expandido y colapsado */
+.accordion-button[aria-expanded="true"] {
+  background-color: #f5a425;
+  color: #fff;
+}
+
+.accordion-button[aria-expanded="false"] {
+  background-color: #243554;
+  color: #f1f1f1;
+}
+
+/* Cuerpo del acordeón */
 .accordion-body {
   background-color: #1e2d4a;
   color: #f1f1f1;
   padding: 15px;
 }
 
+/* Espaciado entre elementos */
 .accordion-item {
   margin-bottom: 10px;
 }
 
-.accordion-button:not(.collapsed) {
-  background-color: #f5a425;
-  color: #fff;
-}
-
+/* Lista */
 ul {
   list-style-type: none;
   padding: 0;
@@ -125,10 +137,13 @@ ul li::before {
   margin-right: 10px;
 }
 
+/* Título */
 .title-table {
   color: #c0d4f2;
 }
 
+
+/* Responsividad */
 @media (max-width: 767px) {
   .accordion-container {
     width: 100%;
@@ -149,10 +164,7 @@ ul li::before {
   }
 }
 
-
-/* end tabla*/
-
-
+/** end tabla */
 
 
 /* menu navegacion */
@@ -222,4 +234,10 @@ body {
 
 .title-news h1 {
   color: white;
+}
+
+.btn-warning {
+  background-color: #f5a425 !important; /* Fondo naranja personalizado */
+  color: #fff !important; /* Texto blanco */
+  border: none; /* Elimina el borde predeterminado */
 }

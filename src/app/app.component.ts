@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet,RouterModule } from '@angular/router';
+import { AosService } from './hero.service';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +10,10 @@ import { RouterOutlet,RouterModule } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+  constructor(private aosService: AosService) {}
+
   title = 'elementalstudios';
+  ngOnInit(): void {
+    this.aosService.init();
+  }
 }
