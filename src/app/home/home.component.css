@@ -241,3 +241,17 @@ body {
   color: #fff !important; /* Texto blanco */
   border: none; /* Elimina el borde predeterminado */
 }
+
+
+.main-nav {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: #fff;
+  z-index: 1000;
+}
+
+.main-nav.active {
+  display: block;
+}

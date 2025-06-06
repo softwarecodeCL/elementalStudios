@@ -1,20 +1,100 @@
 
 <main class="main">
   <div class="content">
-    <div>
-      <router-outlet></router-outlet>
 
+  <!--header-->
+  <header class="main-header clearfix" role="header">
+    <div class="logo">
+      <a href="#"><img src="assets/brand/logo.png" alt="Logo de Elemental Studios, Clases Personalizadas de Inglés" class="logo-original"/> </a>
     </div>
+    <a href="#menu" class="menu-link"><i class="fa fa-bars"></i></a>
+    <nav id="menu" class="main-nav" role="navigation">
+      <ul class="main-menu">
+        <li><a [routerLink]="['/']" (click)="navigateToSection('section1')"  aria-label="Ir a Inicio">Inicio</a></li>
+        <li><a [routerLink]="['/']" (click)="navigateToSection('testimonios')"  aria-label="Ir a Testimonios">Testimonios</a></li>
+      <!--  <li><a [routerLink]="['/noticias']"  aria-label="Noticias">Noticias</a></li> -->
+        <li> <a [routerLink]="['/']" (click)="navigateToSection('section6')" aria-label="Ir a Contáctanos">Contactanos</a></li>
+      </ul>
+    </nav>
+  </header>
+      <router-outlet></router-outlet>
   </div>
+  
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="inner-content">
+            <p>© 2025 Elemental Studios. Todos los derechos reservados.</p>
+          </div>
+          <div class="col-12"> 
+            <p>          
+              Developed by: <a href="#" rel="sponsored" target="_parent"> ..:: Softwarecode.cl ::..</a><br>
+              </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+          <h6 style="color: aliceblue;">Noticias:</h6>
+          <ul>
+            <li><a class="m-5" [routerLink]="['noticias/la-importancia-de-saber-ingles']" title="La Importancia de Aprender Inglés en el Mundo Actual">La Importancia de Aprender Inglés</a></li>
+            <li class="m-3"><a [routerLink]="['noticias/dominar-el-ingles-facilmente']" title="Una Guía Completa para Aprender y Dominar">Una Guía para Aprender y Dominar</a></li>
+          </ul>
+      </div>
+    </div>
+  </footer>
 </main>
 
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content above * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<script>
+  //according to loftblog tut
+  $('.nav li:first').addClass('active');
 
+  var showSection = function showSection(section, isAnimate) {
+    var
+    direction = section.replace(/#/, ''),
+    reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+    reqSectionPos = reqSection.offset().top - 0;
 
-<router-outlet />
+    if (isAnimate) {
+      $('body, html').animate({
+        scrollTop: reqSectionPos },
+      800);
+    } else {
+      $('body, html').scrollTop(reqSectionPos);
+    }
+
+  };
+
+  var checkSection = function checkSection() {
+    $('.section').each(function () {
+      var
+      $this = $(this),
+      topEdge = $this.offset().top - 80,
+      bottomEdge = topEdge + $this.height(),
+      wScroll = $(window).scrollTop();
+      if (topEdge < wScroll && bottomEdge > wScroll) {
+        var
+        currentId = $this.data('section'),
+        reqLink = $('a').filter('[href*=\\#' + currentId + ']');
+        reqLink.closest('li').addClass('active').
+        siblings().removeClass('active');
+      }
+    });
+  };
+
+  $('.main-menu, .scroll-to-section').on('click', 'a', function (e) {
+    if($(e.target).hasClass('external')) {
+      return;
+    }
+    e.preventDefault();
+    $('#menu').removeClass('active');
+    showSection($(this).attr('href'), true);
+  });
+
+  $(window).scroll(function () {
+    checkSection();
+  });
+</script>
+

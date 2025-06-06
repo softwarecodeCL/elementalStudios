@@ -10,13 +10,28 @@ import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
   standalone: true,
   imports: [CommonModule, HttpClientModule,
             ReactiveFormsModule, RecaptchaModule,
-            RecaptchaFormsModule],
+            RecaptchaFormsModule, FormsModule],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.css',
 })
 
 export class ContactComponent {
 
+
+  contactData = {
+    name: '',
+    email: '',
+    message: ''
+  };
+//56982414460
+  sendMessage(): void {
+    const whatsappNumber = '+56961209078'; 
+    const message = `Hola, mi nombre es ${this.contactData.name}. Mi correo es ${this.contactData.email} y este es mi mensaje: ${this.contactData.message}`;
+    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappURL, '_blank');
+  }
+
+  /*
   userForm : FormGroup;
   captchaResponse: string | null = null;
   
@@ -65,5 +80,5 @@ export class ContactComponent {
   onCaptchaResolved(captchaResponse: string | null) {
     this.captchaResponse = captchaResponse;
     this.userForm.get('recaptcha')?.setValue(captchaResponse);
-  }
+  } */
 }

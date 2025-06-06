@@ -2,3 +2,67 @@
     color: rgb(255, 110, 110);
 }
 
+#contact-section {
+    background-color: #00274d; /* Azul oscuro para el fondo */
+    color: white; /* Color blanco para los textos */
+    padding: 40px 20px;
+    border-radius: 8px; /* Bordes redondeados */
+  }
+  
+  #contact-section h2 {
+    color: white; /* Color blanco para el título */
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2rem;
+  }
+  
+  #contact-section label {
+    color: white; /* Color blanco para las etiquetas */
+    font-weight: bold;
+  }
+  
+  #contact-section input,
+  #contact-section textarea {
+    background-color: white; /* Fondo blanco */
+    color: #00274d; /* Texto en azul oscuro */
+    border: 1px solid #00509e; /* Bordes visibles */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px;
+    font-size: 1rem;
+  }
+  
+  #contact-section input:focus,
+  #contact-section textarea:focus {
+    border-color: #1e90ff; /* Borde azul brillante al enfocar */
+    outline: none;
+    box-shadow: 0 0 8px rgba(30, 144, 255, 0.5); /* Efecto luminoso */
+  }
+  
+  #contact-section .form-control::placeholder {
+    color: #7a7a7a; /* Placeholder en gris */
+  }
+  
+  #contact-section .btn-primary {
+    background-color: #25D366; /* Verde WhatsApp */
+    color: white;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Espacio entre ícono y texto */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  #contact-section .btn-primary:hover {
+    background-color: #20b954; /* Oscurecer verde al pasar el mouse */
+  }
+  
+  #contact-section .btn-primary i {
+    font-size: 1.5rem; /* Tamaño del ícono de WhatsApp */
+  }
+  

@@ -10,7 +10,7 @@
               <h1>Clases de inglés</h1>
               <h2><em>Aprende </em> inglés <em> Ahora </em></h2> 
               <div class="main-button">
-                  <div class="scroll-to-section"><a href="#section2">Ver mas</a></div>
+                  <div class="scroll-to-section"><a [routerLink]="['/']" (click)="navigateToSection('section5')">Mas información</a></div>
               </div>
           </div>
       </div>
@@ -29,7 +29,7 @@
               <div class="content-hide">
                 <p>Descubre todos nuestros cursos de inglés diseñados para cada nivel. Aprende a tu ritmo con clases interactivas y recursos exclusivos.</p>
                 <p class="hidden-sm">Descubre todos nuestros cursos de inglés diseñados para cada nivel. Aprende a tu ritmo con clases interactivas y recursos exclusivos.</p>
-                <div class="scroll-to-section"><a href="#section2">More Info.</a></div>
+                <div class="scroll-to-section"><a  [routerLink]="['/']" (click)="navigateToSection('section5')" >Mas información.</a></div>
             </div>
             </div>
           </div>
@@ -43,7 +43,7 @@
               <div class="content-hide">
                 <p>Accede a nuestras clases virtuales en vivo. Aprende inglés desde cualquier lugar con profesores expertos y contenido personalizado.</p>
                 <p class="hidden-sm">Accede a nuestras clases virtuales en vivo. Aprende inglés desde cualquier lugar con profesores expertos y contenido personalizado.</p>
-                <div class="scroll-to-section"><a href="#section3">Ver mas</a></div>
+                <div class="scroll-to-section"><a [routerLink]="['/']" (click)="navigateToSection('section2')">Mas información</a></div>
             </div>
             </div>
           </div>
@@ -57,7 +57,7 @@
               <div class="content-hide">
                 <p>Participa en nuestros encuentros virtuales en vivo, donde podrás practicar inglés en contextos reales sin salir de casa. Interactúa con compañeros y tutores en un entorno remoto altamente interactivo, diseñado para mejorar tu fluidez y confianza en el idioma. Estos encuentros te preparan para utilizar el inglés de manera efectiva en situaciones cotidianas, brindándote la experiencia práctica que necesitas desde la comodidad de tu hogar.</p>
                 <p class="hidden-sm">Participa en nuestros encuentros virtuales en vivo, donde podrás practicar inglés en contextos reales sin salir de casa. Interactúa con compañeros y tutores en un entorno remoto altamente interactivo, diseñado para mejorar tu fluidez y confianza en el idioma. Estos encuentros te preparan para utilizar el inglés de manera efectiva en situaciones cotidianas, brindándote la experiencia práctica que necesitas desde la comodidad de tu hogar.</p>
-                <div class="scroll-to-section"><a href="#section4">Read More</a></div>
+                <div class="scroll-to-section"><a [routerLink]="['/']" (click)="navigateToSection('section5')">Mas información</a></div>
             </div>
             </div>
           </div>
@@ -124,7 +124,7 @@
     </div>
   </section>
 
-  <section class="why-us">
+  <section class="why-us" data-section="testimonios">
     <div class="container" data-aos="flip-up">
       <div class="col-md-12">
         <div class="section-heading text-center">
@@ -137,6 +137,7 @@
           <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Testimonio 1"></button>
           <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="1" aria-label="Testimonio 2"></button>
           <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="2" aria-label="Testimonio 3"></button>
+          <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="3" aria-label="Testimonio 4"></button>
         </div>
   
         <div class="carousel-inner">
@@ -185,6 +186,21 @@
             </div>
             <p class="testimonial-content">"El trabajo de Gerson fue impecable, destacándose por su habilidad para simplificar procesos complejos y hacerlos accesibles para todos. Su enfoque profesional y su creatividad en la implementación de soluciones marcaron una gran diferencia en los resultados obtenidos. Sin duda, es alguien en quien confiaría nuevamente para futuros proyectos."</p>
           </div>
+          <!-- Testimonial 4 -->
+          <div class="carousel-item text-center">
+            <img src="assets/images/testimonials/david.jfif" alt="Testimonio de David Galvez sobre Elemental Studios" class="testimonial-img">
+            <p class="testimonial-name">David Galvez</p>
+            <strong class="testimonial-role">SAFETY & CONTROLLING DIRECTOR - COMPLIANCE OFFICER - CISO <i class="fa-solid fa-plane-departure icon-elemental"></i></strong>
+            <div class="testimonial-stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p class="testimonial-content">"He tenido una muy buena experiencia trabajando con Gerson. Ha sido un profesor dedicado y muy motivado, y me ha permitido crecer fuertemente en el manejo del Ingles. 
+                                            Lo recomiendo completamente para aquellos que quieren avanzar fuerte y profesionalmente en su camino a la fluidez en Inglés."</p>
+          </div>
         </div>
         <!-- Controls -->
         <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
@@ -199,207 +215,4 @@
     </div>
   </section>
 
-  <section class="section why-us" data-section="section2">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="section-heading text-center">
-            <h2>Porque Elegir Elemental Studios?</h2>
-          </div>
-        </div>
-        <div class="col-md-12">
-          <div class="row">
-            <div class="col-12 col-md-4 mb-4 d-flex justify-content-center" data-aos="fade-right">
-              <div class="card shadow card-hover" style="max-width: 18rem;">
-                <img src="assets/images/postit.png" class="card-img-top rounded-top" alt="plan">
-                <div class="card-body">
-                  <h5 class="card-title text-center">🧠 PIENSA TU PLAN </h5>
-                    <ul class="ml-3 card-text text-muted">
-                      <li>¿Por qué quiero aprender?</li>
-                      <li>¿Para qué quiero aprender?</li>
-                      <li>¿Cuándo lo quiero lograr?</li>
-                      <li>¿Cuánto tiempo invertiré?</li>
-                    </ul>
-                </div>
-                <div class="text-center mt-3 mb-3">
-                  <button class="btn btn-warning"  href="#contact-section">Contactanos</button>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 col-md-4 mb-4 d-flex justify-content-center"  data-aos="fade-up">
-              <div class="card shadow card-hover" style="max-width: 18rem;">
-                <img src="assets/images/img2.png" class="card-img-top rounded-top" alt="Contactanos">
-                <div class="card-body">
-                  <h5 class="card-title text-center">😄CUÉNTANOS</h5>
-                  <p class="card-text text-muted">Conversemos sobre tus objetivos, metas e intereses.
-                    Mientras más conozcamos de ti, más personalizado será tu aprendizaje.                    
-                  </p>
-                </div>
-                <div class="text-center mt-3 mb-3">
-                  <button class="btn btn-warning" href="#contact-section">Contactanos</button>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 col-md-4 mb-4 d-flex justify-content-center" data-aos="fade-left">
-              <div class="card shadow card-hover" style="max-width: 18rem;">
-                <img src="assets/images/pos.jpeg" class="card-img-top rounded-top" alt="MANOS A LA OBRA">
-                <div class="card-body">
-                  <h5 class="card-title text-center">✏️MANOS A LA OBRA</h5>
-                  <p class="card-text text-muted">Creamos tu plan ideal usando tus objetivos y metas junto a tu contexto laboral y cotidiano para que tu aprendizaje te lleve a lograr tus objetivos.
-                  </p>
-                </div>
-                <div class="text-center mt-3 mb-3">
-                  <button class="btn btn-warning" href="#contact-section">Contactanos</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  
-  <section class="section coming-soon accordion-containerr" data-section="section5">
-    <div class="container table-container" data-aos="fade-up">
-        <h2 class="text-center mb-4 title-table">Tabla de Cursos <i class="fa-solid fa-graduation-cap icon-elemental"></i></h2>
-        <p style="color: #c0d4f2;">* La cantidad de horas es aproximada, ya que puede variar según el avance de cada estudiante.</p>
-        <!-- Accordion -->
-        <div class="accordion" id="courseAccordion">
-            <!-- Curso Essential A1 -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingA1">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseA1" aria-expanded="true" aria-controls="collapseA1">
-                        Essential: A1
-                    </button>
-                </h2>
-                <div id="collapseA1" class="accordion-collapse collapse show" aria-labelledby="headingA1" data-bs-parent="#courseAccordion">
-                    <div class="accordion-body">
-                        <ul>
-                            <li>Inglés esencial 1</li>
-                            <li>Inglés esencial 2</li>
-                            <li>50 horas</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Curso Essential A2 -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingA2">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseA2" aria-expanded="false" aria-controls="collapseA2">
-                        Essential: A2
-                    </button>
-                </h2>
-                <div id="collapseA2" class="accordion-collapse collapse" aria-labelledby="headingA2" data-bs-parent="#courseAccordion">
-                    <div class="accordion-body">
-                        <ul>
-                            <li>Inglés esencial 3</li>
-                            <li>Inglés esencial 4</li>
-                            <li>50 horas</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Curso Intermediate B1 -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingB1">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseB1" aria-expanded="false" aria-controls="collapseB1">
-                        Intermediate: B1
-                    </button>
-                </h2>
-                <div id="collapseB1" class="accordion-collapse collapse" aria-labelledby="headingB1" data-bs-parent="#courseAccordion">
-                    <div class="accordion-body">
-                        <ul>
-                            <li>Inglés intermedio bajo 1</li>
-                            <li>Inglés intermedio bajo 2</li>
-                            <li>50 horas</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Curso Intermediate B2 -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingB2">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseB2" aria-expanded="false" aria-controls="collapseB2">
-                        Intermediate: B2
-                    </button>
-                </h2>
-                <div id="collapseB2" class="accordion-collapse collapse" aria-labelledby="headingB2" data-bs-parent="#courseAccordion">
-                    <div class="accordion-body">
-                        <ul>
-                            <li>Inglés intermedio alto 3</li>
-                            <li>Inglés intermedio alto 4</li>
-                            <li>50 horas</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Curso Advanced C1 -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingC1">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseC1" aria-expanded="false" aria-controls="collapseC1">
-                        Advanced: C1
-                    </button>
-                </h2>
-                <div id="collapseC1" class="accordion-collapse collapse" aria-labelledby="headingC1" data-bs-parent="#courseAccordion">
-                    <div class="accordion-body">
-                        <ul>
-                            <li>Inglés avanzado 1</li>
-                            <li>Inglés avanzado 2</li>
-                            <li>50 horas</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Curso Advanced C2 -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingC2">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseC2" aria-expanded="false" aria-controls="collapseC2">
-                        Advanced: C2
-                    </button>
-                </h2>
-                <div id="collapseC2" class="accordion-collapse collapse" aria-labelledby="headingC2" data-bs-parent="#courseAccordion">
-                    <div class="accordion-body">
-                        <ul>
-                            <li>Inglés maestría 1</li>
-                            <li>Inglés maestría 2</li>
-                            <li>50 horas</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
   <app-contact></app-contact>
-
-  <section class="section coming-soon">
-    <div class="container text-center" data-aos="fade-right">
-      <div class="row"> 
-        <div class="col-md-6 mx-auto title-news"> 
-          <h1>Elemental Studios News</h1>
-        </div>
-      </div>
-      <div class="row justify-content-center mt-5">
-        <div class="card" style="width: 18rem;">
-          <img src="assets/news/1.webp" class="card-img-top" alt="Los Idiomas">
-          <div class="card-title">
-            <h1 class="card-title">Los Idiomas.</h1>
-          </div>
-          <div class="card-body">
-            <p>
-              Explorar el aprendizaje del inglés es una inversión que rinde frutos a lo largo de la vida. 
-              Ya sea que quieras mejorar tus habilidades profesionales o explorar nuevas culturas, <strong>aprender inglés</strong> online es el primer paso hacia tus objetivos.
-            </p>
-          </div>
-          <div class="card-footer text-center">
-            <a href="noticias/la-importancia-de-saber-ingles" class="btn btn-warning">Leer más</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>

@@ -46,3 +46,11 @@
 .volver-inicio  {
   color: white;
 }
+
+.img-small {
+  width: 350px;
+}
+
+.image-container {
+  text-align: center;
+}
