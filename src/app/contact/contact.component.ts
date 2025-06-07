@@ -25,7 +25,7 @@ export class ContactComponent {
   };
 //56982414460
   sendMessage(): void {
-    const whatsappNumber = '+56961209078'; 
+    const whatsappNumber = '+56982414460'; // Reemplaza con el número de WhatsApp deseado
     const message = `Hola, mi nombre es ${this.contactData.name}. Mi correo es ${this.contactData.email} y este es mi mensaje: ${this.contactData.message}`;
     const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappURL, '_blank');

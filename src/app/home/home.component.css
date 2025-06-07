@@ -255,3 +255,7 @@ body {
 .main-nav.active {
   display: block;
 }
+
+.text-light-emphasis {
+  color: #a2adb7 !important; /* Color de texto claro */
+}
