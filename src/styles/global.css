@@ -13,13 +13,14 @@
   --cyan: #32b7df;
   --heading: "Manrope Variable", sans-serif;
   --body: "DM Sans Variable", sans-serif;
+  --header-height: 87px;
 }
 * {
   box-sizing: border-box;
 }
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 100px;
+  scroll-padding-top: calc(var(--header-height) + 16px);
 }
 body {
   margin: 0;
@@ -225,10 +226,12 @@ p {
 
 /* Header */
 .site-header {
-  position: relative;
-  z-index: 20;
+  position: sticky;
+  top: 0;
+  z-index: 50;
   background: var(--navy-deep);
   border-bottom: 1px solid var(--line);
+  box-shadow: 0 5px 20px #0002;
 }
 .header-inner {
   height: 86px;
@@ -282,9 +285,17 @@ p {
   border-radius: 4px;
 }
 .mobile-nav {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: calc(100dvh - var(--header-height));
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: var(--panel);
   padding: 12px 24px 22px;
   border-top: 1px solid var(--line);
+  box-shadow: 0 15px 25px #0004;
 }
 .mobile-nav a {
   display: flex;

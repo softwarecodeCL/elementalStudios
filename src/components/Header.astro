@@ -6,8 +6,9 @@ interface Props { locale?: string; }
 const { locale = 'es' } = Astro.props;
 const t = getMessages(locale);
 const home = localizedPath(locale);
+const currentLanguage = localeInfo[locale as keyof typeof localeInfo];
 const neutral = /^\/404(?:\.html)?\/?$/.test(Astro.url.pathname) ? '/' : unlocalizedPath(Astro.url.pathname);
-const links = [[t.nav.programs, home + '#programas'], [t.nav.diagnostic, localizedPath(locale, '/diagnostico-toeic')], [t.nav.business, home + '#empresas'], [t.nav.contact, home + '#contacto']];
+const links = [[t.common.home, home], [t.nav.programs, home + '#programas'], [t.nav.diagnostic, localizedPath(locale, '/diagnostico-toeic')], [t.nav.business, home + '#empresas'], [t.nav.contact, home + '#contacto']];
 ---
 <a class="skip-link" href="#contenido">{t.common.skip}</a>
 <header class="site-header">
@@ -16,7 +17,13 @@ const links = [[t.nav.programs, home + '#programas'], [t.nav.diagnostic, localiz
     <nav class="desktop-nav" aria-label={t.common.navigation}>{links.map(([label, href]) => <a href={href}>{label}</a>)}</nav>
     <div class="header-actions">
       <a class="student-link" href={site.moodle} target="_blank" rel="noopener noreferrer">{t.nav.students} <Icon name="external" size={14} /></a>
-      <nav class="locale-switch" aria-label={t.common.language}>{locales.map(lang => { const info = localeInfo[lang as keyof typeof localeInfo]; return <a href={localizedPath(lang, neutral)} lang={info.html} hreflang={info.html} aria-label={info.label} title={info.label} aria-current={lang === locale ? 'page' : undefined} data-locale-link>{info.short}</a>; })}</nav>
+      <details class="locale-dropdown">
+        <summary class="locale-trigger" aria-label={`${t.common.language}: ${currentLanguage.label}`} aria-controls="locale-options"><Icon name="globe" size={17} /><span class="locale-name" lang={currentLanguage.html}>{currentLanguage.label}</span><span class="locale-short" aria-hidden="true">{currentLanguage.short}</span><Icon name="chevron" size={13} class="locale-chevron" /></summary>
+        <nav id="locale-options" class="locale-options" aria-label={t.common.language}>
+          <span class="locale-heading">{t.common.language}</span>
+          {locales.map(lang => { const info = localeInfo[lang as keyof typeof localeInfo]; return <a href={localizedPath(lang, neutral)} lang={info.html} hreflang={info.html} aria-label={info.label} aria-current={lang === locale ? 'page' : undefined} data-locale-link><span class="locale-symbol" aria-hidden="true">{info.short}</span><span>{info.label}</span>{lang === locale && <Icon name="check" size={17} />}</a>; })}
+        </nav>
+      </details>
       <a class="button button-gold button-small header-cta" href={home + '#contacto'}>{t.nav.talk} <Icon name="arrow" size={17} /></a>
       <button class="menu-toggle" type="button" aria-label={t.common.openMenu} data-open-label={t.common.openMenu} data-close-label={t.common.closeMenu} aria-expanded="false" aria-controls="mobile-nav"><Icon name="menu" /></button>
     </div>
@@ -26,19 +33,44 @@ const links = [[t.nav.programs, home + '#programas'], [t.nav.diagnostic, localiz
 <script>
   const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
   const menu = document.querySelector<HTMLElement>('#mobile-nav');
+  const languageDropdown = document.querySelector<HTMLDetailsElement>('.locale-dropdown');
+  const languageTrigger = languageDropdown?.querySelector<HTMLElement>('summary');
+  const languageLinks = Array.from(languageDropdown?.querySelectorAll<HTMLAnchorElement>('[data-locale-link]') || []);
   function closeMenu() {
     toggle?.setAttribute('aria-expanded', 'false');
     toggle?.setAttribute('aria-label', toggle?.dataset.openLabel || '');
     if (menu) menu.hidden = true;
   }
   toggle?.addEventListener('click', () => {
+    if (languageDropdown) languageDropdown.open = false;
     const expanded = toggle.getAttribute('aria-expanded') === 'true';
     toggle.setAttribute('aria-expanded', String(!expanded));
     toggle.setAttribute('aria-label', (expanded ? toggle.dataset.openLabel : toggle.dataset.closeLabel) || '');
     if (menu) menu.hidden = expanded;
   });
   menu?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
-  document.addEventListener('keydown', event => { if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') { closeMenu(); toggle.focus(); } });
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    if (languageDropdown?.open) { languageDropdown.open = false; languageTrigger?.focus(); }
+    else if (toggle?.getAttribute('aria-expanded') === 'true') { closeMenu(); toggle.focus(); }
+  });
+  languageDropdown?.addEventListener('toggle', () => { if (languageDropdown.open) closeMenu(); });
+  document.addEventListener('pointerdown', event => {
+    if (languageDropdown?.open && event.target instanceof Node && !languageDropdown.contains(event.target)) languageDropdown.open = false;
+  });
+  languageDropdown?.addEventListener('focusout', () => {
+    requestAnimationFrame(() => { if (!languageDropdown.contains(document.activeElement)) languageDropdown.open = false; });
+  });
+  languageDropdown?.addEventListener('keydown', event => {
+    const current = languageLinks.indexOf(document.activeElement as HTMLAnchorElement);
+    let next = -1;
+    if (event.key === 'ArrowDown') next = current < 0 ? 0 : (current + 1) % languageLinks.length;
+    if (event.key === 'ArrowUp') next = current < 0 ? languageLinks.length - 1 : (current - 1 + languageLinks.length) % languageLinks.length;
+    if (event.key === 'Home' && languageDropdown.open) next = 0;
+    if (event.key === 'End' && languageDropdown.open) next = languageLinks.length - 1;
+    if (next < 0) return;
+    event.preventDefault(); languageDropdown.open = true; languageLinks[next]?.focus();
+  });
   window.matchMedia('(min-width: 1200px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
   document.querySelectorAll<HTMLAnchorElement>('[data-locale-link]').forEach(link => {
     link.addEventListener('click', () => { if (window.location.hash) link.hash = window.location.hash; });

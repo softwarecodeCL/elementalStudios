@@ -27,7 +27,8 @@ const structuredData = { '@context': 'https://schema.org', '@type': 'Educational
     <link rel="canonical" href={canonical} />
     {!noindex && locales.map(lang => <link rel="alternate" hreflang={localeInfo[lang as keyof typeof localeInfo].html} href={new URL(localizedPath(lang, neutralPath), Astro.site)} />)}
     {!noindex && <link rel="alternate" hreflang="x-default" href={new URL(localizedPath('es', neutralPath), Astro.site)} />}
-    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-elemental.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta property="og:locale" content={info.og} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Elemental Studios" />
