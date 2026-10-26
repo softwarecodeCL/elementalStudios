@@ -64,15 +64,55 @@ const corporateDiagnostic = localizedPath(locale, '/diagnostico-ingles-empresas'
     const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-slide]'));
     const caption = document.querySelector<HTMLElement>('#slide-caption');
     const captions: string[] = JSON.parse(caption?.dataset.captions || '[]');
+    const hero = document.querySelector<HTMLElement>('.hero');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let activeSlide = 0;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let touchStart: { x: number; y: number } | undefined;
+    function scheduleSlide() {
+      clearTimeout(timer);
+      if (reducedMotion.matches || document.hidden || hero?.contains(document.activeElement)) return;
+      timer = setTimeout(() => { showSlide(activeSlide + 1); scheduleSlide(); }, 6000);
+    }
     function showSlide(index: number) {
+      if (!slides.length) return;
       activeSlide = (index + slides.length) % slides.length;
       slides.forEach((slide, i) => slide.classList.toggle('is-active', i === activeSlide));
       tabs.forEach((tab, i) => { tab.classList.toggle('is-active', i === activeSlide); tab.setAttribute('aria-pressed', String(i === activeSlide)); });
-      if (caption) caption.textContent = captions[activeSlide];
+      if (caption) caption.textContent = captions[activeSlide] || '';
     }
-    tabs.forEach((tab, index) => tab.addEventListener('click', () => showSlide(index)));
-    document.querySelector('[data-carousel-prev]')?.addEventListener('click', () => showSlide(activeSlide - 1));
-    document.querySelector('[data-carousel-next]')?.addEventListener('click', () => showSlide(activeSlide + 1));
+    function navigateSlide(index: number) { showSlide(index); scheduleSlide(); }
+    tabs.forEach((tab, index) => tab.addEventListener('click', () => navigateSlide(index)));
+    document.querySelector('[data-carousel-prev]')?.addEventListener('click', () => navigateSlide(activeSlide - 1));
+    document.querySelector('[data-carousel-next]')?.addEventListener('click', () => navigateSlide(activeSlide + 1));
+    // Hover never stops rotation; keyboard focus pauses it for accessible navigation.
+    hero?.addEventListener('focusin', () => {
+      clearTimeout(timer);
+      caption?.setAttribute('aria-live', 'polite');
+    });
+    hero?.addEventListener('focusout', () => setTimeout(() => {
+      if (!hero.contains(document.activeElement)) caption?.setAttribute('aria-live', 'off');
+      scheduleSlide();
+    }, 0));
+    hero?.addEventListener('touchstart', (event) => {
+      const touch = event.touches[0];
+      touchStart = touch ? { x: touch.clientX, y: touch.clientY } : undefined;
+      clearTimeout(timer);
+    }, { passive: true });
+    hero?.addEventListener('touchend', (event) => {
+      const touch = event.changedTouches[0];
+      if (touchStart && touch) {
+        const dx = touch.clientX - touchStart.x;
+        const dy = touch.clientY - touchStart.y;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) navigateSlide(activeSlide + (dx < 0 ? 1 : -1));
+      }
+      touchStart = undefined;
+      scheduleSlide();
+    }, { passive: true });
+    hero?.addEventListener('touchcancel', () => { touchStart = undefined; scheduleSlide(); }, { passive: true });
+    document.addEventListener('visibilitychange', scheduleSlide);
+    reducedMotion.addEventListener('change', scheduleSlide);
+    caption?.setAttribute('aria-live', 'off');
+    scheduleSlide();
   </script>
 </Layout>
