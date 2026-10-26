@@ -1,0 +1,29 @@
+# Apache 2.4: static Astro site. This file belongs only in the website dist,
+# never in Moodle's DocumentRoot.
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTP_HOST} ^www\.elementalstudios\.cl$ [NC]
+    RewriteRule ^ https://elementalstudios.cl%{REQUEST_URI} [R=301,L,NE]
+</IfModule>
+
+<IfModule mod_headers.c>
+    # HTML and unversioned assets can change at each deployment.
+    <FilesMatch "\.(?:html|xml|txt)$">
+        Header set Cache-Control "no-cache"
+    </FilesMatch>
+    <FilesMatch "\.(?:webp|png|jpe?g|ico|mp3)$">
+        Header set Cache-Control "public, max-age=86400"
+    </FilesMatch>
+    # Astro fingerprints these files; keep earlier releases' assets on deploy.
+    <If "%{REQUEST_URI} =~ m#^/_astro/#">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </If>
+</IfModule>
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json application/xml text/xml image/svg+xml
+</IfModule>

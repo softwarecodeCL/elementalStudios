@@ -2,17 +2,20 @@
 import Layout from '../../layouts/Layout.astro';
 import Icon from '../Icon.astro';
 import Contact from '../Contact.astro';
+import { site } from '../../data/site';
+import { getGrowthMessages } from '../../i18n/growth.js';
 import '../../styles/diagnostic-promo.css';
 import { getMessages, localizedPath } from '../../i18n/index.js';
 interface Props { locale?: string; }
 const { locale = 'es' } = Astro.props;
 const t = getMessages(locale);
+const g = getGrowthMessages(locale);
 const featureIcons = ['laptop', 'users', 'book', 'chart'];
 const benefitIcons = ['message', 'briefcase', 'clock', 'chart'];
 const sectors = [{ id: 'hoteleria', icon: 'bell' }, { id: 'turismo', icon: 'compass' }, { id: 'restaurantes', icon: 'utensils' }];
 const diagnostic = localizedPath(locale, '/diagnostico-toeic');
 ---
-<Layout locale={locale}>
+<Layout locale={locale} structuredData={{'@type': 'WebSite', '@id': `${site.url}/#website`, name: site.name, alternateName: site.legalName, url: site.url + '/', publisher: {'@id': `${site.url}/#organization`}}}>
   <link slot="head" rel="preload" as="image" href="/images/hotel-hero.webp" fetchpriority="high" />
   <section class="hero" aria-labelledby="hero-title" aria-roledescription="carousel" aria-label={t.hero.carousel}>
     <div class="hero-photos" aria-hidden="true">
@@ -23,8 +26,8 @@ const diagnostic = localizedPath(locale, '/diagnostico-toeic');
     <div class="hero-shade"></div>
     <div class="container hero-inner">
       <div class="hero-copy">
-        <p class="eyebrow">{t.hero.eyebrow}</p>
-        <h1 id="hero-title">{t.hero.line1}<br /> {t.hero.line2} <span class="text-gold">{t.hero.english}</span><br /> {t.hero.and} <span class="text-gold">{t.hero.portuguese}</span></h1>
+        <p class="eyebrow">{g.homeEyebrow}</p>
+        <h1 id="hero-title">{g.homeTitle[0]}<br /><span class="text-gold">{g.homeTitle[1]}</span><br /><span class="text-gold">{g.homeTitle[2]}</span></h1>
         <p class="hero-description">{t.hero.description} <strong>{t.hero.sectors}</strong></p>
         <div class="hero-actions"><a class="button button-gold" href="#contacto">{t.hero.cta} <Icon name="arrow" size={20} /></a><a class="hero-secondary" href="#programas"><span class="play-circle"><Icon name="chevron" size={16} /></span>{t.hero.explore}</a></div>
         <div class="hero-proof"><span><Icon name="checkCircle" size={17} />{t.hero.online}</span><span><Icon name="checkCircle" size={17} />{t.hero.tailored}</span></div>
@@ -41,16 +44,20 @@ const diagnostic = localizedPath(locale, '/diagnostico-toeic');
   <section class="programs section-space" id="programas" aria-labelledby="program-title">
     <div class="container">
       <div class="section-heading programs-heading"><div><p class="eyebrow">{t.programs.eyebrow}</p><h2 id="program-title">{t.programs.title}<br /><span class="text-muted">{t.programs.accent}</span></h2></div><div class="programs-heading-right"><p>{t.programs.intro}</p></div></div>
-      <div class="program-grid">{sectors.map((sector, index) => { const copy = t.programs.sectors[index]; return <article class="program-card"><div class="program-image"><img src={`/images/${sector.id}-card.webp`} width="720" height="520" alt={copy.alt} loading="lazy" decoding="async" /><span class="program-number">0{index + 1} /</span><span class="program-icon"><Icon name={sector.icon} size={26} /></span><span class="program-language">{t.programs.badge}</span></div><div class="program-body"><h3>{copy.name}</h3><p class="program-subtitle">{copy.subtitle}</p><p class="program-description">{copy.description}</p><p class="program-scenario">{copy.scenario}</p><p class="program-roles">{copy.roles}</p><a class="program-link" href="#contacto" data-sector={sector.id}>{t.programs.cta}<span><Icon name="arrow" size={19} /></span></a></div></article>; })}</div>
+      <div class="program-service-links" aria-label={g.viewPrograms}><a href={localizedPath(locale, '/ingles-para-empresas')}><Icon name="message" size={22} /><span>{g.english}</span><Icon name="arrow" size={20} /></a><a href={localizedPath(locale, '/portugues-para-empresas')}><Icon name="globe" size={22} /><span>{g.portuguese}</span><Icon name="arrow" size={20} /></a></div>
+      <div class="program-grid">{sectors.map((sector, index) => { const copy = t.programs.sectors[index]; return <article class="program-card"><div class="program-image"><img src={`/images/${sector.id}-card.webp`} width="720" height="520" alt={copy.alt} loading="lazy" decoding="async" /><span class="program-number">0{index + 1} /</span><span class="program-icon"><Icon name={sector.icon} size={26} /></span><span class="program-language">{t.programs.badge}</span></div><div class="program-body"><h3>{copy.name}</h3><p class="program-subtitle">{copy.subtitle}</p><p class="program-description">{copy.description}</p><p class="program-scenario">{copy.scenario}</p><p class="program-roles">{copy.roles}</p><a class="program-link" href={localizedPath(locale, `/idiomas-para-${sector.id}`)}>{g.learnMore}<span><Icon name="arrow" size={19} /></span></a></div></article>; })}</div>
       <p class="programs-footnote"><Icon name="target" size={18} />{t.programs.note}</p>
     </div>
   </section>
+
+  <section class="sence-home section-space" aria-labelledby="sence-home-title"><div class="container sence-home-grid"><div><p class="eyebrow">{g.senceEyebrow}</p><h2 id="sence-home-title">{g.senceTitle}</h2><p class="section-description">{g.senceText}</p><a class="text-link" href={localizedPath(locale, '/capacitacion-sence')}>{g.senceLink}<Icon name="arrow" size={19} /></a><p class="sence-home-note">{g.senceNote}</p></div><article class="sence-course-preview"><div class="sence-course-top"><span class="eyebrow">{g.courseBadge}</span><span class="sence-mark"><img src="/brand/sence.png" alt="SENCE" width="1207" height="558" loading="lazy" /></span></div><h3>{g.businessPortuguese}</h3><div class="sence-course-facts"><span><Icon name="clock" size={19} />{g.hours}</span><span><Icon name="laptop" size={19} />{g.online}</span></div><p class="sence-course-code">SENCE <strong>{site.sence.code}</strong></p><a class="button button-gold" href={localizedPath(locale, '/portugues-para-negocios')}>{g.courseLink}<Icon name="arrow" size={19} /></a><a class="sence-course-official" href={site.sence.record} target="_blank" rel="noopener noreferrer">{g.officialCourse}<Icon name="external" size={14} /></a></article></div></section>
 
   <section class="diagnostic-promo section-space" id="diagnostico" aria-labelledby="diagnostic-promo-title"><div class="container diagnostic-promo-layout"><div><p class="eyebrow">{t.diagnosticPromo.eyebrow}</p><h2 id="diagnostic-promo-title">{t.diagnosticPromo.title}<br /><span class="text-gold">{t.diagnosticPromo.accent}</span></h2><p class="section-description">{t.diagnosticPromo.intro}</p><a class="button button-gold" href={diagnostic}>{t.diagnosticPromo.cta}<Icon name="arrow" size={20} /></a><p class="diagnostic-promo-note">{t.diagnosticPromo.note}</p></div><a class="diagnostic-preview" href={diagnostic} aria-label={t.diagnosticPromo.cta}><div class="diagnostic-preview-top"><span class="eyebrow">{t.diagnostic.eyebrow}</span><Icon name="target" size={28} /></div><div class="diagnostic-preview-count"><strong>36</strong><span>{t.diagnostic.questionCount.replace('36 ', '')}<br /><small>{t.diagnosticPromo.minutes}</small></span></div><div class="diagnostic-preview-row"><span>01</span><strong lang="en">Listening</strong><span>15</span></div><div class="diagnostic-preview-row"><span>02</span><strong lang="en">Reading</strong><span>21</span></div><div class="diagnostic-preview-bottom"><span><Icon name="chart" size={18} />{t.diagnosticPromo.report}</span><Icon name="arrow" size={22} /></div></a></div></section>
 
   <section class="business-section section-space" id="empresas" aria-labelledby="business-title"><div class="container"><div class="section-heading"><div><p class="eyebrow">{t.business.eyebrow}</p><h2 id="business-title">{t.business.title}<br /><span class="text-muted">{t.business.accent}</span></h2></div></div><div class="benefit-grid">{t.business.benefits.map((benefit, index) => <article class="benefit"><span class="benefit-icon"><Icon name={benefitIcons[index]} size={27} /></span><h3>{benefit.title}</h3><p>{benefit.text}</p></article>)}</div><div class="business-banner"><div><span class="eyebrow">{t.business.bannerEyebrow}</span><h3>{t.business.bannerTitle}</h3></div><a class="button button-gold" href="#contacto">{t.business.cta}<Icon name="arrow" size={20} /></a></div></div></section>
 
   <section class="faq-section section-space" aria-labelledby="faq-title"><div class="container faq-layout"><div><p class="eyebrow">{t.faq.eyebrow}</p><h2 id="faq-title">{t.faq.title}<br /> <span class="text-muted">{t.faq.accent}</span></h2><p class="section-description">{t.faq.intro}</p></div><div class="faq-list">{t.faq.items.map(faq => <details><summary>{faq.question}<span><Icon name="plus" size={18} /></span></summary><p>{faq.answer}</p></details>)}</div></div></section>
+  <section class="business-resources section-space" id="recursos" aria-labelledby="resources-title"><div class="container"><div class="section-heading"><div><p class="eyebrow">{g.resources}</p><h2 id="resources-title">{g.resourceText}</h2></div></div><div class="business-resource-grid">{t.articles.filter(article => ['evaluar-ingles-equipo-hotelero', 'capacitacion-idiomas-turnos'].includes(article.slug)).map(article => <article><a href={localizedPath(locale, `/noticias/${article.slug}`)}><img src={`/images/${article.image}.webp`} alt={article.alt} width="1000" height="600" loading="lazy" /><div><h3>{article.title}</h3><p>{article.description}</p><span class="text-link">{g.resourceLink}<Icon name="arrow" size={17} /></span></div></a></article>)}</div></div></section>
   <Contact locale={locale} />
   <script>
     const slides = Array.from(document.querySelectorAll<HTMLElement>('.hero-photo'));

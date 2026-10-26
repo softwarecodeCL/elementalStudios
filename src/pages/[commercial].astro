@@ -1,0 +1,9 @@
+---
+import CommercialPage from '../components/pages/CommercialPage.astro';
+import { commercialSlugs } from '../i18n/commercial/index.js';
+export function getStaticPaths() {
+  return commercialSlugs.map(commercial => ({ params: { commercial } }));
+}
+const { commercial } = Astro.params;
+---
+<CommercialPage locale="es" slug={commercial!} />

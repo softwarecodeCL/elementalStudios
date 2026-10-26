@@ -3,20 +3,38 @@ import '@fontsource-variable/manrope';
 import '@fontsource-variable/dm-sans';
 import '../styles/global.css';
 import '../styles/navigation.css';
+import '../styles/growth.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
 import { getLocale, getMessages, localeInfo, locales, localizedPath, unlocalizedPath } from '../i18n/index.js';
-interface Props { title?: string; description?: string; image?: string; noindex?: boolean; locale?: string; }
+interface Props { title?: string; description?: string; image?: string; noindex?: boolean; locale?: string; ogType?: 'website' | 'article'; structuredData?: Record<string, unknown>; breadcrumbs?: Array<{name: string; url: string}>; }
 const locale = Astro.props.locale || getLocale(Astro.url.pathname);
 const t = getMessages(locale);
 const info = localeInfo[locale as keyof typeof localeInfo];
 const { title = t.meta.title, description = t.meta.description, image = '/images/social-cover.webp', noindex = false } = Astro.props;
 const neutralPath = unlocalizedPath(Astro.url.pathname);
-const canonical = new URL(localizedPath(locale, neutralPath), Astro.site);
-const structuredData = { '@context': 'https://schema.org', '@type': 'EducationalOrganization', name: 'Elemental Studios', url: new URL(localizedPath(locale), Astro.site).href, logo: new URL('/brand/symbol.png', Astro.site).href, description, inLanguage: info.html };
+const canonical = new URL(/^\/404(?:\.html)?\/?$/.test(Astro.url.pathname) ? '/404.html' : localizedPath(locale, neutralPath), Astro.site);
+const organization = {
+  '@context': 'https://schema.org', '@type': 'EducationalOrganization',
+  '@id': `${site.url}/#organization`, name: site.name, legalName: site.legalName,
+  taxID: site.taxId, url: site.url + '/', logo: new URL('/brand/symbol.png', Astro.site).href,
+  description: t.meta.description,
+  telephone: site.telephone, address: { '@type': 'PostalAddress', ...site.address },
+  sameAs: [site.linkedin], areaServed: { '@type': 'Country', name: 'Chile' },
+};
+const pageData = Astro.props.structuredData;
+const breadcrumbData = Astro.props.breadcrumbs?.length ? {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: Astro.props.breadcrumbs.map((item, index) => ({
+    '@type': 'ListItem', position: index + 1, name: item.name,
+    item: new URL(item.url, Astro.site).href,
+  })),
+} : null;
+const serialize = (value: unknown) => JSON.stringify(value).replace(/</g, '\\u003c');
 ---
 <!doctype html>
-<html lang={info.html}>
+<html lang={info.html} data-analytics-id={site.analyticsMeasurementId}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -30,15 +48,17 @@ const structuredData = { '@context': 'https://schema.org', '@type': 'Educational
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-elemental.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta property="og:locale" content={info.og} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={Astro.props.ogType || 'website'} />
     <meta property="og:site_name" content="Elemental Studios" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL(image, Astro.site)} />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <script type="application/ld+json" set:html={serialize(organization)} />
+    {pageData && <script type="application/ld+json" set:html={serialize({ '@context': 'https://schema.org', ...pageData })} />}
+    {breadcrumbData && <script type="application/ld+json" set:html={serialize(breadcrumbData)} />}
     <slot name="head" />
   </head>
-  <body><Header locale={locale} /><main id="contenido"><slot /></main><Footer locale={locale} /></body>
+  <body><Header locale={locale} /><main id="contenido"><slot /></main><Footer locale={locale} /><script>import '../scripts/measurement';</script></body>
 </html>

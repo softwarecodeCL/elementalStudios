@@ -1,7 +1,27 @@
 export const site = {
   name: 'Elemental Studios',
+  legalName: 'Elemental Studios SpA',
+  taxId: '77.616.179-9',
   url: 'https://elementalstudios.cl',
   moodle: 'https://moodle.elementalstudios.cl/login/index.php',
   whatsapp: 'https://wa.link/phiydi',
   whatsappNumber: '56982414460',
+  telephone: '+56982414460',
+  linkedin: 'https://cl.linkedin.com/company/elemental-studios-cap',
+  analyticsMeasurementId: 'G-BLWFBBYSJN',
+  address: {
+    streetAddress: 'Av. Pajaritos 3030, oficina 1014, Torre A, Edificio Centro Maipú',
+    addressLocality: 'Maipú',
+    addressRegion: 'Región Metropolitana',
+    addressCountry: 'CL',
+  },
+  sence: {
+    courseName: 'Portugués para Negocios',
+    code: '1238088865',
+    hours: 81,
+    validThrough: '2029-11-27',
+    record: 'https://eligemejor.sence.cl/BuscarCursoNuevo/DetalleCurso?curso=1238088865',
+    information: 'https://sence.gob.cl/empresas/franquicia-tributaria',
+    verifiedAt: '2026-10-26',
+  },
 };

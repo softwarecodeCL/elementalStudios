@@ -1,19 +1,22 @@
 ---
 import Icon from './Icon.astro';
 import { site } from '../data/site';
+import { getGrowthMessages } from '../i18n/growth.js';
 import { getMessages, localizedPath } from '../i18n/index.js';
 interface Props { locale?: string; }
 const { locale = 'es' } = Astro.props;
 const t = getMessages(locale);
+const g = getGrowthMessages(locale);
 const home = localizedPath(locale);
 ---
 <footer class="site-footer">
   <div class="container footer-main">
-    <div class="footer-brand"><a class="brand" href={home} aria-label={t.common.brandHome}><img src="/brand/logo.png" width="290" height="73" alt="Elemental Studios" loading="lazy" /></a><p>{t.footer.tagline}</p><div class="footer-sence"><img src="/brand/sence.png" width="1207" height="558" alt="SENCE — Servicio Nacional de Capacitación y Empleo" loading="lazy" decoding="async" /></div></div>
-    <div class="footer-column"><span>{t.footer.explore}</span><a href={home + '#programas'}>{t.footer.programs}</a><a href={localizedPath(locale, '/diagnostico-toeic')}>{t.footer.diagnostic}</a><a href={home + '#empresas'}>{t.footer.business}</a></div>
-    <div class="footer-column"><span>{t.footer.connect}</span><a href={site.whatsapp} target="_blank" rel="noopener noreferrer">{t.footer.whatsapp} <Icon name="external" size={14} /></a><a href={site.moodle} target="_blank" rel="noopener noreferrer">{t.footer.students} <Icon name="external" size={14} /></a><a href={localizedPath(locale, '/noticias/la-importancia-de-saber-ingles')}>{t.footer.resources}</a></div>
+    <div class="footer-brand"><a class="brand" href={home} aria-label={t.common.brandHome}><img src="/brand/logo.png" width="290" height="73" alt="Elemental Studios" loading="lazy" /></a><p>{t.footer.tagline}</p><p class="footer-legal"><strong>{site.legalName}</strong><br />{g.rut}: {site.taxId}<br />{g.organization}</p><a class="footer-sence" href={localizedPath(locale, '/capacitacion-sence')} aria-label={g.senceLink}><img src="/brand/sence.png" width="1207" height="558" alt="SENCE — Servicio Nacional de Capacitación y Empleo" loading="lazy" decoding="async" /></a></div>
+    <div class="footer-column"><span>{g.languages}</span><a href={localizedPath(locale, '/ingles-para-empresas')}>{g.english}</a><a href={localizedPath(locale, '/portugues-para-empresas')}>{g.portuguese}</a><a href={localizedPath(locale, '/portugues-para-negocios')}>{g.businessPortuguese}</a><a href={localizedPath(locale, '/capacitacion-sence')}>{g.senceLink}</a><a href={localizedPath(locale, '/diagnostico-toeic')}>{t.footer.diagnostic}</a></div>
+    <div class="footer-column"><span>{g.sectors}</span><a href={localizedPath(locale, '/idiomas-para-hoteleria')}>{g.hotel}</a><a href={localizedPath(locale, '/idiomas-para-restaurantes')}>{g.restaurant}</a><a href={localizedPath(locale, '/idiomas-para-turismo')}>{g.tourism}</a><a href={home + '#recursos'}>{g.resources}</a></div>
+    <div class="footer-column"><span>{t.footer.connect}</span><a href={localizedPath(locale, '/nosotros')}>{g.about}</a><a href={site.whatsapp} target="_blank" rel="noopener noreferrer">{t.footer.whatsapp} <Icon name="external" size={14} /></a><a href={`tel:${site.telephone}`}>+56 9 8241 4460</a><a href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn <Icon name="external" size={14} /></a><a href={site.moodle} target="_blank" rel="noopener noreferrer">{t.footer.students} <Icon name="external" size={14} /></a></div>
   </div>
-  <div class="container footer-bottom"><p>© {new Date().getFullYear()} Elemental Studios. {t.footer.rights}</p><span>{t.footer.made} <Icon name="globe" size={15} /></span></div>
+  <div class="container footer-bottom"><p>© {new Date().getFullYear()} {site.legalName}. {t.footer.rights}</p><span>{t.footer.made} <Icon name="globe" size={15} /></span></div>
 </footer>
 <style>
   .footer-sence {

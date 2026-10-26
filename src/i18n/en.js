@@ -3,9 +3,9 @@ import articles from "./articles/en.js";
 
 export default {
   meta: {
-    title: "English and Portuguese for businesses | Elemental Studios",
+    title: "Language training for businesses in Chile | Elemental Studios",
     description:
-      "Online, self-paced English and Portuguese training for hospitality, tourism and restaurants. Tailored programmes, Moodle and progress reporting.",
+      "English and Portuguese training for hospitality, tourism and restaurant businesses in Chile. Elemental Studios SpA: online learning and tailored programmes.",
   },
   common: {
     home: "Home",

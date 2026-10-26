@@ -1,20 +1,36 @@
 ---
 import Icon from './Icon.astro';
 import { site } from '../data/site';
+import { getGrowthMessages } from '../i18n/growth.js';
 import { getMessages, locales, localeInfo, localizedPath, unlocalizedPath } from '../i18n/index.js';
 interface Props { locale?: string; }
 const { locale = 'es' } = Astro.props;
 const t = getMessages(locale);
+const g = getGrowthMessages(locale);
 const home = localizedPath(locale);
 const currentLanguage = localeInfo[locale as keyof typeof localeInfo];
 const neutral = /^\/404(?:\.html)?\/?$/.test(Astro.url.pathname) ? '/' : unlocalizedPath(Astro.url.pathname);
-const links = [[t.common.home, home], [t.nav.programs, home + '#programas'], [t.nav.diagnostic, localizedPath(locale, '/diagnostico-toeic')], [t.nav.business, home + '#empresas'], [t.nav.contact, home + '#contacto']];
+const links = [[g.sence, localizedPath(locale, '/capacitacion-sence')], [g.about, localizedPath(locale, '/nosotros')], [t.nav.contact, home + '#contacto']];
+const programmeGroups = [
+  { label: g.languages, links: [[g.english, 'ingles-para-empresas'], [g.portuguese, 'portugues-para-empresas'], [g.businessPortuguese, 'portugues-para-negocios']] },
+  { label: g.sectors, links: [[g.hotel, 'idiomas-para-hoteleria'], [g.restaurant, 'idiomas-para-restaurantes'], [g.tourism, 'idiomas-para-turismo']] },
+];
 ---
 <a class="skip-link" href="#contenido">{t.common.skip}</a>
 <header class="site-header">
   <div class="container header-inner">
     <a class="brand" href={home} aria-label={t.common.brandHome}><img src="/brand/logo.png" width="290" height="73" alt="Elemental Studios" fetchpriority="high" /></a>
-    <nav class="desktop-nav" aria-label={t.common.navigation}>{links.map(([label, href]) => <a href={href}>{label}</a>)}</nav>
+    <nav class="desktop-nav" aria-label={t.common.navigation}>
+      <a href={home} aria-current={Astro.url.pathname === home ? 'page' : undefined}>{t.common.home}</a>
+      <details class="programs-dropdown">
+        <summary aria-controls="program-options">{t.nav.programs}<Icon name="chevron" size={12} /></summary>
+        <div id="program-options" class="program-options">
+          <div class="program-options-grid">{programmeGroups.map(group => <div><span>{group.label}</span>{group.links.map(([label, slug]) => <a href={localizedPath(locale, slug)} aria-current={neutral === `/${slug}/` ? 'page' : undefined}>{label}<Icon name="arrow" size={14} /></a>)}</div>)}</div>
+          <a class="program-options-diagnostic" href={localizedPath(locale, '/diagnostico-toeic')}><Icon name="target" size={19} />{g.diagnostic}<Icon name="arrow" size={16} /></a>
+        </div>
+      </details>
+      {links.map(([label, href]) => <a href={href} aria-current={Astro.url.pathname === href ? 'page' : undefined}>{label}</a>)}
+    </nav>
     <div class="header-actions">
       <a class="student-link" href={site.moodle} target="_blank" rel="noopener noreferrer">{t.nav.students} <Icon name="external" size={14} /></a>
       <details class="locale-dropdown">
@@ -28,7 +44,13 @@ const links = [[t.common.home, home], [t.nav.programs, home + '#programas'], [t.
       <button class="menu-toggle" type="button" aria-label={t.common.openMenu} data-open-label={t.common.openMenu} data-close-label={t.common.closeMenu} aria-expanded="false" aria-controls="mobile-nav"><Icon name="menu" /></button>
     </div>
   </div>
-  <nav id="mobile-nav" class="mobile-nav" aria-label={t.common.mobileNavigation} hidden>{links.map(([label, href]) => <a href={href}>{label} <Icon name="arrow" size={18} /></a>)}<a href={site.moodle} target="_blank" rel="noopener noreferrer">{t.nav.moodle} <Icon name="external" size={18} /></a></nav>
+  <nav id="mobile-nav" class="mobile-nav" aria-label={t.common.mobileNavigation} hidden>
+    <a href={home}>{t.common.home}<Icon name="arrow" size={18} /></a>
+    <details class="mobile-programs"><summary>{g.programMenu}<Icon name="plus" size={18} /></summary>{programmeGroups.map(group => <div><span>{group.label}</span>{group.links.map(([label, slug]) => <a href={localizedPath(locale, slug)}>{label}<Icon name="arrow" size={15} /></a>)}</div>)}</details>
+    {links.map(([label, href]) => <a href={href}>{label} <Icon name="arrow" size={18} /></a>)}
+    <a href={localizedPath(locale, '/diagnostico-toeic')}>{g.diagnostic}<Icon name="arrow" size={18} /></a>
+    <a href={site.moodle} target="_blank" rel="noopener noreferrer">{t.nav.moodle} <Icon name="external" size={18} /></a>
+  </nav>
 </header>
 <script>
   const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
@@ -36,6 +58,7 @@ const links = [[t.common.home, home], [t.nav.programs, home + '#programas'], [t.
   const languageDropdown = document.querySelector<HTMLDetailsElement>('.locale-dropdown');
   const languageTrigger = languageDropdown?.querySelector<HTMLElement>('summary');
   const languageLinks = Array.from(languageDropdown?.querySelectorAll<HTMLAnchorElement>('[data-locale-link]') || []);
+  const programsDropdown = document.querySelector<HTMLDetailsElement>('.programs-dropdown');
   function closeMenu() {
     toggle?.setAttribute('aria-expanded', 'false');
     toggle?.setAttribute('aria-label', toggle?.dataset.openLabel || '');
@@ -43,6 +66,7 @@ const links = [[t.common.home, home], [t.nav.programs, home + '#programas'], [t.
   }
   toggle?.addEventListener('click', () => {
     if (languageDropdown) languageDropdown.open = false;
+    if (programsDropdown) programsDropdown.open = false;
     const expanded = toggle.getAttribute('aria-expanded') === 'true';
     toggle.setAttribute('aria-expanded', String(!expanded));
     toggle.setAttribute('aria-label', (expanded ? toggle.dataset.openLabel : toggle.dataset.closeLabel) || '');
@@ -52,14 +76,20 @@ const links = [[t.common.home, home], [t.nav.programs, home + '#programas'], [t.
   document.addEventListener('keydown', event => {
     if (event.key !== 'Escape') return;
     if (languageDropdown?.open) { languageDropdown.open = false; languageTrigger?.focus(); }
+    else if (programsDropdown?.open) { programsDropdown.open = false; programsDropdown.querySelector('summary')?.focus(); }
     else if (toggle?.getAttribute('aria-expanded') === 'true') { closeMenu(); toggle.focus(); }
   });
-  languageDropdown?.addEventListener('toggle', () => { if (languageDropdown.open) closeMenu(); });
+  languageDropdown?.addEventListener('toggle', () => { if (languageDropdown.open) { closeMenu(); if (programsDropdown) programsDropdown.open = false; } });
+  programsDropdown?.addEventListener('toggle', () => { if (programsDropdown.open && languageDropdown) languageDropdown.open = false; });
   document.addEventListener('pointerdown', event => {
     if (languageDropdown?.open && event.target instanceof Node && !languageDropdown.contains(event.target)) languageDropdown.open = false;
+    if (programsDropdown?.open && event.target instanceof Node && !programsDropdown.contains(event.target)) programsDropdown.open = false;
   });
   languageDropdown?.addEventListener('focusout', () => {
     requestAnimationFrame(() => { if (!languageDropdown.contains(document.activeElement)) languageDropdown.open = false; });
+  });
+  programsDropdown?.addEventListener('focusout', () => {
+    requestAnimationFrame(() => { if (!programsDropdown.contains(document.activeElement)) programsDropdown.open = false; });
   });
   languageDropdown?.addEventListener('keydown', event => {
     const current = languageLinks.indexOf(document.activeElement as HTMLAnchorElement);
@@ -72,7 +102,23 @@ const links = [[t.common.home, home], [t.nav.programs, home + '#programas'], [t.
     event.preventDefault(); languageDropdown.open = true; languageLinks[next]?.focus();
   });
   window.matchMedia('(min-width: 1200px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
-  document.querySelectorAll<HTMLAnchorElement>('[data-locale-link]').forEach(link => {
-    link.addEventListener('click', () => { if (window.location.hash) link.hash = window.location.hash; });
-  });
+  function updateLanguageLinks() {
+    const parameters = new URLSearchParams(window.location.search);
+    const programs = ['ingles-para-empresas', 'portugues-para-empresas', 'idiomas-para-hoteleria', 'idiomas-para-restaurantes', 'idiomas-para-turismo', 'capacitacion-sence', 'nosotros', 'portugues-para-negocios'];
+    const allowed = { program: programs, sector: ['hoteleria', 'turismo', 'restaurantes', 'otra-empresa'], language: ['ingles', 'portugues', 'both', 'ambos'] };
+    document.querySelectorAll<HTMLAnchorElement>('[data-locale-link]').forEach(link => {
+      const target = new URL(link.href);
+      target.search = '';
+      if (/^\/(?:en\/|pt\/)?$/.test(target.pathname)) {
+        for (const [key, values] of Object.entries(allowed)) {
+          const value = parameters.get(key);
+          if (value && values.includes(value)) target.searchParams.set(key, value);
+        }
+      }
+      target.hash = window.location.hash;
+      link.href = target.href;
+    });
+  }
+  updateLanguageLinks();
+  window.addEventListener('hashchange', updateLanguageLinks);
 </script>

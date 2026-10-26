@@ -1,5 +1,7 @@
-import { getMessages, formatText } from '../i18n/index.js';
-import { site } from '../data/site';
+import { formatText, localizedPath } from '../i18n/index.js';
+import { getDiagnosticMessages } from '../i18n/assessment/index.js';
+import { getGrowthMessages } from '../i18n/growth.js';
+import { recordEvent } from '../scripts/measurement';
 import { units, questions } from './bank.js';
 import {
   createSession,
@@ -26,7 +28,7 @@ const sectionName = (section: string) =>
 
 class DiagnosticApp extends HTMLElement {
   state = createSession();
-  copy = getMessages('es').diagnostic;
+  copy = getDiagnosticMessages('es');
   locale = 'es';
   intro!: HTMLElement;
   outlet!: HTMLElement;
@@ -38,7 +40,7 @@ class DiagnosticApp extends HTMLElement {
 
   connectedCallback() {
     this.locale = this.dataset.locale || 'es';
-    this.copy = getMessages(this.locale).diagnostic;
+    this.copy = getDiagnosticMessages(this.locale);
     this.intro = this.querySelector('[data-diagnostic-intro]')!;
     this.outlet = this.querySelector('[data-diagnostic-outlet]')!;
     try {
@@ -186,6 +188,7 @@ class DiagnosticApp extends HTMLElement {
     this.state.target = Number(data.get('target')) || 0;
     this.lastTick = Date.now();
     this.state.screen = 'test';
+    recordEvent('diagnostic_start');
     this.save();
     this.render();
   }
@@ -278,6 +281,7 @@ class DiagnosticApp extends HTMLElement {
         this.commitTime();
         this.state.screen = 'results';
         this.state.completedAt = new Date().toISOString();
+        recordEvent('diagnostic_complete');
       }
       this.save();
       this.render();
@@ -442,6 +446,8 @@ class DiagnosticApp extends HTMLElement {
   }
   renderResults() {
     const d = this.copy;
+    const corporate = getGrowthMessages(this.locale);
+    const corporateContact = localizedPath(this.locale) + '?program=ingles-para-empresas&language=ingles#contacto';
     const summary = summarize(this.state);
     const skillCopy = (id: string) => d.skills[id as keyof typeof d.skills];
     const status = (ratio: number) =>
@@ -468,7 +474,7 @@ class DiagnosticApp extends HTMLElement {
             .join(''),
         )
         .join('')}</div></section>
-      <section class="diagnostic-result-cta"><div><h2>${escapeHtml(d.ctaTitle)}</h2><p>${escapeHtml(d.ctaText)}</p></div><div><a class="button button-gold" href="${site.whatsapp}" target="_blank" rel="noopener noreferrer">${escapeHtml(d.cta)} →</a><button class="diagnostic-text-button" type="button" data-action="retake">${escapeHtml(d.retake)}</button></div></section><p class="diagnostic-disclaimer">${escapeHtml(d.notice)}</p>`;
+      <section class="diagnostic-result-cta"><div><h2>${escapeHtml(corporate.corporateTitle)}</h2><p>${escapeHtml(corporate.corporateText)}</p></div><div><a class="button button-gold" href="${escapeHtml(corporateContact)}" data-corporate-diagnostic>${escapeHtml(corporate.corporateCta)} →</a><button class="diagnostic-text-button" type="button" data-action="retake">${escapeHtml(d.retake)}</button></div></section><p class="diagnostic-disclaimer">${escapeHtml(d.notice)}</p>`;
   }
   download() {
     const d = this.copy;

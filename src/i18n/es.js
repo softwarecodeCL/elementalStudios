@@ -3,9 +3,9 @@ import articles from "./articles/es.js";
 
 export default {
   meta: {
-    title: "Inglés y portugués para empresas | Elemental Studios",
+    title: "Capacitación de idiomas para empresas en Chile | Elemental Studios",
     description:
-      "Capacitación online y asincrónica en inglés y portugués para hotelería, turismo y restaurantes. Programas a medida, Moodle y seguimiento para tu empresa.",
+      "Inglés y portugués para empresas de hotelería, turismo y restaurantes en Chile. OTEC Elemental Studios SpA: formación online y programas a medida.",
   },
   common: {
     home: "Inicio",

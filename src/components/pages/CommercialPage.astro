@@ -1,0 +1,86 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../Icon.astro';
+import { getCommercialMessages } from '../../i18n/commercial/index.js';
+import { localizedPath, localeInfo } from '../../i18n/index.js';
+import '../../styles/commercial.css';
+
+interface Props { locale?: string; slug: string; }
+const { locale = 'es', slug } = Astro.props;
+const messages = getCommercialMessages(locale);
+const ui = messages.ui;
+const p = messages.pages[slug as keyof typeof messages.pages];
+const home = localizedPath(locale);
+const path = localizedPath(locale, `/${slug}`);
+const canonical = new URL(path, Astro.site).href;
+const officialRecord = 'https://eligemejor.sence.cl/BuscarCursoNuevo/DetalleCurso?curso=1238088865';
+const senceInfo = 'https://sence.gob.cl/empresas/franquicia-tributaria';
+const contactParams = new URLSearchParams({ program: slug, language: p.language });
+if (p.sector) contactParams.set('sector', p.sector);
+const contact = `${home}?${contactParams.toString()}#contacto`;
+const isCompany = slug === 'nosotros';
+const isSence = slug === 'capacitacion-sence';
+const breadcrumbs = [{ name: ui.home, url: home }, { name: p.label, url: path }];
+const structuredData = p.official ? {
+  '@type': 'Course', '@id': `${canonical}#course`, name: 'Portugués Para Negocios',
+  alternateName: p.label, description: p.description, url: canonical,
+  identifier: '1238088865', timeRequired: 'PT81H', inLanguage: 'pt',
+  provider: { '@id': 'https://elementalstudios.cl/#organization' },
+  isBasedOn: officialRecord,
+  hasCourseInstance: { '@type': 'CourseInstance', courseMode: ['online', 'asynchronous'], courseWorkload: 'PT81H' },
+} : isCompany ? {
+  '@type': 'AboutPage', '@id': `${canonical}#about`, name: p.title, description: p.description,
+  url: canonical, inLanguage: localeInfo[locale as keyof typeof localeInfo].html,
+  about: { '@id': 'https://elementalstudios.cl/#organization' },
+} : {
+  '@type': 'Service', '@id': `${canonical}#service`, name: `${p.heading} ${p.accent}`,
+  description: p.description, url: canonical, areaServed: { '@type': 'Country', name: 'Chile' },
+  provider: { '@id': 'https://elementalstudios.cl/#organization' },
+  serviceType: p.label,
+};
+const inclusionIcons = ['target', 'laptop', 'chart', 'certificate'];
+---
+<Layout locale={locale} title={p.title} description={p.description} image={`/images/${p.image}`} structuredData={structuredData} breadcrumbs={breadcrumbs}>
+  <section class:list={['commercial-hero', { 'commercial-hero-course': p.official }]} aria-labelledby="commercial-title">
+    <div class="container">
+      <nav class="commercial-breadcrumb" aria-label={locale === 'en' ? 'Breadcrumb' : locale === 'pt' ? 'Navegação estrutural' : 'Ruta de navegación'}>
+        <a href={home}>{ui.home}</a><Icon name="chevron" size={12} /><span aria-current="page">{p.label}</span>
+      </nav>
+      <div class="commercial-hero-grid">
+        <div class="commercial-hero-copy">
+          <p class="eyebrow">{p.label}</p>
+          <h1 id="commercial-title">{p.heading}<br /><span class="text-gold">{p.accent}</span></h1>
+          <p class="commercial-lead">{p.lead}</p>
+          <div class="commercial-actions"><a class="button button-gold" href={contact} data-track="request_proposal" data-program={slug}>{ui.request}<Icon name="arrow" size={18} /></a><a class="commercial-secondary" href="#aplicaciones">{ui.explore}<Icon name="chevron" size={15} /></a></div>
+          <p class="commercial-hero-proof"><Icon name={p.official || isSence || isCompany ? 'shield' : 'laptop'} size={17} />{p.official ? ui.courseLabel : isSence ? ui.senceLabel : isCompany ? ui.proofLabel : ui.onlineLabel}</p>
+        </div>
+        <div class="commercial-hero-visual">
+          <img src={`/images/${p.image}`} width="1536" height="1024" alt={p.alt} fetchpriority="high" decoding="async" />
+          <div class="commercial-image-overlay"></div>
+          <div class="commercial-image-label"><span><Icon name={isSence || p.official ? 'certificate' : isCompany ? 'users' : p.sector === 'hoteleria' ? 'bell' : p.sector === 'restaurantes' ? 'utensils' : p.sector === 'turismo' ? 'compass' : 'globe'} size={27} /></span><div><small>ELEMENTAL STUDIOS</small><strong>{p.official ? ui.courseLabel : isCompany ? ui.proofLabel : ui.programLabel}</strong></div></div>
+        </div>
+      </div>
+      <div class="commercial-facts">{p.facts.map((fact, index) => <div><span class="commercial-fact-number">0{index + 1}</span><div><strong>{fact.value}</strong><p>{fact.label}</p></div></div>)}</div>
+    </div>
+  </section>
+
+  <section class="commercial-audience section-space" aria-labelledby="audience-title">
+    <div class="container commercial-audience-grid"><div><p class="eyebrow">{p.label}</p><h2 id="audience-title">{p.audience.title}</h2></div><div><p class="commercial-body-copy">{p.audience.text}</p><ul class="commercial-role-list">{p.audience.roles.map(role => <li><Icon name="checkCircle" size={16} />{role}</li>)}</ul></div></div>
+  </section>
+
+  <section class="commercial-applications section-space" id="aplicaciones" aria-labelledby="applications-title">
+    <div class="container"><div class="commercial-section-heading"><p class="eyebrow">{p.outcomes.eyebrow}</p><h2 id="applications-title">{p.outcomes.title}</h2></div><div class="commercial-application-grid">{p.outcomes.items.map((item, index) => <article class="commercial-application"><span class="commercial-step">0{index + 1}</span><h3>{item.title}</h3><p>{item.text}</p><div class="commercial-example"><Icon name="message" size={17} /><p>{item.example}</p></div></article>)}</div></div>
+  </section>
+
+  {p.official && <section class="commercial-record section-space" aria-labelledby="record-title"><div class="container commercial-record-grid"><div><p class="eyebrow">SENCE · 1238088865</p><h2 id="record-title">{ui.courseDetails}</h2><p class="commercial-body-copy">{ui.officialSource}</p><a class="commercial-source-link" href={officialRecord} target="_blank" rel="noopener noreferrer">{ui.readOfficial}<Icon name="external" size={16} /></a></div><dl class="commercial-record-data"><div><dt>{ui.code}</dt><dd>1238088865</dd></div><div><dt>{ui.hours}</dt><dd>{ui.officialHours}</dd></div><div><dt>{ui.modality}</dt><dd>{ui.officialModality}</dd></div><div><dt>{ui.validUntil}</dt><dd><time datetime="2029-11-27">{ui.officialValidUntil}</time></dd></div></dl></div></section>}
+
+  <section class="commercial-included section-space" aria-labelledby="included-title"><div class="container"><div class="commercial-section-heading"><p class="eyebrow">ELEMENTAL STUDIOS</p><h2 id="included-title">{ui.includes}</h2></div><div class="commercial-included-grid">{p.included.map((item, index) => <article><span class="commercial-included-icon"><Icon name={inclusionIcons[index]} size={25} /></span><h3>{item.title}</h3><p>{item.text}</p></article>)}</div>{p.note && <aside class="commercial-note"><span class="commercial-note-icon"><Icon name={isSence || p.official || isCompany ? 'shield' : 'book'} size={26} /></span><div><h3>{p.note.title}</h3><p>{p.note.text}</p>{(isSence || isCompany) && <a class="commercial-source-link" href={officialRecord} target="_blank" rel="noopener noreferrer">{ui.readOfficial}<Icon name="external" size={15} /></a>}{isSence && <a class="commercial-source-link" href={senceInfo} target="_blank" rel="noopener noreferrer">{ui.checkSence}<Icon name="external" size={15} /></a>}{slug === 'portugues-para-empresas' && <a class="commercial-source-link" href={localizedPath(locale, '/portugues-para-negocios')}>{ui.learnMore}<Icon name="arrow" size={15} /></a>}</div></aside>}</div></section>
+
+  {isCompany && <section class="commercial-company section-space" aria-labelledby="company-title"><div class="container commercial-record-grid"><div><p class="eyebrow">OTEC · CHILE</p><h2 id="company-title">{ui.companyDetails}</h2><a class="commercial-source-link" href={officialRecord} target="_blank" rel="noopener noreferrer">{ui.sourceLink}<Icon name="external" size={16} /></a></div><dl class="commercial-record-data"><div><dt>{ui.legalName}</dt><dd>Elemental Studios SpA</dd></div><div><dt>{ui.taxId}</dt><dd>77.616.179-9</dd></div><div><dt>{ui.address}</dt><dd>{ui.registeredAddress}</dd></div><div><dt>{ui.phone}</dt><dd><a href="tel:+56982414460">+56 9 8241 4460</a></dd></div></dl></div></section>}
+
+  <section class="commercial-faq section-space" aria-labelledby="commercial-faq-title"><div class="container commercial-faq-grid"><div><p class="eyebrow">{p.label}</p><h2 id="commercial-faq-title">{ui.faq}</h2></div><div class="faq-list">{p.faq.map(item => <details><summary>{item.question}<span><Icon name="plus" size={18} /></span></summary><p>{item.answer}</p></details>)}</div></div></section>
+
+  <section class="commercial-related section-space" aria-labelledby="related-title"><div class="container"><div class="commercial-section-heading"><p class="eyebrow">ELEMENTAL STUDIOS</p><h2 id="related-title">{ui.related}</h2></div><div class="commercial-related-grid">{p.related.map(relatedSlug => { const related = messages.pages[relatedSlug as keyof typeof messages.pages]; return <a class="commercial-related-card" href={localizedPath(locale, `/${relatedSlug}`)} data-track="view_program" data-program={relatedSlug}><div><img src={`/images/${related.image}`} width="720" height="480" alt="" loading="lazy" decoding="async" /></div><span>{related.label}<Icon name="arrow" size={19} /></span></a>; })}</div></div></section>
+
+  <section class="commercial-cta" aria-labelledby="commercial-cta-title"><div class="container commercial-cta-inner"><div><p class="eyebrow">ELEMENTAL STUDIOS</p><h2 id="commercial-cta-title">{p.cta.title}</h2><p>{p.cta.text}</p></div><a class="button button-gold" href={contact} data-track="request_proposal" data-program={slug}>{ui.request}<Icon name="arrow" size={19} /></a></div></section>
+</Layout>
