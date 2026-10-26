@@ -284,26 +284,6 @@ p {
   border: 1px solid var(--line);
   border-radius: 4px;
 }
-.mobile-nav {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  max-height: calc(100dvh - var(--header-height));
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  background: var(--panel);
-  padding: 12px 24px 22px;
-  border-top: 1px solid var(--line);
-  box-shadow: 0 15px 25px #0004;
-}
-.mobile-nav a {
-  display: flex;
-  justify-content: space-between;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--line);
-  font-size: 14px;
-}
 
 /* Hero */
 .hero {

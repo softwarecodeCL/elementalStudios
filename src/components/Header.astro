@@ -10,6 +10,8 @@ const g = getGrowthMessages(locale);
 const home = localizedPath(locale);
 const currentLanguage = localeInfo[locale as keyof typeof localeInfo];
 const neutral = /^\/404(?:\.html)?\/?$/.test(Astro.url.pathname) ? '/' : unlocalizedPath(Astro.url.pathname);
+const currentPage = localizedPath(locale, neutral);
+const isCurrent = (href: string) => !/^\/404/.test(Astro.url.pathname) && href === currentPage;
 const links = [[g.sence, localizedPath(locale, '/capacitacion-sence')], [g.about, localizedPath(locale, '/nosotros')], [t.nav.contact, home + '#contacto']];
 const programmeGroups = [
   { label: g.languages, links: [[g.english, 'ingles-para-empresas'], [g.portuguese, 'portugues-para-empresas'], [g.businessPortuguese, 'portugues-para-negocios']] },
@@ -43,17 +45,25 @@ const programmeGroups = [
         </nav>
       </details>
       <a class="button button-gold button-small header-cta" href={home + '#contacto'}>{t.nav.talk} <Icon name="arrow" size={17} /></a>
-      <button class="menu-toggle" type="button" aria-label={t.common.openMenu} data-open-label={t.common.openMenu} data-close-label={t.common.closeMenu} aria-expanded="false" aria-controls="mobile-nav"><Icon name="menu" /></button>
+      <button class="menu-toggle" type="button" aria-label={t.common.openMenu} data-open-label={t.common.openMenu} data-close-label={t.common.closeMenu} aria-expanded="false" aria-controls="mobile-nav"><span class="menu-toggle-glyph" aria-hidden="true"><span></span><span></span></span></button>
     </div>
   </div>
   <nav id="mobile-nav" class="mobile-nav" aria-label={t.common.mobileNavigation} hidden>
-    <a href={home}>{t.common.home}<Icon name="arrow" size={18} /></a>
-    <details class="mobile-programs"><summary>{g.programMenu}<Icon name="plus" size={18} /></summary>{programmeGroups.map(group => <div><span>{group.label}</span>{group.links.map(([label, slug]) => <a href={localizedPath(locale, slug)}>{label}<Icon name="arrow" size={15} /></a>)}</div>)}</details>
-    {links.map(([label, href]) => <a href={href}>{label} <Icon name="arrow" size={18} /></a>)}
-    <a href={localizedPath(locale, '/diagnostico-ingles-empresas')}>{g.corporateDiagnostic}<Icon name="arrow" size={18} /></a>
-    <a href={localizedPath(locale, '/diagnostico-toeic')}>{g.diagnostic}<Icon name="arrow" size={18} /></a>
-    <a href={localizedPath(locale, '/recursos')}>{g.resources}<Icon name="arrow" size={18} /></a>
-    <a href={site.moodle} target="_blank" rel="noopener noreferrer">{t.nav.moodle} <Icon name="external" size={18} /></a>
+    <div class="mobile-nav-caption"><span>{t.common.navigation}</span><span aria-hidden="true"></span></div>
+    <div class="mobile-nav-primary">
+      <a href={home} aria-current={isCurrent(home) ? 'page' : undefined}>{t.common.home}<Icon name="arrow" size={15} /></a>
+      <details class="mobile-programs" open={programmeGroups.some(group => group.links.some(([, slug]) => isCurrent(localizedPath(locale, slug))))}>
+        <summary>{t.nav.programs}<Icon name="chevron" size={14} /></summary>
+        <div class="mobile-programs-content">{programmeGroups.map(group => <div class="mobile-program-group"><span>{group.label}</span>{group.links.map(([label, slug]) => <a href={localizedPath(locale, slug)} aria-current={isCurrent(localizedPath(locale, slug)) ? 'page' : undefined}>{label}<Icon name="arrow" size={14} /></a>)}</div>)}</div>
+      </details>
+      {links.map(([label, href]) => <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>{label}<Icon name="arrow" size={15} /></a>)}
+    </div>
+    <div class="mobile-nav-tools">
+      <a class="mobile-team-link" href={localizedPath(locale, '/diagnostico-ingles-empresas')} aria-current={isCurrent(localizedPath(locale, '/diagnostico-ingles-empresas')) ? 'page' : undefined}><Icon name="users" size={19} /><span>{g.corporateDiagnostic}</span><Icon name="arrow" size={15} /></a>
+      <a href={localizedPath(locale, '/diagnostico-toeic')} aria-current={isCurrent(localizedPath(locale, '/diagnostico-toeic')) ? 'page' : undefined}><Icon name="target" size={17} /><span>{g.diagnostic}</span></a>
+      <a href={localizedPath(locale, '/recursos')} aria-current={isCurrent(localizedPath(locale, '/recursos')) ? 'page' : undefined}><Icon name="book" size={17} /><span>{g.resources}</span></a>
+    </div>
+    <a class="mobile-students" href={site.moodle} target="_blank" rel="noopener noreferrer"><span>{t.nav.students}</span><Icon name="external" size={15} /></a>
   </nav>
 </header>
 <script>
@@ -89,6 +99,10 @@ const programmeGroups = [
   document.addEventListener('pointerdown', event => {
     if (languageDropdown?.open && event.target instanceof Node && !languageDropdown.contains(event.target)) languageDropdown.open = false;
     if (programsDropdown?.open && event.target instanceof Node && !programsDropdown.contains(event.target)) programsDropdown.open = false;
+    if (toggle?.getAttribute('aria-expanded') === 'true' && event.target instanceof Node && !menu?.contains(event.target) && !toggle.contains(event.target)) closeMenu();
+  });
+  document.addEventListener('focusin', event => {
+    if (toggle?.getAttribute('aria-expanded') === 'true' && event.target instanceof Node && !menu?.contains(event.target) && !toggle.contains(event.target)) closeMenu();
   });
   languageDropdown?.addEventListener('focusout', () => {
     requestAnimationFrame(() => { if (!languageDropdown.contains(document.activeElement)) languageDropdown.open = false; });
