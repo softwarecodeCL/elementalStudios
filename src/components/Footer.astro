@@ -1,0 +1,36 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+import { getMessages, localizedPath } from '../i18n/index.js';
+interface Props { locale?: string; }
+const { locale = 'es' } = Astro.props;
+const t = getMessages(locale);
+const home = localizedPath(locale);
+---
+<footer class="site-footer">
+  <div class="container footer-main">
+    <div class="footer-brand"><a class="brand" href={home} aria-label={t.common.brandHome}><img src="/brand/logo.png" width="290" height="73" alt="Elemental Studios" loading="lazy" /></a><p>{t.footer.tagline}</p><div class="footer-sence"><img src="/brand/sence.png" width="1207" height="558" alt="SENCE — Servicio Nacional de Capacitación y Empleo" loading="lazy" decoding="async" /></div></div>
+    <div class="footer-column"><span>{t.footer.explore}</span><a href={home + '#programas'}>{t.footer.programs}</a><a href={localizedPath(locale, '/diagnostico-toeic')}>{t.footer.diagnostic}</a><a href={home + '#empresas'}>{t.footer.business}</a></div>
+    <div class="footer-column"><span>{t.footer.connect}</span><a href={site.whatsapp} target="_blank" rel="noopener noreferrer">{t.footer.whatsapp} <Icon name="external" size={14} /></a><a href={site.moodle} target="_blank" rel="noopener noreferrer">{t.footer.students} <Icon name="external" size={14} /></a><a href={localizedPath(locale, '/noticias/la-importancia-de-saber-ingles')}>{t.footer.resources}</a></div>
+  </div>
+  <div class="container footer-bottom"><p>© {new Date().getFullYear()} Elemental Studios. {t.footer.rights}</p><span>{t.footer.made} <Icon name="globe" size={15} /></span></div>
+</footer>
+<style>
+  .footer-sence {
+    width: 176px;
+    margin-top: 20px;
+    padding: 12px;
+    background: #fff;
+    border-radius: 5px;
+    flex-shrink: 0;
+  }
+  .footer-sence img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  @media (min-width: 541px) and (max-width: 800px) {
+    .footer-brand { flex-wrap: wrap; }
+    .footer-sence { margin-top: 0; }
+  }
+</style>

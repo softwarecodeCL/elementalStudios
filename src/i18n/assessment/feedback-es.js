@@ -1,0 +1,102 @@
+export default {
+  skills: {
+    wh: {
+      name: "Preguntas Wh- (who, when, where, why)",
+      tip: 'Identifica la palabra interrogativa en los primeros segundos: decide qué tipo de respuesta buscas (lugar, hora, razón) antes de oír las opciones. Descarta respuestas "Yes/No" ante preguntas Wh-.',
+    },
+    ind: {
+      name: "Ofertas, alternativas y preguntas de confirmación",
+      tip: 'Practica respuestas naturales a "Would you like…?", "…or…?" y "…, haven\'t you?". Desconfía de opciones que repiten palabras de la pregunta (book/book, call/call): suelen ser trampas.',
+    },
+    lmain: {
+      name: "Idea principal y propósito (audio)",
+      tip: "Lee las preguntas antes de que empiece el audio. La idea principal y el propósito suelen estar en las primeras dos frases; entrénate con podcasts cortos resumiendo en una línea lo que escuchaste.",
+    },
+    ldet: {
+      name: "Detalles específicos (audio)",
+      tip: "Anticipa qué dato buscas (hora, lugar, motivo) y escucha la paráfrasis, no la palabra exacta. Practica dictados cortos de mensajes de voz y anuncios con horarios y números.",
+    },
+    linf: {
+      name: "Inferencia e intención del hablante",
+      tip: 'Las preguntas "What does the man imply…?" o "What will she probably do next?" piden deducir. Presta atención al tono y a la última intervención, donde suele anunciarse la siguiente acción.',
+    },
+    tense: {
+      name: "Tiempos verbales y concordancia",
+      tip: "Repasa presente perfecto (since/for), condicionales tipo 1 (If + presente, will) y concordancia sujeto-verbo en tercera persona. Busca marcadores de tiempo en la oración antes de elegir.",
+    },
+    form: {
+      name: "Formas de palabras (sustantivo, adjetivo, adverbio)",
+      tip: 'Fíjate en la posición del espacio: tras "be/very" va adjetivo; modificando a un verbo va adverbio (-ly). Memoriza familias de palabras: efficient / efficiency / efficiently.',
+    },
+    prep: {
+      name: "Preposiciones",
+      tip: "Aprende combinaciones fijas del inglés de negocios: by (plazo límite), in advance, on + día, at + hora. Haz listas por categoría y repásalas con frases completas.",
+    },
+    conn: {
+      name: "Conectores y conjunciones",
+      tip: "Distingue conectores que van antes de una oración completa (although, while, because) de los que van antes de un sustantivo (despite, during, because of).",
+    },
+    pron: {
+      name: "Pronombres",
+      tip: "Revisa posesivos (his/their), objeto (him/them) y reflexivos (himself). Antes de un sustantivo siempre va un posesivo.",
+    },
+    voc: {
+      name: "Vocabulario de negocios y hotelería",
+      tip: "Amplía vocabulario de facturación, reservas y servicio: discount, refund, invoice, receipt, amenities. Estudia colocaciones (offer a discount, issue a refund).",
+    },
+    coh: {
+      name: "Cohesión de textos (Part 6)",
+      tip: "Para insertar oraciones, mira la frase anterior y la siguiente: la correcta continúa la idea con palabras de enlace (As a result, However, In addition).",
+    },
+    ctx: {
+      name: "Vocabulario en contexto",
+      tip: 'Ante "closest in meaning to", reemplaza la palabra por cada opción y relee la frase completa. El significado más común de la palabra no siempre es el correcto.',
+    },
+    rdet: {
+      name: "Comprensión de detalles (Part 7)",
+      tip: 'Lee primero las preguntas y luego escanea el texto buscando la información. Ojo con preguntas "NOT": verifica cada opción contra el texto.',
+    },
+    rinf: {
+      name: "Inferencia y propósito (Part 7)",
+      tip: '"What is indicated / suggested" y "Why was the email written" exigen leer entre líneas. Practica resumiendo el propósito de correos reales en una frase.',
+    },
+  },
+  explanations: [
+    '"Where" pide un lugar: "on the third floor". La C usa "sell", que suena parecido a "sales".',
+    '"When" pide un momento: "around five this afternoon". La A responde "where".',
+    'Ante una oferta ("Would you like me to…?") se acepta o rechaza. B y C repiten palabras de la pregunta como trampa.',
+    '"Why" pide una razón: el informe sigue en revisión. "Yes" no responde a una pregunta Wh-.',
+    'La pregunta de confirmación busca validar la antigüedad: "About eight years now".',
+    'Una pregunta de alternativa ("…or…?") se responde eligiendo una opción, no con "Yes".',
+    '"Welcome to the Andes Grand Hotel" y la reserva indican la recepción de un hotel.',
+    '"I\'d like to extend my stay until Sunday."',
+    '"My company is covering the cost anyway": el cargo extra no le preocupa.',
+    "El taller coincide con la visita de inspectores: es un conflicto de horario.",
+    '"…that\'s when the inspectors from the tourism board are visiting."',
+    '"I\'ll email the instructor": la última intervención anuncia la siguiente acción.',
+    "Llama para avisar que la salida cambió de 7 a 10 a.m.",
+    '"Due to strong winds forecast": la causa es el clima.',
+    '"Please call us back before six p.m. today."',
+    'Sujeto singular + hábito ("every day") = presente simple con -s: assists.',
+    '"Since 2019" exige presente perfecto: has worked.',
+    'Después de "extremely" (adverbio) y "is" se necesita un adjetivo: efficient.',
+    '"By" marca un plazo límite. "Until" indica una acción que continúa hasta ese momento.',
+    'Contraste + oración completa = Although. "Despite" va seguido de sustantivo.',
+    '"While (they are) on hotel premises": while introduce una situación simultánea. "During" va con sustantivo.',
+    'Modifica al verbo "complete": se necesita adverbio, carefully.',
+    "Condicional tipo 1: If + presente, will + verbo.",
+    'Antes del sustantivo "team" va el posesivo his.',
+    '"Enjoy a breakfast" es la colocación natural. "Attend" se usa con eventos, "afford" con costos.',
+    '"Offer a discount" = descuento. Refund = reembolso; receipt = recibo; invoice = factura.',
+    '"Starting next Monday" habla del futuro: will receive.',
+    '"In advance" (con anticipación) es una expresión fija.',
+    'Es la única oración que continúa la idea del nuevo sistema: su consecuencia ("As a result").',
+    "Pedir que avisen a RR.HH. si no pueden asistir indica que la asistencia es obligatoria: mandatory.",
+    '"For the summer season (December to March)": es un puesto temporal.',
+    'Opera PMS "is a plus": es deseable, no obligatorio.',
+    '"An interview that includes a short role-play in English."',
+    "Responde a los comentarios negativos del huésped sobre el aire acondicionado.",
+    '"We have since added a second technician to the night shift."',
+    'En hotelería, "complimentary" significa gratuito/cortesía de la casa.',
+  ],
+};

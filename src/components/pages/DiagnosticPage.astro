@@ -1,0 +1,35 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../Icon.astro';
+import { getMessages, formatText } from '../../i18n/index.js';
+import '../../styles/diagnostic.css';
+interface Props { locale?: string; }
+const { locale = 'es' } = Astro.props;
+const d = getMessages(locale).diagnostic;
+---
+<Layout locale={locale} title={d.metaTitle} description={d.metaDescription}>
+  <diagnostic-app class="diagnostic-shell" data-locale={locale}>
+    <div class="container">
+      <div data-diagnostic-intro>
+        <header class="diagnostic-intro-header"><div><p class="eyebrow">{d.eyebrow}</p><h1>{d.title}<br /><span class="text-gold">{d.accent}</span></h1><p class="diagnostic-lead">{d.intro}</p><div class="diagnostic-facts"><span><Icon name="clock" size={17} />{d.minutes}</span><span><Icon name="book" size={17} />{d.questionCount}</span><span><Icon name="chart" size={17} />{d.sections}</span></div></div><span class="diagnostic-free"><span></span>{d.free}</span></header>
+        <div class="diagnostic-intro-layout">
+          <div class="diagnostic-guide">
+            <h2>{d.stepsTitle}</h2>
+            <div class="diagnostic-instruction-grid">{d.steps.map((step,index) => <article><span class="diagnostic-step-number">0{index + 1}</span><h3>{step.title}</h3><p>{step.text}</p></article>)}</div>
+            <section class="diagnostic-outline"><h2>{d.outlineTitle}</h2><p>{d.outlineIntro}</p><div class="diagnostic-outline-sections"><div><span class="diagnostic-section-label">Listening</span><strong>{formatText(d.countLabel, { count: 15 })}</strong><p>{d.listeningDesc}</p><div class="diagnostic-part-pills">{[2,3,4].map(part => <span>{formatText(d.partLabel, { part })}</span>)}</div></div><div><span class="diagnostic-section-label">Reading</span><strong>{formatText(d.countLabel, { count: 21 })}</strong><p>{d.readingDesc}</p><div class="diagnostic-part-pills">{[5,6,7].map(part => <span>{formatText(d.partLabel, { part })}</span>)}</div></div></div></section>
+            <section class="diagnostic-rules"><h2>{d.rulesTitle}</h2><ul>{d.rules.map(rule => <li><Icon name="checkCircle" size={18} /><span>{rule}</span></li>)}</ul><p>{d.scope}</p></section>
+          </div>
+          <aside class="diagnostic-setup">
+            <div class="diagnostic-sound"><span class="diagnostic-sound-icon"><Icon name="play" size={23} /></span><h2>{d.soundTitle}</h2><p>{d.soundIntro}</p><button class="button diagnostic-button-outline" type="button" data-check-sound><Icon name="play" size={15} />{d.soundButton}</button><p data-sound-status role="status"></p></div>
+            <form data-diagnostic-start class="diagnostic-start-form"><h2>{d.setupTitle}</h2><label>{d.name}<input name="participant" autocomplete="given-name" maxlength="80" placeholder={d.namePlaceholder} /></label><label>{d.target}<select name="target"><option value="0">{d.targetUnknown}</option>{[450,550,650,750,850].map(score => <option value={score}>{formatText(d.targetPoints, { score })}</option>)}</select></label><label class="diagnostic-ready"><input type="checkbox" name="ready" required /><span>{d.ready}</span></label><button class="button button-gold" type="submit">{d.start}<Icon name="arrow" size={19} /></button><div data-saved-attempt hidden><p>{d.resumeHint}</p><button class="button diagnostic-button-outline" type="button" data-resume>{d.resume}</button></div><p class="diagnostic-local-note"><Icon name="shield" size={17} /><span>{d.localNote}</span></p></form>
+          </aside>
+        </div>
+        <p class="diagnostic-disclaimer">{d.notice}</p>
+      </div>
+      <div data-diagnostic-outlet hidden></div>
+      <p class="diagnostic-save-error" role="status" data-save-error hidden>{d.saveError}</p>
+      <noscript><p class="diagnostic-disclaimer">JavaScript · {d.start}</p></noscript>
+    </div>
+  </diagnostic-app>
+  <script>import '../../diagnostic/controller';</script>
+</Layout>

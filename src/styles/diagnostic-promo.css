@@ -1,0 +1,142 @@
+.diagnostic-promo {
+  background: linear-gradient(115deg, #102b40, #071c2e);
+  border-block: 1px solid var(--line);
+}
+.diagnostic-promo-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.85fr);
+  align-items: center;
+  gap: 100px;
+}
+.diagnostic-promo .section-description {
+  max-width: 535px;
+  font-size: 14px;
+  margin-top: 23px;
+}
+.diagnostic-promo .button {
+  margin-top: 28px;
+  font-size: 12px;
+}
+.diagnostic-promo-note {
+  font-size: 10px;
+  color: #9bb2c4;
+  line-height: 1.8;
+  margin-top: 18px;
+  max-width: 460px;
+}
+.diagnostic-preview {
+  display: block;
+  padding: 28px;
+  background: linear-gradient(135deg, #15364f, #0a2438);
+  border: 1px solid #3b6480;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px #0003;
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
+}
+.diagnostic-preview:hover {
+  border-color: var(--gold);
+  transform: translateY(-3px);
+}
+.diagnostic-preview-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.diagnostic-preview-top .eyebrow {
+  margin-bottom: 0;
+  font-size: 8px;
+}
+.diagnostic-preview-top > svg {
+  color: var(--gold);
+}
+.diagnostic-preview-count {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-block: 20px 23px;
+}
+.diagnostic-preview-count > strong {
+  font: 750 93px/1.2 var(--heading);
+  color: #f7c778;
+  letter-spacing: -0.065em;
+}
+.diagnostic-preview-count > span {
+  font-size: 15px;
+  line-height: 1.9;
+  color: #d7e6ef;
+}
+.diagnostic-preview-count small {
+  font-size: 12px;
+  color: #9bb5c9;
+}
+.diagnostic-preview-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-top: 1px solid #ffffff20;
+  font-size: 14px;
+}
+.diagnostic-preview-row > span:first-child {
+  font-size: 9px;
+  color: #91abc0;
+}
+.diagnostic-preview-row > span:last-child {
+  color: var(--gold);
+  margin-left: auto;
+}
+.diagnostic-preview-row strong {
+  font-weight: 500;
+}
+.diagnostic-preview-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding-top: 22px;
+  color: #bacfde;
+  font-size: 11px;
+}
+.diagnostic-preview-bottom > span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.diagnostic-preview-bottom svg {
+  color: var(--gold);
+}
+@media (max-width: 1100px) {
+  .diagnostic-promo-layout {
+    gap: 55px;
+  }
+}
+@media (max-width: 800px) {
+  .diagnostic-promo-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .diagnostic-preview {
+    max-width: 450px;
+    width: 100%;
+  }
+}
+@media (max-width: 540px) {
+  .diagnostic-promo h2 {
+    font-size: 31px;
+  }
+  .diagnostic-promo .section-description {
+    font-size: 13px;
+  }
+  .diagnostic-preview {
+    padding: 24px;
+  }
+  .diagnostic-preview-count > strong {
+    font-size: 81px;
+  }
+  .diagnostic-promo .button {
+    white-space: normal;
+  }
+}

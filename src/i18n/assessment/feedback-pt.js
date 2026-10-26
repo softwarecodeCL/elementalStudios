@@ -1,0 +1,102 @@
+export default {
+  skills: {
+    wh: {
+      name: "Perguntas com Wh-",
+      tip: "Identifique primeiro a palavra interrogativa. Decida se precisa de lugar, horário, pessoa ou motivo antes de avaliar as respostas.",
+    },
+    ind: {
+      name: "Ofertas, alternativas e confirmação",
+      tip: "Pratique respostas naturais a ofertas, perguntas com alternativas e confirmações. Repetir palavras não torna uma resposta correta.",
+    },
+    lmain: {
+      name: "Ideia principal e objetivo do áudio",
+      tip: "Leia primeiro as perguntas. Depois de ouvir, resuma quem está falando e por que a conversa acontece.",
+    },
+    ldet: {
+      name: "Detalhes específicos no áudio",
+      tip: "Antecipe o dado necessário e ouça as paráfrases. Pratique horários, lugares e motivos em mensagens curtas.",
+    },
+    linf: {
+      name: "Inferência e intenção de quem fala",
+      tip: "Use o contexto e a última fala para deduzir a próxima ação ou intenção, sem depender de uma palavra conhecida.",
+    },
+    tense: {
+      name: "Tempos verbais e concordância",
+      tip: "Revise concordância, presente perfeito com since/for e condicionais do tipo 1. Procure marcadores de tempo.",
+    },
+    form: {
+      name: "Formação de palavras",
+      tip: "Verifique se a lacuna exige substantivo, adjetivo ou advérbio. Estude famílias como efficient, efficiency e efficiently.",
+    },
+    prep: {
+      name: "Preposições",
+      tip: "Pratique expressões fixas como in advance e by Friday em frases completas do ambiente de trabalho.",
+    },
+    conn: {
+      name: "Conectores e conjunções",
+      tip: "Distinga conectores seguidos de oração dos seguidos de expressão nominal: although e despite, por exemplo.",
+    },
+    pron: {
+      name: "Pronomes",
+      tip: "Revise possessivos, pronomes objeto e reflexivos. Identifique a função da palavra que falta na frase.",
+    },
+    voc: {
+      name: "Vocabulário de negócios e hotelaria",
+      tip: "Amplie o vocabulário de reservas, cobrança e atendimento. Pratique combinações como offer a discount e issue a refund.",
+    },
+    coh: {
+      name: "Coesão textual",
+      tip: "Ao inserir uma frase, leia o trecho anterior e o seguinte e confira a conexão lógica.",
+    },
+    ctx: {
+      name: "Vocabulário em contexto",
+      tip: "Substitua cada alternativa na frase original e confira seu significado naquele contexto específico.",
+    },
+    rdet: {
+      name: "Compreensão de detalhes na leitura",
+      tip: "Leia a pergunta e localize a informação que a sustenta. Em perguntas com NOT, verifique todas as alternativas.",
+    },
+    rinf: {
+      name: "Inferência e propósito na leitura",
+      tip: "Identifique por que o documento foi escrito e diferencie informação explícita do que o contexto sugere.",
+    },
+  },
+  explanations: [
+    "'Where' pede um lugar: 'on the third floor, next to the elevators'.",
+    "'When' pede um horário: 'around five this afternoon'.",
+    "'Would you like me to…?' é uma oferta. 'That would be great, thanks' a aceita.",
+    "O relatório ainda não foi enviado porque o Sr. Lee continua revisando-o.",
+    "'About eight years now' confirma há quanto tempo a pessoa trabalha no hotel.",
+    "Uma pergunta de alternativa exige uma escolha: sábado é melhor para a maioria.",
+    "A recepção ao Andes Grand Hotel e a reserva situam a conversa na recepção de um hotel.",
+    "O hóspede diz: 'I'd like to extend my stay until Sunday'.",
+    "A empresa pagará a despesa; ele indica que o valor adicional não é um problema.",
+    "O workshop e a inspeção estão marcados para o mesmo horário: um conflito na agenda.",
+    "Os inspetores do órgão de turismo visitarão o local na segunda-feira.",
+    "A mulher diz que enviará um e-mail ao instrutor sobre a nova data.",
+    "A ligação informa uma mudança no horário de saída.",
+    "A previsão de ventos fortes pela manhã provocou a mudança.",
+    "Ele deve retornar a ligação antes das 18h se o novo horário não for adequado.",
+    "O sujeito singular 'the concierge' exige 'assists' no presente simples.",
+    "'Since 2019' liga o passado ao presente: 'has worked'.",
+    "A frase exige um adjetivo após 'extremely': 'efficient'.",
+    "'By Friday at 5 p.m.' estabelece um prazo. 'Until' indica continuidade até um momento.",
+    "'Although' introduz uma oração completa de contraste. 'Despite' normalmente antecede uma expressão nominal.",
+    "'While on hotel premises' é uma forma reduzida de 'while they are on hotel premises'.",
+    "'Carefully' é o advérbio que modifica 'complete'.",
+    "O primeiro condicional usa presente simples após 'if': 'If the conference room is available'.",
+    "É necessário um possessivo antes de 'team': 'his team'.",
+    "'Enjoy a complimentary breakfast' é uma combinação natural neste contexto.",
+    "O hotel oferece um 'discount': uma redução no preço.",
+    "'Starting next Monday' indica uma ação futura: 'will receive'.",
+    "'In advance' é a expressão fixa para fazer algo com antecedência.",
+    "'As a result…' liga o novo sistema ao efeito esperado no tempo de espera.",
+    "Os funcionários devem avisar ao RH se não puderem comparecer; a presença é 'mandatory'.",
+    "A vaga é para a temporada de verão, de dezembro a março, portanto é temporária.",
+    "Experiência com Opera PMS 'is a plus': é desejável, não obrigatória.",
+    "A entrevista inclui uma breve simulação em inglês.",
+    "O e-mail responde a uma reclamação sobre o ar-condicionado e a resposta da manutenção.",
+    "O hotel adicionou um segundo técnico ao turno da noite.",
+    "Neste contexto de hotelaria, 'complimentary' significa gratuito, cortesia.",
+  ],
+};

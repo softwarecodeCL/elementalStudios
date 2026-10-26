@@ -1,0 +1,7 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import { getMessages } from '../i18n/index.js';
+const t = getMessages('es').notFound;
+---
+<Layout title={`${t.title} | Elemental Studios`} noindex><section class="container not-found"><h1>404</h1><h2>{t.heading}</h2><p>{t.description}</p><a class="button button-gold" href="/">{t.cta}<Icon name="arrow" size={19} /></a></section></Layout>

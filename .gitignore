@@ -8,6 +8,10 @@
 
 # Node
 /node_modules
+/.astro
+/.cache
+/.playwright-mcp
+/.sites-runtime
 npm-debug.log
 yarn-error.log
 

@@ -1,0 +1,143 @@
+.locale-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  background: #10283b;
+  border: 1px solid #2e4b60;
+  border-radius: 5px;
+}
+.locale-switch a {
+  display: grid;
+  place-items: center;
+  min-width: 27px;
+  min-height: 26px;
+  padding: 4px 6px;
+  font-size: 9px;
+  font-weight: 650;
+  color: #b4c8d7;
+  border-radius: 3px;
+}
+.locale-switch a[aria-current="page"] {
+  background: var(--gold);
+  color: #0b2232;
+}
+.locale-switch a:hover {
+  color: white;
+  background: #23415a;
+}
+.locale-switch a[aria-current="page"]:hover {
+  background: #ffd17c;
+  color: #0b2232;
+}
+.header-actions {
+  gap: 17px;
+}
+.desktop-nav {
+  gap: 23px;
+}
+.desktop-nav a {
+  white-space: nowrap;
+}
+.header-inner {
+  gap: 20px;
+}
+.header-cta {
+  padding-inline: 13px;
+}
+.hero-detail p {
+  max-width: 170px;
+}
+.programs-heading-right {
+  max-width: 350px;
+}
+.faq-layout > * {
+  min-width: 0;
+}
+.programs-heading-right > p {
+  margin-bottom: 3px;
+}
+.business-banner h3 {
+  max-width: 550px;
+}
+.contact-intro h2 {
+  max-width: 420px;
+  overflow-wrap: break-word;
+}
+.footer-brand p {
+  max-width: 240px;
+}
+@media (min-width: 801px) {
+  html[lang="pt-BR"] .hero h1 {
+    font-size: clamp(52px, 4.7vw, 72px);
+  }
+}
+@media (max-width: 1199px) {
+  .desktop-nav {
+    display: none;
+  }
+  .menu-toggle {
+    display: grid;
+    place-items: center;
+  }
+}
+@media (max-width: 800px) {
+  .programs-heading-right {
+    max-width: 240px;
+  }
+}
+@media (max-width: 540px) {
+  .header-inner {
+    gap: 10px;
+  }
+  .header-actions {
+    gap: 10px;
+  }
+  .student-link {
+    display: none;
+  }
+  .locale-switch a {
+    min-width: 25px;
+    padding: 3px 5px;
+    min-height: 25px;
+    font-size: 8px;
+  }
+  .programs-heading-right {
+    max-width: none;
+  }
+  .programs-heading-right > p {
+    max-width: 330px;
+    font-size: 12px;
+  }
+  .contact-intro h2 {
+    font-size: 36px;
+  }
+  .footer-brand p {
+    text-align: left;
+  }
+  html[lang="pt-BR"] .hero h1 {
+    font-size: clamp(37px, 10vw, 51px);
+  }
+  html[lang="pt-BR"] .hero .eyebrow {
+    font-size: 6px;
+  }
+  .form-grid input,
+  .form-grid select,
+  .form-grid textarea {
+    font-size: 16px;
+  }
+  .form-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .form-wide {
+    grid-column: auto;
+  }
+}
+@media (max-width: 360px) {
+  .brand img {
+    width: 128px;
+  }
+  .header-actions {
+    gap: 8px;
+  }
+}

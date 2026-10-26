@@ -1,0 +1,43 @@
+---
+import '@fontsource-variable/manrope';
+import '@fontsource-variable/dm-sans';
+import '../styles/global.css';
+import '../styles/navigation.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getLocale, getMessages, localeInfo, locales, localizedPath, unlocalizedPath } from '../i18n/index.js';
+interface Props { title?: string; description?: string; image?: string; noindex?: boolean; locale?: string; }
+const locale = Astro.props.locale || getLocale(Astro.url.pathname);
+const t = getMessages(locale);
+const info = localeInfo[locale as keyof typeof localeInfo];
+const { title = t.meta.title, description = t.meta.description, image = '/images/social-cover.webp', noindex = false } = Astro.props;
+const neutralPath = unlocalizedPath(Astro.url.pathname);
+const canonical = new URL(localizedPath(locale, neutralPath), Astro.site);
+const structuredData = { '@context': 'https://schema.org', '@type': 'EducationalOrganization', name: 'Elemental Studios', url: new URL(localizedPath(locale), Astro.site).href, logo: new URL('/brand/symbol.png', Astro.site).href, description, inLanguage: info.html };
+---
+<!doctype html>
+<html lang={info.html}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#061727" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <link rel="canonical" href={canonical} />
+    {!noindex && locales.map(lang => <link rel="alternate" hreflang={localeInfo[lang as keyof typeof localeInfo].html} href={new URL(localizedPath(lang, neutralPath), Astro.site)} />)}
+    {!noindex && <link rel="alternate" hreflang="x-default" href={new URL(localizedPath('es', neutralPath), Astro.site)} />}
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <meta property="og:locale" content={info.og} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Elemental Studios" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <slot name="head" />
+  </head>
+  <body><Header locale={locale} /><main id="contenido"><slot /></main><Footer locale={locale} /></body>
+</html>

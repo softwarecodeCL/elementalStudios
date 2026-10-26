@@ -1,0 +1,102 @@
+export default {
+  skills: {
+    wh: {
+      name: "Wh- questions",
+      tip: "Identify the question word first. Decide whether you need a place, time, person or reason before considering the responses.",
+    },
+    ind: {
+      name: "Offers, alternatives and confirmation",
+      tip: "Practise natural responses to offers, either/or questions and question tags. Repeated words alone do not make an answer correct.",
+    },
+    lmain: {
+      name: "Main idea and purpose in audio",
+      tip: "Read the questions first. After listening, summarise who is speaking and why the exchange is taking place.",
+    },
+    ldet: {
+      name: "Specific details in audio",
+      tip: "Anticipate the detail you need and listen for paraphrases. Practise identifying times, places and reasons in short messages.",
+    },
+    linf: {
+      name: "Inference and speaker intention",
+      tip: "Use the context and the final turn to infer the speaker's next action or intention, rather than relying on one familiar word.",
+    },
+    tense: {
+      name: "Verb tenses and agreement",
+      tip: "Review subject–verb agreement, present perfect with since/for and first conditionals. Look for time markers before choosing.",
+    },
+    form: {
+      name: "Word forms",
+      tip: "Check whether the gap needs a noun, adjective or adverb. Study word families such as efficient, efficiency and efficiently.",
+    },
+    prep: {
+      name: "Prepositions",
+      tip: "Practise fixed expressions such as in advance and by Friday, using complete workplace sentences.",
+    },
+    conn: {
+      name: "Connectors and conjunctions",
+      tip: "Distinguish connectors followed by a clause from those followed by a noun phrase: although versus despite, for example.",
+    },
+    pron: {
+      name: "Pronouns",
+      tip: "Review possessive, object and reflexive pronouns. Identify the role of the missing word in the sentence.",
+    },
+    voc: {
+      name: "Business and hospitality vocabulary",
+      tip: "Build vocabulary for reservations, billing and service. Practise combinations such as offer a discount and issue a refund.",
+    },
+    coh: {
+      name: "Text cohesion",
+      tip: "For sentence insertion, read both the preceding and following sentences and check the logical connection.",
+    },
+    ctx: {
+      name: "Vocabulary in context",
+      tip: "Substitute each option into the original sentence and check the meaning in that specific context.",
+    },
+    rdet: {
+      name: "Reading for details",
+      tip: "Read the question, then locate supporting information in the text. With NOT questions, verify every option.",
+    },
+    rinf: {
+      name: "Reading inference and purpose",
+      tip: "Identify why the document was written and distinguish explicitly stated information from what the context suggests.",
+    },
+  },
+  explanations: [
+    "'Where' asks for a place: 'on the third floor, next to the elevators'.",
+    "'When' asks for a time: 'around five this afternoon'.",
+    "'Would you like me to…?' is an offer. 'That would be great, thanks' accepts it.",
+    "The report has not been sent because Mr. Lee is still reviewing it.",
+    "'About eight years now' confirms how long the person has worked at the hotel.",
+    "An alternative question needs a choice: Saturday works better for most people.",
+    "The welcome to the Andes Grand Hotel and the reservation place the speakers at a hotel front desk.",
+    "The guest says, 'I'd like to extend my stay until Sunday'.",
+    "His company is covering the cost, so he indicates that the extra charge is not a problem.",
+    "The workshop and the inspection are scheduled at the same time: a scheduling conflict.",
+    "The inspectors from the tourism board are visiting on Monday.",
+    "The woman says she will email the instructor about the new date.",
+    "The caller announces that the departure time has changed.",
+    "Strong winds forecast for the morning caused the change.",
+    "He should call back before six p.m. if the new time is unsuitable.",
+    "The singular subject 'the concierge' takes 'assists' in the present simple.",
+    "'Since 2019' connects the past with the present: 'has worked'.",
+    "The sentence needs an adjective after 'extremely': 'efficient'.",
+    "'By Friday at 5 p.m.' sets a deadline. 'Until' describes continuation up to a time.",
+    "'Although' introduces a contrasting complete clause. 'Despite' normally takes a noun phrase.",
+    "'While on hotel premises' is a reduced form of 'while they are on hotel premises'.",
+    "'Carefully' is an adverb modifying 'complete'.",
+    "The first conditional uses the present simple after 'if': 'If the conference room is available'.",
+    "A possessive is needed before 'team': 'his team'.",
+    "'Enjoy a complimentary breakfast' is a natural expression in this context.",
+    "The hotel offers a 'discount', a reduction in the price.",
+    "'Starting next Monday' indicates a future action: 'will receive'.",
+    "'In advance' is the fixed expression for doing something beforehand.",
+    "'As a result…' connects the new system with its expected effect on waiting times.",
+    "Staff must contact HR if they cannot attend, so attendance is 'mandatory'.",
+    "The position is for the summer season, from December to March, so it is temporary.",
+    "Opera PMS experience 'is a plus': desirable, rather than required.",
+    "The interview includes a short role-play in English.",
+    "The email responds to a complaint about air conditioning and the maintenance response.",
+    "The hotel has added a second technician to the night shift.",
+    "In this hospitality context, 'complimentary' means free of charge.",
+  ],
+};

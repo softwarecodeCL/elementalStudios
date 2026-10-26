@@ -1,0 +1,74 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+import { getMessages } from '../i18n/index.js';
+interface Props { locale?: string; }
+const { locale = 'es' } = Astro.props;
+const t = getMessages(locale);
+const c = t.contact;
+const sectorIds = ['hoteleria', 'turismo', 'restaurantes'];
+---
+<section class="contact-section section-space" id="contacto" aria-labelledby="contact-title">
+  <div class="container contact-layout">
+    <div class="contact-intro">
+      <p class="eyebrow">{c.eyebrow}</p>
+      <h2 id="contact-title">{c.title}<br /><span class="text-gold">{c.accent}</span></h2>
+      <p>{c.intro}</p>
+      <a class="text-link" href={site.whatsapp} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={22} />{c.direct}<Icon name="arrow" size={18} /></a>
+      <div class="contact-note"><Icon name="shield" size={23} /><span>{c.note}</span></div>
+    </div>
+    <form id="contact-form" class="contact-form" data-phone={site.whatsappNumber} data-locale={locale}>
+      <div class="form-heading"><span class="form-heading-icon"><Icon name="message" size={23} /></span><div><h3>{c.formTitle}</h3><p>{c.formIntro}</p></div></div>
+      <div class="form-grid">
+        <label>{c.name}<span aria-hidden="true"> *</span><input name="name" autocomplete="name" placeholder={c.namePlaceholder} required maxlength="100" /></label>
+        <label>{c.company}<span aria-hidden="true"> *</span><input name="company" autocomplete="organization" placeholder={c.companyPlaceholder} required maxlength="120" /></label>
+        <label class="form-wide">{c.email}<span aria-hidden="true"> *</span><input type="email" name="email" autocomplete="email" placeholder={c.emailPlaceholder} required maxlength="160" /></label>
+        <label>{c.sector}<span aria-hidden="true"> *</span><select name="sector" id="contact-sector" required><option value="" disabled selected>{c.selectSector}</option>{sectorIds.map((id,index) => <option value={id}>{t.programs.sectors[index].name}</option>)}<option value="otra-empresa">{c.otherSector}</option></select></label>
+        <label>{c.language}<span aria-hidden="true"> *</span><select name="language" id="contact-language" required><option value="" disabled selected>{c.selectLanguage}</option><option value="ingles">{c.english}</option><option value="portugues">{c.portuguese}</option><option value="ambos">{c.both}</option></select></label>
+        <label class="form-wide">{c.needs}<span class="optional">{t.common.optional}</span><textarea name="message" rows="3" maxlength="1200" placeholder={c.messagePlaceholder}></textarea></label>
+      </div>
+      <button class="button button-gold form-submit" type="submit"><Icon name="whatsapp" size={20} />{c.submit}<Icon name="arrow" size={19} /></button>
+      <p class="form-help">{c.help}</p>
+      <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+      <noscript><p><a href={site.whatsapp}>{c.noJs}</a></p></noscript>
+    </form>
+  </div>
+</section>
+<script>
+  import { getMessages } from '../i18n/index.js';
+  const form = document.querySelector<HTMLFormElement>('#contact-form');
+  const status = document.querySelector<HTMLElement>('#form-status');
+  const c = getMessages(form?.dataset.locale).contact;
+  form?.addEventListener('submit', event => {
+    event.preventDefault();
+    if (!form.reportValidity()) return;
+    const data = new FormData(form);
+    const sector = form.querySelector<HTMLSelectElement>('[name="sector"]')?.selectedOptions[0]?.textContent;
+    const language = form.querySelector<HTMLSelectElement>('[name="language"]')?.selectedOptions[0]?.textContent;
+    const labels = c.messageLabels;
+    const message = [c.whatsappIntro,
+      labels.name + ': ' + String(data.get('name')).trim(),
+      labels.company + ': ' + String(data.get('company')).trim(),
+      labels.email + ': ' + String(data.get('email')).trim(),
+      labels.sector + ': ' + sector,
+      labels.language + ': ' + language,
+      data.get('message') ? labels.needs + ': ' + String(data.get('message')).trim() : '',
+    ].filter(Boolean).join('\n');
+    const url = 'https://wa.me/' + form.dataset.phone + '?text=' + encodeURIComponent(message);
+    window.open(url, '_blank', 'noopener,noreferrer');
+    if (status) {
+      status.replaceChildren(document.createTextNode(c.status));
+      const fallback = document.createElement('a');
+      fallback.href = url; fallback.target = '_blank'; fallback.rel = 'noopener noreferrer';
+      fallback.textContent = c.fallback; status.append(fallback);
+    }
+  });
+  document.querySelectorAll<HTMLAnchorElement>('[data-sector]').forEach(link => {
+    link.addEventListener('click', () => {
+      const sector = document.querySelector<HTMLSelectElement>('#contact-sector');
+      const language = document.querySelector<HTMLSelectElement>('#contact-language');
+      if (sector) sector.value = link.dataset.sector || '';
+      if (language) language.value = 'ambos';
+    });
+  });
+</script>

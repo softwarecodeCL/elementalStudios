@@ -1,0 +1,12 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../Icon.astro';
+import { getMessages, localizedPath } from '../../i18n/index.js';
+interface Props { locale?: string; slug: string; }
+const { locale = 'es', slug } = Astro.props;
+const article = getMessages(locale).articles.find(item => item.slug === slug);
+if (!article) throw new Error(`Unknown article: ${slug}`);
+---
+<Layout locale={locale} title={`${article.title} | Elemental Studios`} description={article.description} image={`/images/${article.image}.webp`}>
+  <article class="article-page"><a class="article-back" href={localizedPath(locale)}><Icon name="arrow" class="rotate" size={17} />{article.back}</a><p class="eyebrow">{article.eyebrow}</p><h1>{article.title}</h1><p class="article-lead">{article.lead}</p><img class="article-cover" src={`/images/${article.image}.webp`} width="1000" height="600" alt={article.alt} />{article.sections.map(section => <section><h2>{section.title}</h2>{section.paragraphs.map(paragraph => <p>{paragraph}</p>)}</section>)}<div class="article-cta"><a class="text-link" href={localizedPath(locale) + '#contacto'}>{article.cta}<Icon name="arrow" size={18} /></a></div></article>
+</Layout>

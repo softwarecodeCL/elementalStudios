@@ -1,0 +1,46 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+import { getMessages, locales, localeInfo, localizedPath, unlocalizedPath } from '../i18n/index.js';
+interface Props { locale?: string; }
+const { locale = 'es' } = Astro.props;
+const t = getMessages(locale);
+const home = localizedPath(locale);
+const neutral = /^\/404(?:\.html)?\/?$/.test(Astro.url.pathname) ? '/' : unlocalizedPath(Astro.url.pathname);
+const links = [[t.nav.programs, home + '#programas'], [t.nav.diagnostic, localizedPath(locale, '/diagnostico-toeic')], [t.nav.business, home + '#empresas'], [t.nav.contact, home + '#contacto']];
+---
+<a class="skip-link" href="#contenido">{t.common.skip}</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href={home} aria-label={t.common.brandHome}><img src="/brand/logo.png" width="290" height="73" alt="Elemental Studios" fetchpriority="high" /></a>
+    <nav class="desktop-nav" aria-label={t.common.navigation}>{links.map(([label, href]) => <a href={href}>{label}</a>)}</nav>
+    <div class="header-actions">
+      <a class="student-link" href={site.moodle} target="_blank" rel="noopener noreferrer">{t.nav.students} <Icon name="external" size={14} /></a>
+      <nav class="locale-switch" aria-label={t.common.language}>{locales.map(lang => { const info = localeInfo[lang as keyof typeof localeInfo]; return <a href={localizedPath(lang, neutral)} lang={info.html} hreflang={info.html} aria-label={info.label} title={info.label} aria-current={lang === locale ? 'page' : undefined} data-locale-link>{info.short}</a>; })}</nav>
+      <a class="button button-gold button-small header-cta" href={home + '#contacto'}>{t.nav.talk} <Icon name="arrow" size={17} /></a>
+      <button class="menu-toggle" type="button" aria-label={t.common.openMenu} data-open-label={t.common.openMenu} data-close-label={t.common.closeMenu} aria-expanded="false" aria-controls="mobile-nav"><Icon name="menu" /></button>
+    </div>
+  </div>
+  <nav id="mobile-nav" class="mobile-nav" aria-label={t.common.mobileNavigation} hidden>{links.map(([label, href]) => <a href={href}>{label} <Icon name="arrow" size={18} /></a>)}<a href={site.moodle} target="_blank" rel="noopener noreferrer">{t.nav.moodle} <Icon name="external" size={18} /></a></nav>
+</header>
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const menu = document.querySelector<HTMLElement>('#mobile-nav');
+  function closeMenu() {
+    toggle?.setAttribute('aria-expanded', 'false');
+    toggle?.setAttribute('aria-label', toggle?.dataset.openLabel || '');
+    if (menu) menu.hidden = true;
+  }
+  toggle?.addEventListener('click', () => {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!expanded));
+    toggle.setAttribute('aria-label', (expanded ? toggle.dataset.openLabel : toggle.dataset.closeLabel) || '');
+    if (menu) menu.hidden = expanded;
+  });
+  menu?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', event => { if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') { closeMenu(); toggle.focus(); } });
+  window.matchMedia('(min-width: 1200px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
+  document.querySelectorAll<HTMLAnchorElement>('[data-locale-link]').forEach(link => {
+    link.addEventListener('click', () => { if (window.location.hash) link.hash = window.location.hash; });
+  });
+</script>

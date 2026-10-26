@@ -1,0 +1,518 @@
+<!DOCTYPE html><html lang="es"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Diagnóstico TOEIC gratuito | Elemental Studios</title><meta name="description" content="Descubre tu puntaje TOEIC estimado, tu nivel MCER y qué debes mejorar antes de rendir el examen. Diagnóstico gratuito de 25 minutos."><meta property="og:title" content="Diagnóstico TOEIC gratuito | Elemental Studios"><meta property="og:description" content="Descubre tu puntaje TOEIC estimado, tu nivel MCER y qué debes mejorar antes de rendir el examen. Diagnóstico gratuito de 25 minutos."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap"><link rel="stylesheet" href="/_astro/diagnostico-toeic@_@astro.CTG1_tWB.css"></head> <body> <div class="wrap"> <header class="top" id="top"> <div class="row"> <a class="brand" href="/" aria-label="Elemental Studios, ir al inicio"><img src="/logorender.png" alt="Elemental Studios" width="80" height="46"><span>Diagnóstico TOEIC</span></a> <div class="meta mono" id="topmeta"></div> </div> <div class="bar" id="bar" hidden><i id="barfill" style="width:0"></i></div> </header> <main id="app"></main> </div> <script src="/diagnostico-toeic/config.js"></script> <script>
+/* ============ BANCO DE PREGUNTAS ============ */
+const TAGS = {
+  wh:   {sec:'L', name:'Preguntas Wh- (who, when, where, why)', tip:'Identifica la palabra interrogativa en los primeros segundos: decide qué tipo de respuesta buscas (lugar, hora, razón) antes de oír las opciones. Descarta respuestas "Yes/No" ante preguntas Wh-.'},
+  ind:  {sec:'L', name:'Ofertas, alternativas y preguntas de confirmación', tip:'Practica respuestas naturales a "Would you like…?", "…or…?" y "…, haven\'t you?". Desconfía de opciones que repiten palabras de la pregunta (book/book, call/call): suelen ser trampas.'},
+  lmain:{sec:'L', name:'Idea principal y propósito (audio)', tip:'Lee las preguntas antes de que empiece el audio. La idea principal y el propósito suelen estar en las primeras dos frases; entrénate con podcasts cortos resumiendo en una línea lo que escuchaste.'},
+  ldet: {sec:'L', name:'Detalles específicos (audio)', tip:'Anticipa qué dato buscas (hora, lugar, motivo) y escucha la paráfrasis, no la palabra exacta. Practica dictados cortos de mensajes de voz y anuncios con horarios y números.'},
+  linf: {sec:'L', name:'Inferencia e intención del hablante', tip:'Las preguntas "What does the man imply…?" o "What will she probably do next?" piden deducir. Presta atención al tono y a la última intervención, donde suele anunciarse la siguiente acción.'},
+  tense:{sec:'R', name:'Tiempos verbales y concordancia', tip:'Repasa presente perfecto (since/for), condicionales tipo 1 (If + presente, will) y concordancia sujeto-verbo en tercera persona. Busca marcadores de tiempo en la oración antes de elegir.'},
+  form: {sec:'R', name:'Formas de palabras (sustantivo, adjetivo, adverbio)', tip:'Fíjate en la posición del espacio: tras "be/very" va adjetivo; modificando a un verbo va adverbio (-ly). Memoriza familias de palabras: efficient / efficiency / efficiently.'},
+  prep: {sec:'R', name:'Preposiciones', tip:'Aprende combinaciones fijas del inglés de negocios: by (plazo límite), in advance, on + día, at + hora. Haz listas por categoría y repásalas con frases completas.'},
+  conn: {sec:'R', name:'Conectores y conjunciones', tip:'Distingue conectores que van antes de una oración completa (although, while, because) de los que van antes de un sustantivo (despite, during, because of).'},
+  pron: {sec:'R', name:'Pronombres', tip:'Revisa posesivos (his/their), objeto (him/them) y reflexivos (himself). Antes de un sustantivo siempre va un posesivo.'},
+  voc:  {sec:'R', name:'Vocabulario de negocios y hotelería', tip:'Amplía vocabulario de facturación, reservas y servicio: discount, refund, invoice, receipt, amenities. Estudia colocaciones (offer a discount, issue a refund).'},
+  coh:  {sec:'R', name:'Cohesión de textos (Part 6)', tip:'Para insertar oraciones, mira la frase anterior y la siguiente: la correcta continúa la idea con palabras de enlace (As a result, However, In addition).'},
+  ctx:  {sec:'R', name:'Vocabulario en contexto', tip:'Ante "closest in meaning to", reemplaza la palabra por cada opción y relee la frase completa. El significado más común de la palabra no siempre es el correcto.'},
+  rdet: {sec:'R', name:'Comprensión de detalles (Part 7)', tip:'Lee primero las preguntas y luego escanea el texto buscando la información. Ojo con preguntas "NOT": verifica cada opción contra el texto.'},
+  rinf: {sec:'R', name:'Inferencia y propósito (Part 7)', tip:'"What is indicated / suggested" y "Why was the email written" exigen leer entre líneas. Practica resumiendo el propósito de correos reales en una frase.'}
+};
+
+const UNITS = [
+  /* ---------- LISTENING · PART 2 ---------- */
+  {sec:'L', part:2, audio:[['W',"Where is the conference room for the sales meeting?"],['M',"A. It's on the third floor, next to the elevators."],['M',"B. The meeting was very productive."],['M',"C. Yes, I'll sell it tomorrow."]],
+   qs:[{opts:['A','B','C'], ans:0, tag:'wh', exp:'"Where" pide un lugar: "on the third floor". La C usa "sell", que suena parecido a "sales".'}]},
+  {sec:'L', part:2, audio:[['M',"When will the new guest arrive?"],['W',"A. In room two-oh-four."],['W',"B. Around five this afternoon."],['W',"C. Yes, he arrived."]],
+   qs:[{opts:['A','B','C'], ans:1, tag:'wh', exp:'"When" pide un momento: "around five this afternoon". La A responde "where".'}]},
+  {sec:'L', part:2, audio:[['W',"Would you like me to call a taxi for you?"],['M',"A. That would be great, thanks."],['M',"B. It's a long call."],['M',"C. The taxi was yellow."]],
+   qs:[{opts:['A','B','C'], ans:0, tag:'ind', exp:'Ante una oferta ("Would you like me to…?") se acepta o rechaza. B y C repiten palabras de la pregunta como trampa.'}]},
+  {sec:'L', part:2, audio:[['M',"Why hasn't the report been sent yet?"],['W',"A. By express mail."],['W',"B. Mr. Lee is still reviewing it."],['W',"C. Yes, I sent it."]],
+   qs:[{opts:['A','B','C'], ans:1, tag:'wh', exp:'"Why" pide una razón: el informe sigue en revisión. "Yes" no responde a una pregunta Wh-.'}]},
+  {sec:'L', part:2, audio:[['W',"You've worked at this hotel for a long time, haven't you?"],['M',"A. About eight years now."],['M',"B. The hotel is downtown."],['M',"C. It takes a long time."]],
+   qs:[{opts:['A','B','C'], ans:0, tag:'ind', exp:'La pregunta de confirmación busca validar la antigüedad: "About eight years now".'}]},
+  {sec:'L', part:2, audio:[['M',"Should we book the restaurant for Friday or Saturday?"],['W',"A. Yes, we should."],['W',"B. Saturday works better for most people."],['W',"C. The book is on the table."]],
+   qs:[{opts:['A','B','C'], ans:1, tag:'ind', exp:'Una pregunta de alternativa ("…or…?") se responde eligiendo una opción, no con "Yes".'}]},
+
+  /* ---------- LISTENING · PART 3 ---------- */
+  {sec:'L', part:3, audio:[
+     ['W',"Good evening, welcome to the Andes Grand Hotel. How can I help you?"],
+     ['M',"Hi, I have a reservation under the name Carlos Rivera. I booked a double room for three nights, but I'd like to extend my stay until Sunday."],
+     ['W',"Let me check. I'm afraid we're fully booked on Saturday night because of the wine festival. I could move you to a suite for that one night, though there's an extra charge."],
+     ['M',"That's fine. My company is covering the cost anyway."]],
+   qs:[
+    {stem:'Where most likely are the speakers?', opts:['At a travel agency','At a hotel front desk','At a wine festival','At a restaurant'], ans:1, tag:'lmain', exp:'"Welcome to the Andes Grand Hotel" y la reserva indican la recepción de un hotel.'},
+    {stem:'What does the man want to do?', opts:['Cancel his reservation','Change to a single room','Extend his stay','Get a refund'], ans:2, tag:'ldet', exp:'"I\'d like to extend my stay until Sunday."'},
+    {stem:'What does the man imply about the extra charge?', opts:['It will not be a problem for him','It is too expensive','He wants a discount','He will pay in cash'], ans:0, tag:'linf', exp:'"My company is covering the cost anyway": el cargo extra no le preocupa.'}
+   ]},
+  {sec:'L', part:3, audio:[
+     ['M',"Hi Sandra, did you get a chance to look at the training schedule for the new staff?"],
+     ['W',"Yes, but there's a problem. The English workshop is scheduled for Monday morning, and that's when the inspectors from the tourism board are visiting."],
+     ['M',"Oh, I forgot about that. Should we move the workshop to Wednesday?"],
+     ['W',"Wednesday works. I'll email the instructor and let everyone know."]],
+   qs:[
+    {stem:'What are the speakers mainly discussing?', opts:['A new hiring process','A scheduling conflict','A tourism campaign','An English exam'], ans:1, tag:'lmain', exp:'El taller coincide con la visita de inspectores: es un conflicto de horario.'},
+    {stem:'Who will visit on Monday?', opts:['New employees','An English instructor','Inspectors from the tourism board','Hotel guests'], ans:2, tag:'ldet', exp:'"…that\'s when the inspectors from the tourism board are visiting."'},
+    {stem:'What will the woman probably do next?', opts:['Cancel the inspection','Contact the instructor','Lead the workshop herself','Book a meeting room'], ans:1, tag:'linf', exp:'"I\'ll email the instructor": la última intervención anuncia la siguiente acción.'}
+   ]},
+
+  /* ---------- LISTENING · PART 4 ---------- */
+  {sec:'L', part:4, audio:[
+     ['W',"Hello, this is Diana Morales from Patagonia Tours, calling for Mr. Thompson."],
+     ['W',"I'm calling about your excursion to Torres del Paine tomorrow."],
+     ['W',"Due to strong winds forecast for the morning, the departure has been moved from seven to ten a.m."],
+     ['W',"The bus will still pick you up at your hotel lobby."],
+     ['W',"If this new time doesn't work for you, please call us back before six p.m. today, and we'll arrange a full refund or an alternative date."]],
+   qs:[
+    {stem:'What is the purpose of the call?', opts:['To confirm a hotel booking','To announce a schedule change','To offer a new tour package','To request a payment'], ans:1, tag:'lmain', exp:'Llama para avisar que la salida cambió de 7 a 10 a.m.'},
+    {stem:'Why has the departure time changed?', opts:['The bus broke down','The guide is sick','The weather conditions','The park is closed'], ans:2, tag:'ldet', exp:'"Due to strong winds forecast": la causa es el clima.'},
+    {stem:'What should Mr. Thompson do if he cannot go at the new time?', opts:['Go to the lobby at 7 a.m.','Send an email','Call back before 6 p.m.','Visit the tour office'], ans:2, tag:'ldet', exp:'"Please call us back before six p.m. today."'}
+   ]},
+
+  /* ---------- READING · PART 5 ---------- */
+  {sec:'R', part:5, qs:[{stem:'The concierge _____ guests with tour reservations every day.', opts:['assist','assists','assisting','have assisted'], ans:1, tag:'tense', exp:'Sujeto singular + hábito ("every day") = presente simple con -s: assists.'}]},
+  {sec:'R', part:5, qs:[{stem:'Ms. Park _____ in the marketing department since 2019.', opts:['works','is working','has worked','worked'], ans:2, tag:'tense', exp:'"Since 2019" exige presente perfecto: has worked.'}]},
+  {sec:'R', part:5, qs:[{stem:'The new booking system is extremely _____ and easy to use.', opts:['efficiency','efficient','efficiently','efficiencies'], ans:1, tag:'form', exp:'Después de "extremely" (adverbio) y "is" se necesita un adjetivo: efficient.'}]},
+  {sec:'R', part:5, qs:[{stem:'Please submit your expense reports _____ Friday at 5 p.m.', opts:['by','until','since','during'], ans:0, tag:'prep', exp:'"By" marca un plazo límite. "Until" indica una acción que continúa hasta ese momento.'}]},
+  {sec:'R', part:5, qs:[{stem:'_____ the flight was delayed, the guests arrived at the hotel on time.', opts:['Despite','Although','Because','However'], ans:1, tag:'conn', exp:'Contraste + oración completa = Although. "Despite" va seguido de sustantivo.'}]},
+  {sec:'R', part:5, qs:[{stem:'All employees must wear their identification badges _____ on hotel premises.', opts:['during','while','meanwhile','through'], ans:1, tag:'conn', exp:'"While (they are) on hotel premises": while introduce una situación simultánea. "During" va con sustantivo.'}]},
+  {sec:'R', part:5, qs:[{stem:'The manager asked us to complete the guest satisfaction survey _____.', opts:['careful','carefully','care','caring'], ans:1, tag:'form', exp:'Modifica al verbo "complete": se necesita adverbio, carefully.'}]},
+  {sec:'R', part:5, qs:[{stem:'If the conference room _____ available, we will hold the meeting there.', opts:['is','will be','was','being'], ans:0, tag:'tense', exp:'Condicional tipo 1: If + presente, will + verbo.'}]},
+  {sec:'R', part:5, qs:[{stem:'Mr. Silva and _____ team will lead the orientation for new staff.', opts:['he','him','his','himself'], ans:2, tag:'pron', exp:'Antes del sustantivo "team" va el posesivo his.'}]},
+  {sec:'R', part:5, qs:[{stem:'Guests can _____ a complimentary breakfast in the dining room from 6:30 to 10:00.', opts:['enjoy','attend','afford','arrive'], ans:0, tag:'voc', exp:'"Enjoy a breakfast" es la colocación natural. "Attend" se usa con eventos, "afford" con costos.'}]},
+  {sec:'R', part:5, qs:[{stem:'The hotel offers a 15% _____ to corporate clients who book more than ten rooms.', opts:['discount','refund','receipt','invoice'], ans:0, tag:'voc', exp:'"Offer a discount" = descuento. Refund = reembolso; receipt = recibo; invoice = factura.'}]},
+
+  /* ---------- READING · PART 6 ---------- */
+  {sec:'R', part:6, passage:`To: All front desk staff
+Subject: New check-in procedure
+
+Starting next Monday, the front desk will use a new digital check-in system. Guests <span class="blank">(1)</span> receive a link by email 24 hours before arrival. This link allows them to confirm their personal details <span class="blank">(2)</span> advance. <span class="blank">(3)</span>
+
+Training sessions will be held on Thursday and Friday. Attendance is <span class="blank">(4)</span> for all front desk employees, so please contact Human Resources if you have a scheduling conflict.
+
+Rodrigo Pérez, Front Office Manager`,
+   qs:[
+    {stem:'(1)', opts:['will','had','were','have been'], ans:0, tag:'tense', exp:'"Starting next Monday" habla del futuro: will receive.'},
+    {stem:'(2)', opts:['on','at','in','by'], ans:2, tag:'prep', exp:'"In advance" (con anticipación) es una expresión fija.'},
+    {stem:'(3)', opts:['As a result, waiting times at reception should be significantly reduced.','The hotel was originally built in 1985.','Please remember to water the plants in the lobby.','Breakfast is served on the terrace in summer.'], ans:0, tag:'coh', exp:'Es la única oración que continúa la idea del nuevo sistema: su consecuencia ("As a result").'},
+    {stem:'(4)', opts:['optional','mandatory','flexible','occasional'], ans:1, tag:'ctx', exp:'Pedir que avisen a RR.HH. si no pueden asistir indica que la asistencia es obligatoria: mandatory.'}
+   ]},
+
+  /* ---------- READING · PART 7 ---------- */
+  {sec:'R', part:7, passage:`BILINGUAL RECEPTIONIST · Hotel Costa Azul, Viña del Mar
+
+We are looking for a friendly and organized receptionist to join our team for the summer season (December to March).
+
+Responsibilities: checking guests in and out, handling phone and email reservations, and responding to guest requests in English and Spanish.
+
+Requirements: at least one year of experience in hospitality, an intermediate-to-advanced level of English (B2 or higher), and availability to work weekends. Previous experience with Opera PMS is a plus.
+
+To apply, send your CV and a short cover letter by November 15. Shortlisted candidates will be invited to an interview that includes a short role-play in English.`,
+   qs:[
+    {stem:'What is indicated about the position?', opts:['It is a temporary job','It is a management role','It requires a university degree','It is a night-shift position'], ans:0, tag:'rinf', exp:'"For the summer season (December to March)": es un puesto temporal.'},
+    {stem:'What is NOT a requirement for the job?', opts:['Hospitality experience','Weekend availability','Experience with Opera PMS','A B2 level of English'], ans:2, tag:'rdet', exp:'Opera PMS "is a plus": es deseable, no obligatorio.'},
+    {stem:'What will candidates do during the interview?', opts:['Take a written grammar test','Act out a situation in English','Give a presentation','Check in a real guest'], ans:1, tag:'rdet', exp:'"An interview that includes a short role-play in English."'}
+   ]},
+  {sec:'R', part:7, passage:`Dear Mr. Fuentes,
+
+Thank you for staying with us last weekend and for taking the time to share your feedback. I am very sorry to hear that the air conditioning in your room was not working properly and that it took more than two hours for our maintenance team to respond. This is not the level of service we aim to provide.
+
+Our maintenance manager has reviewed the incident, and we have since added a second technician to the night shift. As a gesture of goodwill, we would like to offer you a complimentary night on your next visit. Simply mention reference code AG-2291 when booking.
+
+Sincerely,
+Laura Vidal, Guest Relations Manager`,
+   qs:[
+    {stem:'Why did Ms. Vidal write the email?', opts:['To confirm a reservation','To respond to a complaint','To advertise a promotion','To request feedback'], ans:1, tag:'rinf', exp:'Responde a los comentarios negativos del huésped sobre el aire acondicionado.'},
+    {stem:'What change has the hotel made?', opts:['It replaced all air conditioners','It hired a new manager','It added staff to the night shift','It extended check-out time'], ans:2, tag:'rdet', exp:'"We have since added a second technician to the night shift."'},
+    {stem:'The word "complimentary" in paragraph 2 is closest in meaning to', opts:['polite','free','additional','discounted'], ans:1, tag:'ctx', exp:'En hotelería, "complimentary" significa gratuito/cortesía de la casa.'}
+   ]}
+];
+
+const PARTS = {
+  2:{name:'Part 2 · Pregunta y respuesta', instr:'Escucharás una pregunta o afirmación y tres respuestas. Las respuestas no aparecen escritas: elige A, B o C.'},
+  3:{name:'Part 3 · Conversaciones', instr:'Escucharás una conversación breve. Lee las preguntas antes de reproducir el audio y luego elige la mejor respuesta.'},
+  4:{name:'Part 4 · Charlas y mensajes', instr:'Escucharás a una sola persona (mensaje de voz, anuncio). Lee las preguntas antes de reproducir el audio.'},
+  5:{name:'Part 5 · Oraciones incompletas', instr:'Elige la palabra o frase que completa correctamente la oración.'},
+  6:{name:'Part 6 · Completar textos', instr:'Completa los espacios del texto. Uno de ellos pide insertar una oración completa.'},
+  7:{name:'Part 7 · Comprensión lectora', instr:'Lee el texto y responde las preguntas.'}
+};
+
+/* Flatten for indexing */
+let qid = 0;
+UNITS.forEach(u => u.qs.forEach(q => { q.id = qid++; q.sec = u.sec; q.part = u.part; }));
+const ALLQ = UNITS.flatMap(u => u.qs);
+
+/* ============ ESTADO ============ */
+const KEY = 'es-toeic-diag-v2';
+let S = load() || fresh();
+function fresh(){ return {screen:'intro', unit:0, answers:{}, name:'', target:'650', start:null, end:null, transcripts:[], lead:null}; }
+function load(){ try{ const s = JSON.parse(localStorage.getItem(KEY)); return s && s.screen ? s : null; }catch(e){ return null; } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+/* ============ CAPTURA DE LEADS ============ */
+// La conexión se configura en public/diagnostico-toeic/config.js.
+const LEAD_ENDPOINT = window.ELEMENTAL_TOEIC_CONFIG?.leadEndpoint?.trim() || '';
+const esc = v => String(v ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+async function sendLead(lead){
+  if(!LEAD_ENDPOINT) throw new Error('El formulario aún no está conectado.');
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
+  try {
+    // Apps Script recibe una petición simple, sin preflight CORS.
+    // La respuesta es opaca: este envío no confirma el guardado en Sheets.
+    await fetch(LEAD_ENDPOINT, {method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify(lead), signal:controller.signal});
+  } finally { clearTimeout(timeout); }
+}
+
+/* Resumen del resultado: lo usan el informe y el registro del lead */
+function summary(){
+  const L = secStats('L'), R = secStats('R');
+  const sL = scaled('L', L.pct), sR = scaled('R', R.pct);
+  const sk = Object.entries(TAGS).map(([k, t]) => {
+    const qs = ALLQ.filter(q => q.tag === k);
+    const ok = qs.filter(q => S.answers[q.id] === q.ans).length;
+    return {k, ...t, ok, n: qs.length, pct: ok / qs.length};
+  });
+  const prio = sk.filter(x => x.pct < 0.8).sort((a,b) => a.pct - b.pct || b.n - a.n).slice(0, 3);
+  return {L, R, sL, sR, total: sL + sR, sk, prio};
+}
+
+/* ============ AUDIO (voces neuronales pregrabadas) ============ */
+UNITS.forEach((u, i) => { if(u.audio) u.src = `/diagnostico-toeic/audio/u${i}.mp3`; });
+let player = null;
+function stopAudio(){ if(player){ player.pause(); player.onended = null; player = null; } }
+/* ============ PUNTAJE ============ */
+const round5 = n => Math.round(n / 5) * 5;
+function secStats(sec){
+  const qs = ALLQ.filter(q => q.sec === sec);
+  const ok = qs.filter(q => S.answers[q.id] === q.ans).length;
+  return {ok, n: qs.length, pct: ok / qs.length};
+}
+/* Curva aproximada de conversión TOEIC (orientativa) */
+function scaled(sec, pct){
+  const exp = sec === 'L' ? 0.9 : 1.1;
+  return Math.max(5, Math.min(495, round5(5 + 490 * Math.pow(pct, exp))));
+}
+/* Umbrales MCER oficiales de ETS por sección */
+const CEFR = {
+  L:[[490,'C1'],[400,'B2'],[275,'B1'],[110,'A2'],[60,'A1']],
+  R:[[455,'C1'],[385,'B2'],[275,'B1'],[115,'A2'],[60,'A1']]
+};
+const cefr = (sec, s) => (CEFR[sec].find(([t]) => s >= t) || [0,'< A1'])[1];
+const TOTAL_BANDS = [[10,'A1'],[225,'A2'],[550,'B1'],[785,'B2'],[945,'C1'],[990,'']];
+
+/* ============ RENDER ============ */
+const $app = document.getElementById('app');
+const $bar = document.getElementById('bar'), $fill = document.getElementById('barfill'), $meta = document.getElementById('topmeta');
+let timer = null;
+
+function render(){
+  stopAudio();
+  clearInterval(timer);
+  if(S.screen === 'intro') renderIntro();
+  else if(S.screen === 'test') renderUnit();
+  else if(S.screen === 'lead') renderLead();
+  else renderResults();
+  window.scrollTo({top:0});
+}
+
+function renderIntro(){
+  $bar.hidden = true; $meta.textContent = '';
+  const nL = ALLQ.filter(q=>q.sec==='L').length, nR = ALLQ.length - nL;
+  const count = p => ALLQ.filter(q => q.part === p).length;
+  $app.innerHTML = `
+  <div class="stack-lg">
+    <section class="hero">
+      <p class="eyebrow">TOEIC Listening &amp; Reading</p>
+      <h1>¿Qué te falta para tu puntaje TOEIC?</h1>
+      <p class="lead">Un diagnóstico de ${ALLQ.length} preguntas con el formato real del examen. Al terminar verás tu puntaje estimado en la escala 10–990, tu nivel MCER y las habilidades que debes reforzar primero.</p>
+    </section>
+
+    <section class="sheet stack">
+      <h3>Qué incluye</h3>
+      <div class="tbl"><table class="parts">
+        <thead><tr><th>Sección</th><th>Parte del examen</th><th class="n">Preguntas</th></tr></thead>
+        <tbody>
+          ${[2,3,4,5,6,7].map(p => `<tr><td><span class="sec-tag">${p<5?'LISTENING':'READING'}</span></td><td>${PARTS[p].name}</td><td class="n">${count(p)}</td></tr>`).join('')}
+          <tr><td></td><td><b>Total · aprox. 25 minutos</b></td><td class="n"><b>${ALLQ.length}</b></td></tr>
+        </tbody>
+      </table></div>
+      <p class="note">Los audios usan voces con acento estadounidense y británico, como en el examen real. Usa audífonos y revisa que el volumen esté activado. Part 1 (fotografías) no se incluye en esta versión.</p>
+    </section>
+
+    <section class="stack">
+      <div class="form">
+        <div class="field"><label for="f-name">Tu nombre (opcional)</label><input id="f-name" autocomplete="given-name" value="${esc(S.name)}" placeholder="Ej: Camila"></div>
+        <div class="field"><label for="f-target">Puntaje que necesitas</label>
+          <select id="f-target">
+            ${['450','550','650','750','850','0'].map(v => `<option value="${v}" ${S.target===v?'selected':''}>${v==='0'?'Aún no lo sé':v+' puntos'}</option>`).join('')}
+          </select></div>
+      </div>
+      <div class="row"><button class="btn" id="go">Comenzar diagnóstico</button>
+      ${S.start && !S.end ? '<button class="btn ghost" id="resume">Continuar donde quedé</button>' : ''}</div>
+    </section>
+  </div>`;
+  document.getElementById('go').onclick = () => {
+    S = fresh();
+    S.name = document.getElementById('f-name').value.trim();
+    S.target = document.getElementById('f-target').value;
+    S.screen = 'test'; S.start = Date.now(); save(); render();
+  };
+  const r = document.getElementById('resume'); if(r) r.onclick = () => { S.screen = 'test'; save(); render(); };
+}
+
+/* ---------- Pantalla de registro antes del informe ---------- */
+function renderLead(){
+  if(!LEAD_ENDPOINT){ S.screen = 'results'; save(); renderResults(); return; }
+  $bar.hidden = true; $meta.textContent = '';
+  const m = summary();
+  $app.innerHTML = `
+  <div class="stack-lg">
+    <section class="stack">
+      <p class="eyebrow">Diagnóstico completado</p>
+      <h1>Tu informe está listo</h1>
+      <div class="lead-teaser"><span class="big">${m.total}</span><span class="muted">puntos TOEIC estimados · ${m.prio.length} habilidad${m.prio.length===1?'':'es'} prioritaria${m.prio.length===1?'':'s'} detectada${m.prio.length===1?'':'s'}</span></div>
+      <p class="muted">Déjanos tus datos para ver el informe completo: puntaje por sección, nivel MCER, mapa de habilidades y qué estudiar primero. Un asesor de Elemental Studios te contactará para orientarte.</p>
+    </section>
+    <form class="sheet stack" id="leadform" novalidate>
+      <div class="form">
+        <div class="field"><label for="l-name">Nombre y apellido</label><input id="l-name" autocomplete="name" required value="${esc(S.name)}"></div>
+        <div class="field"><label for="l-email">Correo electrónico</label><input id="l-email" type="email" autocomplete="email" required placeholder="nombre@empresa.cl"></div>
+        <div class="field"><label for="l-phone">Teléfono (opcional)</label><input id="l-phone" type="tel" autocomplete="tel" placeholder="+56 9 1234 5678"></div>
+        <div class="field"><label for="l-company">Empresa u hotel (opcional)</label><input id="l-company" autocomplete="organization"></div>
+      </div>
+      <label class="check"><input type="checkbox" id="l-consent"> <span>Acepto que Elemental Studios guarde mis datos y resultados para contactarme sobre cursos de preparación. Puedo pedir su eliminación en cualquier momento.</span></label>
+      <p class="err" id="l-err" role="alert" hidden></p>
+      <div class="row"><button class="btn" id="l-send" type="submit">Ver mi informe</button></div>
+    </form>
+  </div>`;
+  const f = document.getElementById('leadform'), err = document.getElementById('l-err'), btn = document.getElementById('l-send');
+  f.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const v = id => document.getElementById(id).value.trim();
+    const name = v('l-name'), email = v('l-email');
+    const fail = msg => { err.textContent = msg; err.hidden = false; };
+    if(name.length < 2) return fail('Escribe tu nombre para personalizar el informe.');
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return fail('Revisa tu correo: debe tener el formato nombre@dominio.cl.');
+    if(!document.getElementById('l-consent').checked) return fail('Marca la casilla de autorización para continuar.');
+    err.hidden = true; btn.disabled = true; btn.textContent = 'Guardando…';
+    const lead = {
+      consentimiento: true,
+      nombre: name, email, telefono: v('l-phone'), empresa: v('l-company'),
+      examen: 'TOEIC Listening & Reading', meta: +S.target || null,
+      total: m.total, listening: m.sL, reading: m.sR, mcerListening: cefr('L', m.sL), mcerReading: cefr('R', m.sR),
+      prioridades: m.prio.map(x => x.name), usoTranscripcion: S.transcripts.length,
+      minutos: S.end && S.start ? Math.round((S.end - S.start)/60000) : null,
+      fecha: new Date().toISOString()
+    };
+    try { await sendLead(lead); }
+    catch(e) {
+      btn.disabled = false; btn.textContent = 'Ver mi informe';
+      return fail('No pudimos enviar tus datos. Revisa tu conexión e inténtalo de nuevo.');
+    }
+    S.name = name; S.lead = {email, at: Date.now()}; S.screen = 'results'; save(); render();
+  });
+}
+
+function fmtTime(ms){ const s = Math.floor(ms/1000); return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`; }
+
+function renderUnit(){
+  const u = UNITS[S.unit], P = PARTS[u.part];
+  const firstIdx = u.qs[0].id;
+  $bar.hidden = false;
+  const answered = Object.keys(S.answers).length;
+  $fill.style.width = (answered / ALLQ.length * 100) + '%';
+  const tick = () => $meta.textContent = `${answered}/${ALLQ.length} · ${fmtTime(Date.now() - S.start)}`;
+  tick(); timer = setInterval(tick, 1000);
+
+  const isP2 = u.part === 2;
+  const transcriptTxt = u.audio ? u.audio.map(([w,t]) => (u.part===3 ? (w==='M'?'Man: ':'Woman: ') : '') + t).join('\n') : '';
+  const usedT = S.transcripts.includes(S.unit);
+
+  $app.innerHTML = `
+  <div class="stack-lg">
+    <div class="part-head">
+      <p class="eyebrow">${u.sec==='L'?'Listening':'Reading'}</p>
+      <h2>${P.name}</h2>
+      <p class="instr">${P.instr}</p>
+    </div>
+    <div class="sheet stack-lg">
+      ${u.audio ? `
+        <div class="stack">
+          <div class="player">
+            <button class="btn play" id="play"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M5 3.5v13l11-6.5z"/></svg><span id="playlbl">Reproducir audio</span></button>
+            <span class="wave" id="wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            <span class="meta" id="plays"></span>
+          </div>
+          <div><button class="link" id="showT">${usedT ? 'Ocultar transcripción' : '¿No escuchas el audio? Ver transcripción'}</button></div>
+          <div class="transcript" id="tr" ${usedT ? '' : 'hidden'}>${transcriptTxt}</div>
+        </div>` : ''}
+      ${u.passage ? `<div class="passage">${u.passage}</div>` : ''}
+      <div class="stack">
+        ${u.qs.map((q, k) => `
+          <div class="q" data-q="${q.id}">
+            ${q.stem ? `<p class="q-stem"><span class="qn">${q.id+1}.</span>${q.stem}</p>` : `<p class="q-stem"><span class="qn">${q.id+1}.</span>Elige la mejor respuesta.</p>`}
+            <div class="opts ${isP2?'letters':''}" role="radiogroup" aria-label="Pregunta ${q.id+1}">
+              ${q.opts.map((o, j) => `<button class="opt ${S.answers[q.id]===j?'sel':''}" role="radio" aria-checked="${S.answers[q.id]===j}" data-j="${j}"><b>${'ABCD'[j]}</b>${isP2 ? '' : `<span>${o}</span>`}</button>`).join('')}
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn ghost" id="prev" ${S.unit===0?'disabled':''}>Anterior</button>
+      <button class="btn" id="next" disabled>${S.unit===UNITS.length-1?'Ver mi diagnóstico':'Siguiente'}</button>
+    </div>
+  </div>`;
+
+  const next = document.getElementById('next');
+  const check = () => next.disabled = !u.qs.every(q => S.answers[q.id] !== undefined);
+  check();
+  $app.querySelectorAll('.q').forEach(qe => {
+    const id = +qe.dataset.q;
+    qe.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+      S.answers[id] = +b.dataset.j; save();
+      qe.querySelectorAll('.opt').forEach(x => { const on = x === b; x.classList.toggle('sel', on); x.setAttribute('aria-checked', on); });
+      check();
+      const answeredNow = Object.keys(S.answers).length;
+      $fill.style.width = (answeredNow / ALLQ.length * 100) + '%';
+    });
+  });
+
+  if(u.audio){
+    let plays = 0;
+    const pb = document.getElementById('play'), lbl = document.getElementById('playlbl'), wave = document.getElementById('wave'), pc = document.getElementById('plays');
+    pc.textContent = 'En el examen real se escucha una sola vez.';
+    const done = () => {
+      wave.parentElement.classList.remove('speaking');
+      pb.disabled = plays >= 2;
+      lbl.textContent = plays >= 2 ? 'Sin repeticiones' : 'Escuchar otra vez';
+      pc.textContent = plays >= 2 ? 'Ya usaste tus 2 reproducciones.' : 'Te queda 1 repetición.';
+    };
+    pb.onclick = () => {
+      if(plays >= 2) return;
+      stopAudio();
+      player = new Audio(u.src);
+      plays++; pb.disabled = true; lbl.textContent = 'Reproduciendo…'; wave.parentElement.classList.add('speaking');
+      player.onended = done;
+      player.onerror = () => { plays--; done(); pc.textContent = 'No se pudo cargar el audio. Revisa tu conexión o usa la transcripción.'; };
+      player.play().catch(() => player && player.onerror());
+    };
+    document.getElementById('showT').onclick = (e) => {
+      const tr = document.getElementById('tr');
+      tr.hidden = !tr.hidden;
+      e.target.textContent = tr.hidden ? '¿No escuchas el audio? Ver transcripción' : 'Ocultar transcripción';
+      if(!tr.hidden && !S.transcripts.includes(S.unit)){ S.transcripts.push(S.unit); save(); }
+    };
+  }
+
+  document.getElementById('prev').onclick = () => { S.unit--; save(); render(); };
+  next.onclick = () => {
+    if(S.unit === UNITS.length - 1){ S.end = Date.now(); S.screen = LEAD_ENDPOINT ? 'lead' : 'results'; }
+    else S.unit++;
+    save(); render();
+  };
+}
+
+function renderResults(){
+  $bar.hidden = true; $meta.textContent = '';
+  const {L, R, sL, sR, total, sk, prio} = summary();
+  const target = +S.target;
+  const gap = target ? target - total : 0;
+
+  const state = p => p < 0.5 ? ['bad','Prioridad'] : p < 0.8 ? ['warn','Reforzar'] : ['good','Dominado'];
+  const color = p => `var(--${state(p)[0]})`;
+  const pos = v => ((v - 10) / 980 * 100).toFixed(2) + '%';
+
+  const bandsHtml = TOTAL_BANDS.slice(0,-1).map(([v,l],i) => {
+    const w = (TOTAL_BANDS[i+1][0] - v) / 980 * 100;
+    const shade = ['var(--line)','color-mix(in srgb, var(--accent) 22%, var(--line))','color-mix(in srgb, var(--accent) 45%, var(--line))','color-mix(in srgb, var(--accent) 70%, var(--line))','var(--accent)'][i];
+    return `<span style="width:${w}%;background:${shade}" title="${l}"></span>`;
+  }).join('');
+
+  const msgGap = !target ? 'Elige una meta en tu próximo intento para ver cuánto te falta.'
+    : gap <= 0 ? `Tu estimación ya alcanza tu meta de ${target}. Practica con exámenes completos para asegurar el resultado.`
+    : `Te faltan cerca de <b>${gap} puntos</b> para tu meta de ${target}.`;
+
+  const lowSec = (L.pct < R.pct) ? 'Listening' : (R.pct < L.pct ? 'Reading' : null);
+  const mins = S.end && S.start ? Math.round((S.end - S.start)/60000) : null;
+
+  $app.innerHTML = `
+  <div class="stack-lg">
+    <section class="stack">
+      <p class="eyebrow">Tu diagnóstico${S.name ? ' · ' + esc(S.name) : ''}</p>
+      <h1>Puntaje TOEIC estimado: ${total}</h1>
+      <p class="muted">${msgGap} ${lowSec ? `Tu sección más débil es <b>${lowSec}</b>.` : ''}</p>
+    </section>
+
+    ${S.lead && LEAD_ENDPOINT ? '<p class="note">La solicitud de contacto fue enviada. Si no recibes respuesta, puedes escribirnos directamente por WhatsApp.</p>' : ''}
+    <section class="score-head">
+      <div class="score main"><div class="lbl">Total estimado</div><div class="val">${total}</div><div class="sub">Escala orientativa 10–990</div></div>
+      <div class="score"><div class="lbl">Listening</div><div class="val">${sL}<span class="cefr">${cefr('L', sL)}</span></div><div class="sub muted mono">${L.ok}/${L.n} correctas</div></div>
+      <div class="score"><div class="lbl">Reading</div><div class="val">${sR}<span class="cefr">${cefr('R', sR)}</span></div><div class="sub muted mono">${R.ok}/${R.n} correctas</div></div>
+    </section>
+
+    <section class="sheet stack">
+      <h3>Dónde estás en la escala TOEIC</h3>
+      <div class="gauge">
+        <div class="mark you" style="left:${pos(total)}">Tú · ${total}<i></i></div>
+        ${target ? `<div class="mark goal" style="left:${pos(target)};${Math.abs(target-total)<90?'top:-22px':''}">Meta · ${target}<i></i></div>` : ''}
+        <div class="track">${bandsHtml}</div>
+        <div class="ticks">${TOTAL_BANDS.map(([v,l]) => `<span style="left:${pos(v)}">${v}${l?' '+l:''}</span>`).join('')}</div>
+      </div>
+      <p class="meta">Franjas MCER aproximadas según el puntaje total. ETS publica los umbrales oficiales por sección (Listening y Reading por separado), que son los que se usan en las tarjetas de arriba.</p>
+    </section>
+
+    ${S.transcripts.length ? `<div class="warnbox">Usaste la transcripción en ${S.transcripts.length} audio${S.transcripts.length>1?'s':''}. Tu puntaje de Listening puede estar sobreestimado.</div>` : ''}
+
+    <section class="stack">
+      <h2>Qué mejorar primero</h2>
+      ${prio.length ? `<ol class="prio">${prio.map(s => `
+        <li><div class="hd"><h3>${s.name}</h3><span class="pill ${state(s.pct)[0]}">${s.ok}/${s.n} correctas</span></div>
+        <p class="meta">${s.sec==='L'?'Listening':'Reading'}</p><p>${s.tip}</p></li>`).join('')}</ol>`
+      : '<p>No hay habilidades por debajo del 80%. Tu siguiente paso es practicar con exámenes completos y cronometrados.</p>'}
+    </section>
+
+    <section class="sheet stack">
+      <h3>Mapa de habilidades</h3>
+      <div class="skills">
+        ${sk.map(s => `<div class="sk"><div class="nm">${s.name}<small>${s.sec==='L'?'Listening':'Reading'} · <span class="pill ${state(s.pct)[0]}">${state(s.pct)[1]}</span></small></div>
+          <div class="mbar"><i style="width:${Math.max(4, s.pct*100)}%;background:${color(s.pct)}"></i></div>
+          <div class="pct">${s.ok}/${s.n}</div></div>`).join('')}
+      </div>
+    </section>
+
+    <section class="stack review">
+      <h2>Revisión pregunta por pregunta</h2>
+      <div>
+      ${UNITS.map((u, ui) => u.qs.map(q => {
+        const a = S.answers[q.id], ok = a === q.ans;
+        const optTxt = j => u.part === 2 ? (u.audio[j+1][1]) : `${'ABCD'[j]}. ${q.opts[j]}`;
+        return `<details><summary><span class="${ok?'ok':'ko'}">${ok?'✓':'✗'}</span><span><b class="mono">${q.id+1}.</b> ${PARTS[q.part].name.split(' · ')[0]} · ${TAGS[q.tag].name}</span></summary>
+          <div class="body">
+            ${u.part===2 ? `<p class="muted">Audio: "${u.audio[0][1]}"</p>` : (q.stem && q.stem.length>4 ? `<p class="muted">${q.stem}</p>` : '')}
+            <p>Tu respuesta: ${a===undefined?'—':optTxt(a)}</p>
+            ${ok ? '' : `<p>Correcta: <b>${optTxt(q.ans)}</b></p>`}
+            <p class="muted">${q.exp}</p>
+          </div></details>`;
+      }).join('')).join('')}
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2>Prepara tu TOEIC con Elemental Studios</h2>
+      <p>Con este diagnóstico armamos un plan de preparación enfocado en tus brechas. Nuestros programas para empresas pueden acceder a franquicia tributaria SENCE.</p>
+      <div class="row">
+        <a class="btn" href="https://wa.link/phiydi" target="_blank" rel="noopener" style="text-decoration:none">Hablar con un asesor</a>
+        <button class="btn ghost" id="again">Repetir diagnóstico</button>
+      </div>
+    </section>
+
+    <p class="meta">Diagnóstico orientativo de ${ALLQ.length} preguntas${mins!==null?` · lo completaste en ${mins} min`:''}. El puntaje es una estimación y no reemplaza un examen oficial de ETS. TOEIC es una marca registrada de ETS; esta herramienta no está afiliada ni respaldada por ETS.</p>
+  </div>`;
+  document.getElementById('again').onclick = () => { const t = S.target, n = S.name; S = fresh(); S.target = t; S.name = n; save(); render(); };
+}
+
+render();
+</script> </body> </html>

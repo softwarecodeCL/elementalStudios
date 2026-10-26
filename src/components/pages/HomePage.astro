@@ -1,0 +1,71 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../Icon.astro';
+import Contact from '../Contact.astro';
+import '../../styles/diagnostic-promo.css';
+import { getMessages, localizedPath } from '../../i18n/index.js';
+interface Props { locale?: string; }
+const { locale = 'es' } = Astro.props;
+const t = getMessages(locale);
+const featureIcons = ['laptop', 'users', 'book', 'chart'];
+const benefitIcons = ['message', 'briefcase', 'clock', 'chart'];
+const sectors = [{ id: 'hoteleria', icon: 'bell' }, { id: 'turismo', icon: 'compass' }, { id: 'restaurantes', icon: 'utensils' }];
+const diagnostic = localizedPath(locale, '/diagnostico-toeic');
+---
+<Layout locale={locale}>
+  <link slot="head" rel="preload" as="image" href="/images/hotel-hero.webp" fetchpriority="high" />
+  <section class="hero" aria-labelledby="hero-title" aria-roledescription="carousel" aria-label={t.hero.carousel}>
+    <div class="hero-photos" aria-hidden="true">
+      <img class="hero-photo is-active" src="/images/hotel-hero.webp" width="1536" height="1024" alt="" fetchpriority="high" />
+      <img class="hero-photo" src="/images/tourism-hero.webp" width="1376" height="768" alt="" loading="lazy" decoding="async" />
+      <img class="hero-photo" src="/images/company-hero.webp" width="1600" height="1067" alt="" loading="lazy" decoding="async" />
+    </div>
+    <div class="hero-shade"></div>
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow">{t.hero.eyebrow}</p>
+        <h1 id="hero-title">{t.hero.line1}<br /> {t.hero.line2} <span class="text-gold">{t.hero.english}</span><br /> {t.hero.and} <span class="text-gold">{t.hero.portuguese}</span></h1>
+        <p class="hero-description">{t.hero.description} <strong>{t.hero.sectors}</strong></p>
+        <div class="hero-actions"><a class="button button-gold" href="#contacto">{t.hero.cta} <Icon name="arrow" size={20} /></a><a class="hero-secondary" href="#programas"><span class="play-circle"><Icon name="chevron" size={16} /></span>{t.hero.explore}</a></div>
+        <div class="hero-proof"><span><Icon name="checkCircle" size={17} />{t.hero.online}</span><span><Icon name="checkCircle" size={17} />{t.hero.tailored}</span></div>
+      </div>
+      <div class="hero-detail"><span class="hero-detail-icon"><Icon name="globe" size={23} /></span><div><span>{t.hero.greeting}</span><p>{t.hero.detail}</p></div></div>
+      <div class="hero-bottom">
+        <div class="hero-slide-tabs" role="group" aria-label={t.hero.selectPhoto}>{t.hero.slides.map((label, index) => <button type="button" class:list={['hero-slide-tab', { 'is-active': index === 0 }]} aria-pressed={index === 0} data-slide={index}><span>0{index + 1}</span>{label}</button>)}</div>
+        <div class="hero-slide-caption"><span id="slide-caption" aria-live="polite" data-captions={JSON.stringify(t.hero.captions)}>{t.hero.captions[0]}</span><div class="carousel-arrows"><button type="button" data-carousel-prev aria-label={t.hero.previousPhoto}><Icon name="chevron" class="rotate" size={18} /></button><button type="button" data-carousel-next aria-label={t.hero.nextPhoto}><Icon name="chevron" size={18} /></button></div></div>
+      </div>
+    </div>
+  </section>
+  <div class="container feature-strip">{t.features.map((feature, index) => <div class="feature"><span class="feature-icon"><Icon name={featureIcons[index]} size={26} /></span><div><h2>{feature.title}</h2><p>{feature.text}</p></div></div>)}</div>
+
+  <section class="programs section-space" id="programas" aria-labelledby="program-title">
+    <div class="container">
+      <div class="section-heading programs-heading"><div><p class="eyebrow">{t.programs.eyebrow}</p><h2 id="program-title">{t.programs.title}<br /><span class="text-muted">{t.programs.accent}</span></h2></div><div class="programs-heading-right"><p>{t.programs.intro}</p></div></div>
+      <div class="program-grid">{sectors.map((sector, index) => { const copy = t.programs.sectors[index]; return <article class="program-card"><div class="program-image"><img src={`/images/${sector.id}-card.webp`} width="720" height="520" alt={copy.alt} loading="lazy" decoding="async" /><span class="program-number">0{index + 1} /</span><span class="program-icon"><Icon name={sector.icon} size={26} /></span><span class="program-language">{t.programs.badge}</span></div><div class="program-body"><h3>{copy.name}</h3><p class="program-subtitle">{copy.subtitle}</p><p class="program-description">{copy.description}</p><p class="program-scenario">{copy.scenario}</p><p class="program-roles">{copy.roles}</p><a class="program-link" href="#contacto" data-sector={sector.id}>{t.programs.cta}<span><Icon name="arrow" size={19} /></span></a></div></article>; })}</div>
+      <p class="programs-footnote"><Icon name="target" size={18} />{t.programs.note}</p>
+    </div>
+  </section>
+
+  <section class="diagnostic-promo section-space" id="diagnostico" aria-labelledby="diagnostic-promo-title"><div class="container diagnostic-promo-layout"><div><p class="eyebrow">{t.diagnosticPromo.eyebrow}</p><h2 id="diagnostic-promo-title">{t.diagnosticPromo.title}<br /><span class="text-gold">{t.diagnosticPromo.accent}</span></h2><p class="section-description">{t.diagnosticPromo.intro}</p><a class="button button-gold" href={diagnostic}>{t.diagnosticPromo.cta}<Icon name="arrow" size={20} /></a><p class="diagnostic-promo-note">{t.diagnosticPromo.note}</p></div><a class="diagnostic-preview" href={diagnostic} aria-label={t.diagnosticPromo.cta}><div class="diagnostic-preview-top"><span class="eyebrow">{t.diagnostic.eyebrow}</span><Icon name="target" size={28} /></div><div class="diagnostic-preview-count"><strong>36</strong><span>{t.diagnostic.questionCount.replace('36 ', '')}<br /><small>{t.diagnosticPromo.minutes}</small></span></div><div class="diagnostic-preview-row"><span>01</span><strong lang="en">Listening</strong><span>15</span></div><div class="diagnostic-preview-row"><span>02</span><strong lang="en">Reading</strong><span>21</span></div><div class="diagnostic-preview-bottom"><span><Icon name="chart" size={18} />{t.diagnosticPromo.report}</span><Icon name="arrow" size={22} /></div></a></div></section>
+
+  <section class="business-section section-space" id="empresas" aria-labelledby="business-title"><div class="container"><div class="section-heading"><div><p class="eyebrow">{t.business.eyebrow}</p><h2 id="business-title">{t.business.title}<br /><span class="text-muted">{t.business.accent}</span></h2></div></div><div class="benefit-grid">{t.business.benefits.map((benefit, index) => <article class="benefit"><span class="benefit-icon"><Icon name={benefitIcons[index]} size={27} /></span><h3>{benefit.title}</h3><p>{benefit.text}</p></article>)}</div><div class="business-banner"><div><span class="eyebrow">{t.business.bannerEyebrow}</span><h3>{t.business.bannerTitle}</h3></div><a class="button button-gold" href="#contacto">{t.business.cta}<Icon name="arrow" size={20} /></a></div></div></section>
+
+  <section class="faq-section section-space" aria-labelledby="faq-title"><div class="container faq-layout"><div><p class="eyebrow">{t.faq.eyebrow}</p><h2 id="faq-title">{t.faq.title}<br /> <span class="text-muted">{t.faq.accent}</span></h2><p class="section-description">{t.faq.intro}</p></div><div class="faq-list">{t.faq.items.map(faq => <details><summary>{faq.question}<span><Icon name="plus" size={18} /></span></summary><p>{faq.answer}</p></details>)}</div></div></section>
+  <Contact locale={locale} />
+  <script>
+    const slides = Array.from(document.querySelectorAll<HTMLElement>('.hero-photo'));
+    const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-slide]'));
+    const caption = document.querySelector<HTMLElement>('#slide-caption');
+    const captions: string[] = JSON.parse(caption?.dataset.captions || '[]');
+    let activeSlide = 0;
+    function showSlide(index: number) {
+      activeSlide = (index + slides.length) % slides.length;
+      slides.forEach((slide, i) => slide.classList.toggle('is-active', i === activeSlide));
+      tabs.forEach((tab, i) => { tab.classList.toggle('is-active', i === activeSlide); tab.setAttribute('aria-pressed', String(i === activeSlide)); });
+      if (caption) caption.textContent = captions[activeSlide];
+    }
+    tabs.forEach((tab, index) => tab.addEventListener('click', () => showSlide(index)));
+    document.querySelector('[data-carousel-prev]')?.addEventListener('click', () => showSlide(activeSlide - 1));
+    document.querySelector('[data-carousel-next]')?.addEventListener('click', () => showSlide(activeSlide + 1));
+  </script>
+</Layout>
