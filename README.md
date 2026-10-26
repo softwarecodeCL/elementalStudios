@@ -28,7 +28,8 @@ npm run preview
 - Portada con las tres fotografías proporcionadas y controles manuales accesibles.
 - Programas por sector con una explicación conjunta de inglés y portugués.
 - Ocho páginas comerciales en ES/EN/PT: inglés, portugués, hotelería, restaurantes, turismo, SENCE, empresa y Portugués para Negocios (código 1238088865, 81 horas).
-- Dos recursos empresariales sobre evaluación de equipos hoteleros y capacitación por turnos, además de los artículos conservados.
+- Diagnóstico de inglés para empresas con preparador de consulta por sector, cargos, tamaño y objetivo; conserva el contexto hasta WhatsApp y al cambiar idioma.
+- Sección `/recursos/` con cuatro guías empresariales reescritas y una plantilla propia de lectura. Acceso desde navegación y footer; sin bloque de recursos en el inicio.
 - Sitio completo en español, inglés y portugués mediante archivos JavaScript de traducción y rutas estáticas.
 - Diagnóstico de inglés integrado: 36 preguntas, nueve audios, pausas, guardado local e informe de habilidades.
 - Preguntas frecuentes con controles nativos de teclado.
@@ -57,6 +58,8 @@ npm run preview
 - `docs/diagnostic-integration.md`: análisis del prototipo, integración y alcance del informe.
 - `docs/seo-implementacion.md`: alcance implementado, medición y publicación en Apache.
 - `docs/seo-investigacion-2026-10.md` y `docs/seo-palabras-clave.csv`: datos de Search Console, fuentes y matriz de búsqueda.
+- `docs/diagnostico-corporativo-implementacion.md`: nuevo recorrido empresarial, medición y comprobaciones.
+- `docs/recursos-empresariales.md`: ubicación, contenido y diseño de las guías.
 
 ## Imágenes
 
@@ -74,6 +77,6 @@ Los archivos originales de Angular se conservan en `legacy/angular`, con su `pac
 
 ## Antes de publicar
 
-El hosting confirmado es Apache. Publicar el contenido completo de `dist/`, incluido `.htaccess`, en el DocumentRoot comercial; consultar `docs/seo-implementacion.md`. Verificar redirección www, respuesta 404, sitemap y Analytics en producción. El sitio genera 43 páginas (42 indexables).
+El hosting confirmado es Apache. Publicar el contenido completo de `dist/`, incluido `.htaccess`, en el DocumentRoot comercial; consultar `docs/seo-implementacion.md`. Verificar redirección www, respuesta 404, sitemap y Analytics en producción. El sitio genera 49 páginas (48 indexables).
 
 Elemental Studios SpA está identificado como OTEC en la ficha oficial de Portugués para Negocios. El código del inglés hotelero sigue pendiente y no se le atribuye el código de portugués. Los mínimos de participantes, las condiciones no confirmadas y los casos de clientes se incorporarán cuando estén disponibles. Los volúmenes de palabras clave siguen pendientes del Planificador; no se han inventado cifras.

@@ -1,5 +1,21 @@
 # Verificación de la primera versión
 
+## Actualización: nuevo espacio de recursos — 26/10/2026
+
+Estado actual: 49 páginas HTML, 48 indexables, 68 comprobaciones correctas y revisión de tipos sin errores, advertencias ni sugerencias. Se comprobó que Recursos no aparezca como sección del inicio y que su índice propio enlace las cuatro guías.
+
+Revisión en navegador: hub y cuatro artículos en ES/EN/PT a 320, 768 y 1440 px (45 combinaciones), sin desbordamientos horizontales. Se verificaron índice/anclas, tablas con desplazamiento interno, navegación móvil, footer y llamada de consulta contextual. El recorrido corporativo también se probó bloqueando sessionStorage: las categorías válidas se conservaron en navegación y edición mediante la URL, sin datos personales ni errores del navegador.
+
+Ver `recursos-empresariales.md` para contenido, diseño y ubicación. Se retiraron las reglas CSS de la plantilla antigua de artículos y del bloque eliminado del inicio.
+
+## Actualización: diagnóstico corporativo y crédito — 26/10/2026
+
+Compilación actual: 46 páginas, 45 indexables, tipos sin errores ni advertencias. Pasan 64 comprobaciones. Se añadió `scripts/corporate-brief.test.mjs` al comando de pruebas; el mismo runtime local permite ejecutarlo con `--test-isolation=none` junto con los dos conjuntos existentes.
+
+Recorrido comprobado: selección de sector/cargos/tamaño/objetivo → resumen → contacto → cambio de idioma → WhatsApp preparado → edición del equipo. Envíos interceptados, sin contactar a nadie. Los eventos contienen sólo categorías válidas. Las tres versiones de la landing se revisaron a 320, 390, 768 y 1440 px, sin desbordamientos. Crédito de softwarecode.cl comprobado en móvil y escritorio.
+
+Consultar `diagnostico-corporativo-implementacion.md` para el alcance actual. Los apartados siguientes conservan las comprobaciones de las etapas anteriores.
+
 ## Actualización: estructura comercial y SEO — 26/10/2026
 
 Compilación actual: 43 páginas estáticas, 42 indexables; revisión de tipos sin errores, advertencias ni sugerencias. Pasan 57 comprobaciones: metadatos y JSON-LD de todas las páginas, canonical/hreflang recíprocos, sitemap, enlaces y fragmentos reales, paridad de traducciones, atribución SENCE y lógica del diagnóstico.

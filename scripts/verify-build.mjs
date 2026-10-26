@@ -186,6 +186,24 @@ test("Los programas comerciales se publican en los tres idiomas", () => {
       assert.ok(byRoute.has(`${prefix}/${slug}/`), `Ruta comercial: ${prefix}/${slug}/`);
 });
 
+test("Los recursos tienen un índice propio y no un bloque en la portada", () => {
+  for (const prefix of localePrefixes) {
+    const home = byRoute.get(`${prefix}/`);
+    const resources = byRoute.get(`${prefix}/recursos/`);
+    assert.ok(resources, `Índice de recursos: ${prefix}/recursos/`);
+    assert.ok(!home.html.includes('id="recursos"'));
+    assert.ok(home.html.includes(`href="${prefix}/recursos/"`));
+    const collection = resources.jsonLd.flatMap(entities).find(item => item['@type'] === 'CollectionPage');
+    assert.equal(collection?.mainEntity?.['@type'], 'ItemList');
+    assert.equal(collection.mainEntity.itemListElement.length, 4);
+    for (const item of collection.mainEntity.itemListElement) {
+      const guide = byRoute.get(new URL(item.url).pathname);
+      assert.ok(guide, `Guía publicada: ${item.url}`);
+      assert.ok(guide.jsonLd.flatMap(entities).some(entity => entity['@type'] === 'Article' && entity.headline === item.name));
+    }
+  }
+});
+
 test("El código SENCE se atribuye al curso de portugués y no al inglés hotelero", () => {
   for (const prefix of localePrefixes) {
     for (const slug of ["ingles-para-empresas", "idiomas-para-hoteleria"])

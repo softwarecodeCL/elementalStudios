@@ -1,0 +1,38 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../Icon.astro';
+import { getMessages, localizedPath, localeInfo } from '../../i18n/index.js';
+import { getResourceMessages } from '../../i18n/resources/index.js';
+import { site } from '../../data/site';
+import '../../styles/resources.css';
+
+interface Props { locale?: string; }
+const { locale = 'es' } = Astro.props;
+const r = getResourceMessages(locale);
+const priority = ['evaluar-ingles-equipo-hotelero', 'capacitacion-idiomas-turnos', 'la-importancia-de-saber-ingles', 'dominar-el-ingles-facilmente'];
+const articles = [...getMessages(locale).articles].sort((a, b) => priority.indexOf(a.slug) - priority.indexOf(b.slug));
+const featured = articles[0];
+const home = localizedPath(locale);
+const path = localizedPath(locale, '/recursos');
+const corporate = localizedPath(locale, '/diagnostico-ingles-empresas');
+const articlePath = (slug: string) => localizedPath(locale, `/noticias/${slug}`);
+const icons = ['target', 'clock', 'message', 'book'];
+const collectionData = {
+  '@type': 'CollectionPage', '@id': `${site.url}${path}#collection`, name: r.label,
+  description: r.metaDescription, url: `${site.url}${path}`,
+  inLanguage: localeInfo[locale as keyof typeof localeInfo].html,
+  publisher: { '@id': `${site.url}/#organization` },
+  mainEntity: { '@type': 'ItemList', itemListElement: articles.map((article, index) => ({ '@type': 'ListItem', position: index + 1, name: article.title, url: `${site.url}${articlePath(article.slug)}` })) },
+};
+---
+<Layout locale={locale} title={r.metaTitle} description={r.metaDescription} structuredData={collectionData} breadcrumbs={[{name: r.home, url: home}, {name: r.label, url: path}]}>
+  <section class="resources-hero" aria-labelledby="resources-heading"><div class="container"><nav class="resources-breadcrumb" aria-label={r.breadcrumb}><a href={home}>{r.home}</a><Icon name="chevron" size={12} /><span aria-current="page">{r.label}</span></nav><div class="resources-hero-grid"><div><p class="eyebrow">{r.eyebrow}</p><h1 id="resources-heading">{r.title}<br /><span class="text-gold">{r.accent}</span></h1></div><p>{r.lead}</p></div></div></section>
+
+  <section class="resources-collection" aria-labelledby="resource-feature-title"><div class="container">
+    <article class="resource-feature"><div class="resource-feature-copy"><span class="resource-kicker"><span></span>{r.featured}</span><p class="resource-category"><Icon name="target" size={17} />{featured.category}</p><h2 id="resource-feature-title"><a href={articlePath(featured.slug)}>{featured.title}</a></h2><p>{featured.description}</p><a class="button button-gold" href={articlePath(featured.slug)}>{r.read}<Icon name="arrow" size={18} /></a></div><a class="resource-feature-image" href={articlePath(featured.slug)} aria-label={featured.title}><img src={`/images/${featured.image}.webp`} alt={featured.alt} width="1000" height="600" fetchpriority="high" /><span class="resource-image-note"><Icon name="book" size={19} />{r.guideLabel}</span></a></article>
+    <div class="resource-collection-intro"><h2>{r.collectionTitle}</h2><p>{r.collectionText}</p></div>
+    <div class="resource-card-grid">{articles.slice(1).map((article, index) => <article class="resource-card"><span class="resource-card-icon"><Icon name={icons[index + 1]} size={26} /></span><p class="resource-category">{article.category}</p><h3><a href={articlePath(article.slug)}>{article.title}</a></h3><p>{article.description}</p><a class="resource-read-link" href={articlePath(article.slug)}>{r.read}<Icon name="arrow" size={17} /></a></article>)}</div>
+  </div></section>
+
+  <section class="resource-bottom-cta"><div class="container resource-bottom-cta-inner"><div><p class="eyebrow">{r.nextStep}</p><h2>{r.ctaTitle}<br /><span class="text-gold">{r.ctaAccent}</span></h2><p>{r.ctaText}</p></div><a class="button button-gold" href={corporate}>{r.corporateCta}<Icon name="arrow" size={19} /></a></div></section>
+</Layout>

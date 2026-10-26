@@ -1,6 +1,11 @@
 const messages = {
   es: {
     sence: 'SENCE', about: 'Nosotros', diagnostic: 'Diagnóstico de inglés',
+    corporateDiagnostic: 'Diagnóstico de inglés para empresas', corporateBrief: 'Lo que necesita tu equipo', corporateEdit: 'Modificar equipo',
+    corporatePromoEyebrow: 'ANTES DE CAPACITAR A TU EQUIPO', corporatePromoTitle: 'Un punto de partida.', corporatePromoAccent: 'Un plan con sentido.',
+    corporatePromoText: 'Define qué cargos quieres capacitar y qué situaciones necesitan resolver en inglés. Prepara una consulta con el contexto de tu empresa y conversemos sobre su formación.',
+    corporatePromoCta: 'Preparar diagnóstico de mi equipo', corporatePromoNote: 'La prueba online es individual y orientativa. El alcance del diagnóstico empresarial se acuerda en la propuesta.',
+    corporateProgramText: '¿Por dónde empezar? Define las necesidades de inglés de tu equipo.',
     programMenu: 'Explora nuestros programas', languages: 'POR IDIOMA', sectors: 'POR SECTOR',
     english: 'Inglés para empresas', portuguese: 'Portugués para empresas', businessPortuguese: 'Portugués para Negocios',
     hotel: 'Idiomas para hotelería', restaurant: 'Idiomas para restaurantes', tourism: 'Idiomas para turismo',
@@ -25,6 +30,11 @@ const messages = {
   },
   en: {
     sence: 'SENCE', about: 'About us', diagnostic: 'English diagnostic',
+    corporateDiagnostic: 'English assessment for businesses', corporateBrief: 'Your team’s needs', corporateEdit: 'Edit team details',
+    corporatePromoEyebrow: 'BEFORE YOUR TEAM STARTS TRAINING', corporatePromoTitle: 'A clear starting point.', corporatePromoAccent: 'A purposeful plan.',
+    corporatePromoText: 'Identify the roles you want to train and the situations they need to handle in English. Prepare an enquiry with your business context so we can discuss training.',
+    corporatePromoCta: 'Plan my team’s assessment', corporatePromoNote: 'The online test is individual and indicative. The scope of a business assessment is agreed in the proposal.',
+    corporateProgramText: 'Where should you start? Define your team’s English needs.',
     programMenu: 'Explore our programmes', languages: 'BY LANGUAGE', sectors: 'BY SECTOR',
     english: 'English for businesses', portuguese: 'Portuguese for businesses', businessPortuguese: 'Portuguese for Business',
     hotel: 'Languages for hotels', restaurant: 'Languages for restaurants', tourism: 'Languages for tourism',
@@ -48,6 +58,11 @@ const messages = {
   },
   pt: {
     sence: 'SENCE', about: 'Quem somos', diagnostic: 'Diagnóstico de inglês',
+    corporateDiagnostic: 'Diagnóstico de inglês para empresas', corporateBrief: 'O que sua equipe precisa', corporateEdit: 'Alterar equipe',
+    corporatePromoEyebrow: 'ANTES DE CAPACITAR SUA EQUIPE', corporatePromoTitle: 'Um ponto de partida.', corporatePromoAccent: 'Um plano com propósito.',
+    corporatePromoText: 'Defina os cargos que deseja capacitar e as situações que precisam resolver em inglês. Prepare uma consulta com o contexto da sua empresa e vamos conversar sobre a formação.',
+    corporatePromoCta: 'Planejar o diagnóstico da equipe', corporatePromoNote: 'O teste online é individual e orientativo. O alcance do diagnóstico empresarial é definido na proposta.',
+    corporateProgramText: 'Por onde começar? Defina as necessidades de inglês da sua equipe.',
     programMenu: 'Explore nossos programas', languages: 'POR IDIOMA', sectors: 'POR SETOR',
     english: 'Inglês para empresas', portuguese: 'Português para empresas', businessPortuguese: 'Português para Negócios',
     hotel: 'Idiomas para hotelaria', restaurant: 'Idiomas para restaurantes', tourism: 'Idiomas para turismo',

@@ -15,7 +15,7 @@ Fecha: 26 de octubre de 2026. Trabajo implementado en el proyecto local; publica
 - Títulos y descripciones propios, canonical, hreflang recíproco y sitemap de las rutas publicadas. La página 404 mantiene noindex.
 - HTML estático: los textos principales de los programas son accesibles sin ejecutar JavaScript. El JavaScript del diagnóstico se carga en su página.
 
-La compilación produce 43 páginas HTML, de las cuales 42 son indexables. Las rutas en `/en/` y `/pt/` conservan los mismos slugs neutros para mantener las equivalencias de idioma actuales.
+Con el diagnóstico corporativo y el nuevo índice de recursos, la compilación produce 49 páginas HTML, de las cuales 48 son indexables. Las rutas en `/en/` y `/pt/` conservan los mismos slugs neutros para mantener las equivalencias de idioma actuales. Consultar `diagnostico-corporativo-implementacion.md` para el preparador de consulta y `recursos-empresariales.md` para las guías, retiradas de la portada y reunidas en una sección propia.
 
 ## Fuentes y atribución SENCE
 

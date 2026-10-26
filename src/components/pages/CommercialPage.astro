@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Icon from '../Icon.astro';
+import { getGrowthMessages } from '../../i18n/growth.js';
 import { getCommercialMessages } from '../../i18n/commercial/index.js';
 import { localizedPath, localeInfo } from '../../i18n/index.js';
 import '../../styles/commercial.css';
@@ -8,6 +9,7 @@ import '../../styles/commercial.css';
 interface Props { locale?: string; slug: string; }
 const { locale = 'es', slug } = Astro.props;
 const messages = getCommercialMessages(locale);
+const g = getGrowthMessages(locale);
 const ui = messages.ui;
 const p = messages.pages[slug as keyof typeof messages.pages];
 const home = localizedPath(locale);
@@ -53,6 +55,7 @@ const inclusionIcons = ['target', 'laptop', 'chart', 'certificate'];
           <p class="commercial-lead">{p.lead}</p>
           <div class="commercial-actions"><a class="button button-gold" href={contact} data-track="request_proposal" data-program={slug}>{ui.request}<Icon name="arrow" size={18} /></a><a class="commercial-secondary" href="#aplicaciones">{ui.explore}<Icon name="chevron" size={15} /></a></div>
           <p class="commercial-hero-proof"><Icon name={p.official || isSence || isCompany ? 'shield' : 'laptop'} size={17} />{p.official ? ui.courseLabel : isSence ? ui.senceLabel : isCompany ? ui.proofLabel : ui.onlineLabel}</p>
+          {['ingles-para-empresas', 'idiomas-para-hoteleria', 'idiomas-para-restaurantes', 'idiomas-para-turismo'].includes(slug) && <a class="commercial-corporate-link" href={localizedPath(locale, '/diagnostico-ingles-empresas')}><Icon name="target" size={16} />{g.corporateProgramText}<Icon name="arrow" size={16} /></a>}
         </div>
         <div class="commercial-hero-visual">
           <img src={`/images/${p.image}`} width="1536" height="1024" alt={p.alt} fetchpriority="high" decoding="async" />

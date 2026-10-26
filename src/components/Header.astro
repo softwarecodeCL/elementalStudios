@@ -26,7 +26,9 @@ const programmeGroups = [
         <summary aria-controls="program-options">{t.nav.programs}<Icon name="chevron" size={12} /></summary>
         <div id="program-options" class="program-options">
           <div class="program-options-grid">{programmeGroups.map(group => <div><span>{group.label}</span>{group.links.map(([label, slug]) => <a href={localizedPath(locale, slug)} aria-current={neutral === `/${slug}/` ? 'page' : undefined}>{label}<Icon name="arrow" size={14} /></a>)}</div>)}</div>
+          <a class="program-options-diagnostic program-options-diagnostic--team" href={localizedPath(locale, '/diagnostico-ingles-empresas')}><Icon name="users" size={19} />{g.corporateDiagnostic}<Icon name="arrow" size={16} /></a>
           <a class="program-options-diagnostic" href={localizedPath(locale, '/diagnostico-toeic')}><Icon name="target" size={19} />{g.diagnostic}<Icon name="arrow" size={16} /></a>
+          <a class="program-options-resources" href={localizedPath(locale, '/recursos')}><Icon name="book" size={17} />{g.resources}<Icon name="arrow" size={16} /></a>
         </div>
       </details>
       {links.map(([label, href]) => <a href={href} aria-current={Astro.url.pathname === href ? 'page' : undefined}>{label}</a>)}
@@ -48,11 +50,14 @@ const programmeGroups = [
     <a href={home}>{t.common.home}<Icon name="arrow" size={18} /></a>
     <details class="mobile-programs"><summary>{g.programMenu}<Icon name="plus" size={18} /></summary>{programmeGroups.map(group => <div><span>{group.label}</span>{group.links.map(([label, slug]) => <a href={localizedPath(locale, slug)}>{label}<Icon name="arrow" size={15} /></a>)}</div>)}</details>
     {links.map(([label, href]) => <a href={href}>{label} <Icon name="arrow" size={18} /></a>)}
+    <a href={localizedPath(locale, '/diagnostico-ingles-empresas')}>{g.corporateDiagnostic}<Icon name="arrow" size={18} /></a>
     <a href={localizedPath(locale, '/diagnostico-toeic')}>{g.diagnostic}<Icon name="arrow" size={18} /></a>
+    <a href={localizedPath(locale, '/recursos')}>{g.resources}<Icon name="arrow" size={18} /></a>
     <a href={site.moodle} target="_blank" rel="noopener noreferrer">{t.nav.moodle} <Icon name="external" size={18} /></a>
   </nav>
 </header>
 <script>
+  import { BRIEF_SIZES, BRIEF_GOALS, parseBrief } from '../corporate/brief.js';
   const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
   const menu = document.querySelector<HTMLElement>('#mobile-nav');
   const languageDropdown = document.querySelector<HTMLDetailsElement>('.locale-dropdown');
@@ -104,8 +109,10 @@ const programmeGroups = [
   window.matchMedia('(min-width: 1200px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
   function updateLanguageLinks() {
     const parameters = new URLSearchParams(window.location.search);
-    const programs = ['ingles-para-empresas', 'portugues-para-empresas', 'idiomas-para-hoteleria', 'idiomas-para-restaurantes', 'idiomas-para-turismo', 'capacitacion-sence', 'nosotros', 'portugues-para-negocios'];
-    const allowed = { program: programs, sector: ['hoteleria', 'turismo', 'restaurantes', 'otra-empresa'], language: ['ingles', 'portugues', 'both', 'ambos'] };
+    const programs = ['ingles-para-empresas', 'portugues-para-empresas', 'idiomas-para-hoteleria', 'idiomas-para-restaurantes', 'idiomas-para-turismo', 'capacitacion-sence', 'nosotros', 'portugues-para-negocios', 'diagnostico-ingles-empresas'];
+    const allowed = { program: programs, sector: ['hoteleria', 'turismo', 'restaurantes', 'otra-empresa'], language: ['ingles', 'portugues', 'both', 'ambos'], team_size: BRIEF_SIZES, objective: BRIEF_GOALS };
+    const copy = JSON.parse(document.querySelector<HTMLFormElement>('#contact-form')?.dataset.corporateCopy || '{}');
+    const brief = parameters.get('program') === 'diagnostico-ingles-empresas' ? parseBrief({version: 1, sector: parameters.get('sector'), roles: (parameters.get('roles') || '').split(','), size: parameters.get('team_size'), goal: parameters.get('objective')}, copy) : null;
     document.querySelectorAll<HTMLAnchorElement>('[data-locale-link]').forEach(link => {
       const target = new URL(link.href);
       target.search = '';
@@ -114,6 +121,7 @@ const programmeGroups = [
           const value = parameters.get(key);
           if (value && values.includes(value)) target.searchParams.set(key, value);
         }
+        if (brief?.roles.length) target.searchParams.set('roles', brief.roles.join(','));
       }
       target.hash = window.location.hash;
       link.href = target.href;

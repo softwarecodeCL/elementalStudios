@@ -1,6 +1,7 @@
-type EventName = 'view_program' | 'click_whatsapp' | 'contact_prepared' | 'diagnostic_start' | 'diagnostic_complete' | 'click_corporate_diagnostic';
-type Properties = { program?: string; sector?: string; language?: string; sence?: boolean };
-const commercialPages = new Set(['ingles-para-empresas', 'portugues-para-empresas', 'idiomas-para-hoteleria', 'idiomas-para-restaurantes', 'idiomas-para-turismo', 'capacitacion-sence', 'nosotros', 'portugues-para-negocios']);
+import { BRIEF_GOALS, BRIEF_SIZES } from '../corporate/brief.js';
+type EventName = 'view_program' | 'click_whatsapp' | 'contact_prepared' | 'diagnostic_start' | 'diagnostic_complete' | 'click_corporate_diagnostic' | 'corporate_brief_prepared' | 'click_individual_diagnostic';
+type Properties = { program?: string; sector?: string; language?: string; sence?: boolean; team_size?: string; objective?: string };
+const commercialPages = new Set(['ingles-para-empresas', 'portugues-para-empresas', 'idiomas-para-hoteleria', 'idiomas-para-restaurantes', 'idiomas-para-turismo', 'capacitacion-sence', 'nosotros', 'portugues-para-negocios', 'diagnostico-ingles-empresas']);
 type AnalyticsWindow = Window & { dataLayer?: unknown[]; gtag?: (...args: unknown[]) => void };
 
 function initializeAnalytics() {
@@ -42,6 +43,8 @@ export function recordEvent(event: EventName, properties: Properties = {}) {
     ...(['hoteleria', 'turismo', 'restaurantes', 'otra-empresa'].includes(properties.sector || '') ? { sector: properties.sector } : {}),
     ...(['ingles', 'portugues', 'ambos'].includes(properties.language || '') ? { language: properties.language } : {}),
     ...(typeof properties.sence === 'boolean' ? { sence: properties.sence } : {}),
+    ...(properties.team_size && BRIEF_SIZES.includes(properties.team_size) ? { team_size: properties.team_size } : {}),
+    ...(properties.objective && BRIEF_GOALS.includes(properties.objective) ? { objective: properties.objective } : {}),
   };
   window.dispatchEvent(new CustomEvent('elemental:measure', { detail }));
   const analyticsWindow = window as AnalyticsWindow;
@@ -59,6 +62,7 @@ if (typeof window !== 'undefined') {
     const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a[href]') : null;
     if (!link) return;
     if (link.hasAttribute('data-corporate-diagnostic')) recordEvent('click_corporate_diagnostic');
+    if (link.hasAttribute('data-individual-diagnostic')) recordEvent('click_individual_diagnostic');
     try {
       if (['wa.link', 'wa.me', 'api.whatsapp.com'].includes(new URL(link.href).hostname)) recordEvent('click_whatsapp');
     } catch { /* Ignore non-URL links. */ }

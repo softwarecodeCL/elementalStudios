@@ -1104,67 +1104,6 @@ p {
 .footer-bottom > span svg {
   color: #5f91ae;
 }
-.article-page {
-  max-width: 800px;
-  margin-inline: auto;
-  padding: 80px 28px 100px;
-}
-.article-page h1 {
-  font-size: clamp(34px, 4.5vw, 58px);
-  line-height: 1.2;
-  margin-bottom: 23px;
-}
-.article-page .article-lead {
-  font-size: 19px;
-  color: #b5c8d7;
-}
-.article-page .article-cover {
-  width: 100%;
-  height: 330px;
-  object-fit: cover;
-  border-radius: 7px;
-  margin-block: 30px 45px;
-}
-.article-page h2 {
-  font-size: 27px;
-  margin-block: 35px 16px;
-}
-.article-page h3 {
-  font-size: 21px;
-  margin-block: 25px 12px;
-}
-.article-page p,
-.article-page li {
-  color: #b8cada;
-  line-height: 1.95;
-  font-size: 15px;
-}
-.article-page p + p {
-  margin-top: 18px;
-}
-.article-page a {
-  color: var(--gold);
-}
-.article-page ul,
-.article-page ol {
-  padding-left: 22px;
-}
-.article-page li {
-  padding-left: 4px;
-  margin-top: 9px;
-}
-.article-page .article-back {
-  display: inline-flex;
-  gap: 9px;
-  align-items: center;
-  font-size: 12px;
-  margin-bottom: 33px;
-}
-.article-page .article-cta {
-  margin-top: 45px;
-  border-top: 1px solid var(--line);
-  padding-top: 28px;
-}
 .not-found {
   padding-block: 120px;
   text-align: center;
@@ -1937,19 +1876,6 @@ p {
   .footer-bottom {
     padding-block: 20px;
     font-size: 8px;
-  }
-  .article-page {
-    padding-top: 50px;
-  }
-  .article-page .article-cover {
-    height: 230px;
-  }
-  .article-page h2 {
-    font-size: 24px;
-  }
-  .article-page p,
-  .article-page li {
-    font-size: 14px;
   }
 }
 @media (max-width: 360px) {

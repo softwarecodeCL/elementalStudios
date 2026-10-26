@@ -1,0 +1,69 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../Icon.astro';
+import { getCorporateMessages, getCorporateBriefCopy } from '../../i18n/corporate/index.js';
+import { localizedPath, getMessages } from '../../i18n/index.js';
+import { site } from '../../data/site';
+import '../../styles/corporate-diagnostic.css';
+
+interface Props { locale?: string; }
+const { locale = 'es' } = Astro.props;
+const c = getCorporateMessages(locale);
+const path = localizedPath(locale, '/diagnostico-ingles-empresas');
+const home = localizedPath(locale);
+const contact = `${home}?program=diagnostico-ingles-empresas&language=ingles#contacto`;
+const individual = localizedPath(locale, '/diagnostico-toeic');
+const briefCopy = getCorporateBriefCopy(locale);
+const structuredData = {
+  '@type': 'Service', '@id': `${site.url}${path}#service`,
+  name: c.label, description: c.metaDescription, url: `${site.url}${path}`,
+  serviceType: c.label, areaServed: { '@type': 'Country', name: 'Chile' },
+  provider: { '@id': `${site.url}/#organization` },
+  availableChannel: { '@type': 'ServiceChannel', serviceUrl: `${site.url}${contact}` },
+};
+---
+<Layout locale={locale} title={c.metaTitle} description={c.metaDescription} structuredData={structuredData} breadcrumbs={[{name: c.home, url: home}, {name: c.label, url: path}]}>
+  <section class="corporate-hero" aria-labelledby="corporate-title">
+    <div class="container">
+      <nav class="corporate-breadcrumb" aria-label={c.breadcrumb}><a href={home}>{c.home}</a><Icon name="chevron" size={12} /><span aria-current="page">{c.label}</span></nav>
+      <div class="corporate-hero-grid">
+        <div class="corporate-hero-copy">
+          <p class="eyebrow">{c.eyebrow}</p>
+          <h1 id="corporate-title">{c.heading}<br /><span class="text-gold">{c.accent}</span></h1>
+          <p class="corporate-lead">{c.lead}</p>
+          <div class="corporate-actions"><a class="button button-gold" href="#consulta-equipo">{c.cta}<Icon name="arrow" size={18} /></a><a class="corporate-secondary" href={individual} data-individual-diagnostic>{c.individualCta}<Icon name="chevron" size={15} /></a></div>
+          <p class="corporate-proof"><Icon name="target" size={17} />{c.proof}</p>
+        </div>
+        <aside class="corporate-map" aria-labelledby="corporate-map-title">
+          <div class="corporate-map-heading"><span id="corporate-map-title">{c.map.label}</span><Icon name="compass" size={25} /></div>
+          <ol>{c.map.steps.map((step, index) => <li><span class="corporate-map-index">0{index + 1}</span><div><span>{step.label}</span><strong>{step.value}</strong></div>{index < c.map.steps.length - 1 && <Icon name="arrow" size={18} class="corporate-map-arrow" />}</li>)}</ol>
+          <p><Icon name="book" size={15} />{c.map.note}</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="corporate-tasks corporate-section" aria-labelledby="corporate-tasks-title"><div class="container"><div class="corporate-section-heading"><p class="eyebrow">{c.tasks.eyebrow}</p><h2 id="corporate-tasks-title">{c.tasks.title}</h2></div><div class="corporate-task-grid">{c.tasks.items.map(item => <article><div class="corporate-task-sector"><Icon name={item.icon} size={21} /><span>{item.sector}</span></div><h3>{item.title}</h3><p>{item.text}</p><div class="corporate-task-decision"><Icon name="arrow" size={17} /><p>{item.decision}</p></div></article>)}</div></div></section>
+
+  <section class="corporate-scope corporate-section" aria-labelledby="corporate-scope-title"><div class="container"><div class="corporate-section-heading"><p class="eyebrow">{c.scope.eyebrow}</p><h2 id="corporate-scope-title">{c.scope.title}</h2></div><div class="corporate-scope-grid"><article><span class="corporate-scope-icon"><Icon name="laptop" size={25} /></span><h3>{c.scope.onlineTitle}</h3><p>{c.scope.onlineText}</p><div class="corporate-skill-tags">{c.scope.onlineTags.map(tag => <span lang="en"><Icon name="check" size={14} />{tag}</span>)}</div><a class="text-link" href={individual}>{c.individualCta}<Icon name="arrow" size={17} /></a></article><article><span class="corporate-scope-icon"><Icon name="users" size={25} /></span><h3>{c.scope.contextTitle}</h3><p>{c.scope.contextText}</p></article></div><p class="corporate-scope-note"><Icon name="shield" size={18} />{c.scope.note}</p></div></section>
+
+  <section class="corporate-process corporate-section" aria-labelledby="corporate-process-title"><div class="container"><h2 id="corporate-process-title">{c.steps.title}</h2><ol>{c.steps.items.map((step, index) => <li><span>0{index + 1}</span><div><h3>{step.title}</h3><p>{step.text}</p></div></li>)}</ol></div></section>
+
+  <section class="corporate-consultation corporate-section" id="consulta-equipo" aria-labelledby="corporate-brief-title"><div class="container corporate-consultation-grid"><div><p class="eyebrow">{c.brief.eyebrow}</p><h2 id="corporate-brief-title">{c.brief.title}</h2><p class="corporate-body">{c.brief.text}</p><a class="corporate-direct" href={contact}>{c.brief.direct}<Icon name="arrow" size={17} /></a></div>
+    <noscript><a class="button button-gold corporate-nojs" href={site.whatsapp} target="_blank" rel="noopener noreferrer">{getMessages(locale).footer.whatsapp}<Icon name="whatsapp" size={19} /></a></noscript>
+    <form id="corporate-brief" class="corporate-brief" data-corporate-brief data-locale={locale} data-contact-url={contact} data-brief-copy={JSON.stringify(briefCopy)} action={home + '#contacto'} method="get" hidden>
+      <input type="hidden" name="program" value="diagnostico-ingles-empresas" /><input type="hidden" name="language" value="ingles" />
+      <label class="corporate-field">{c.brief.sector}<span aria-hidden="true"> *</span><select name="brief-sector" required><option value="" selected disabled>{c.brief.chooseSector}</option>{c.brief.sectors.map(sector => <option value={sector.value}>{sector.label}</option>)}</select></label>
+      <fieldset class="corporate-role-field" data-brief-roles disabled><legend>{c.brief.roleLegend}</legend><p data-brief-role-hint>{c.brief.roleHint}</p><div class="corporate-role-options" data-brief-role-options></div></fieldset>
+      <div class="corporate-field-grid"><label class="corporate-field">{c.brief.size}<select name="brief-size">{c.brief.sizes.map((size, index) => <option value={size.value} selected={index === 0}>{size.label}</option>)}</select></label><label class="corporate-field">{c.brief.goal}<select name="brief-goal">{c.brief.goals.map((goal, index) => <option value={goal.value} selected={index === 0}>{goal.label}</option>)}</select></label></div>
+      <div class="corporate-brief-summary" data-brief-summary hidden></div>
+      <button class="button button-gold" type="submit">{c.brief.button}<Icon name="arrow" size={18} /></button>
+      <p class="corporate-brief-help">{c.brief.help}</p><p class="corporate-brief-status" data-brief-status role="status" aria-live="polite"></p>
+    </form>
+  </div></section>
+
+  <section class="corporate-faq corporate-section" aria-labelledby="corporate-faq-title"><div class="container corporate-faq-grid"><h2 id="corporate-faq-title">{c.faqTitle}</h2><div class="faq-list">{c.faq.map(item => <details><summary>{item.question}<span><Icon name="plus" size={18} /></span></summary><p>{item.answer}</p></details>)}</div></div></section>
+
+  <section class="corporate-related corporate-section" aria-labelledby="corporate-related-title"><div class="container"><h2 id="corporate-related-title">{c.relatedTitle}</h2><div class="corporate-related-grid">{c.related.map(item => <a href={localizedPath(locale, `/${item.slug}`)}><div><h3>{item.title}</h3><p>{item.text}</p></div><Icon name="arrow" size={23} /></a>)}</div></div></section>
+  <script>import '../../scripts/corporate-brief';</script>
+</Layout>

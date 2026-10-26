@@ -447,7 +447,7 @@ class DiagnosticApp extends HTMLElement {
   renderResults() {
     const d = this.copy;
     const corporate = getGrowthMessages(this.locale);
-    const corporateContact = localizedPath(this.locale) + '?program=ingles-para-empresas&language=ingles#contacto';
+    const corporateContact = localizedPath(this.locale, '/diagnostico-ingles-empresas') + '#consulta-equipo';
     const summary = summarize(this.state);
     const skillCopy = (id: string) => d.skills[id as keyof typeof d.skills];
     const status = (ratio: number) =>
