@@ -28,7 +28,7 @@ const corporateDiagnostic = localizedPath(locale, '/diagnostico-ingles-empresas'
     <div class="container hero-inner">
       <div class="hero-copy">
         <p class="eyebrow">{g.homeEyebrow}</p>
-        <h1 id="hero-title">{g.homeTitle[0]}<br /><span class="text-gold">{g.homeTitle[1]}</span><br /><span class="text-gold">{g.homeTitle[2]}</span></h1>
+        <h1 id="hero-title" aria-live="off" aria-atomic="true">{t.hero.headlines.map((headline, index) => <span class:list={['hero-headline', { 'is-active': index === 0 }]} aria-hidden={index !== 0}>{headline.title}<br /><span class="text-gold">{headline.accent}</span></span>)}</h1>
         <p class="hero-description">{t.hero.description} <strong>{t.hero.sectors}</strong></p>
         <div class="hero-actions"><a class="button button-gold" href="#contacto">{t.hero.cta} <Icon name="arrow" size={20} /></a><a class="hero-secondary" href="#programas"><span class="play-circle"><Icon name="chevron" size={16} /></span>{t.hero.explore}</a></div>
         <div class="hero-proof"><span><Icon name="checkCircle" size={17} />{t.hero.online}</span><span><Icon name="checkCircle" size={17} />{t.hero.tailored}</span></div>
@@ -36,7 +36,7 @@ const corporateDiagnostic = localizedPath(locale, '/diagnostico-ingles-empresas'
       <div class="hero-detail"><span class="hero-detail-icon"><Icon name="globe" size={23} /></span><div><span>{t.hero.greeting}</span><p>{t.hero.detail}</p></div></div>
       <div class="hero-bottom">
         <div class="hero-slide-tabs" role="group" aria-label={t.hero.selectPhoto}>{t.hero.slides.map((label, index) => <button type="button" class:list={['hero-slide-tab', { 'is-active': index === 0 }]} aria-pressed={index === 0} data-slide={index}><span>0{index + 1}</span>{label}</button>)}</div>
-        <div class="hero-slide-caption"><span id="slide-caption" aria-live="polite" data-captions={JSON.stringify(t.hero.captions)}>{t.hero.captions[0]}</span><div class="carousel-arrows"><button type="button" data-carousel-prev aria-label={t.hero.previousPhoto}><Icon name="chevron" class="rotate" size={18} /></button><button type="button" data-carousel-next aria-label={t.hero.nextPhoto}><Icon name="chevron" size={18} /></button></div></div>
+        <div class="carousel-arrows"><button type="button" data-carousel-prev aria-label={t.hero.previousPhoto}><Icon name="chevron" class="rotate" size={18} /></button><button type="button" data-carousel-next aria-label={t.hero.nextPhoto}><Icon name="chevron" size={18} /></button></div>
       </div>
     </div>
   </section>
@@ -62,8 +62,8 @@ const corporateDiagnostic = localizedPath(locale, '/diagnostico-ingles-empresas'
   <script>
     const slides = Array.from(document.querySelectorAll<HTMLElement>('.hero-photo'));
     const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-slide]'));
-    const caption = document.querySelector<HTMLElement>('#slide-caption');
-    const captions: string[] = JSON.parse(caption?.dataset.captions || '[]');
+    const title = document.querySelector<HTMLElement>('#hero-title');
+    const headlines = Array.from(document.querySelectorAll<HTMLElement>('.hero-headline'));
     const hero = document.querySelector<HTMLElement>('.hero');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let activeSlide = 0;
@@ -79,7 +79,7 @@ const corporateDiagnostic = localizedPath(locale, '/diagnostico-ingles-empresas'
       activeSlide = (index + slides.length) % slides.length;
       slides.forEach((slide, i) => slide.classList.toggle('is-active', i === activeSlide));
       tabs.forEach((tab, i) => { tab.classList.toggle('is-active', i === activeSlide); tab.setAttribute('aria-pressed', String(i === activeSlide)); });
-      if (caption) caption.textContent = captions[activeSlide] || '';
+      headlines.forEach((headline, i) => { headline.classList.toggle('is-active', i === activeSlide); headline.setAttribute('aria-hidden', String(i !== activeSlide)); });
     }
     function navigateSlide(index: number) { showSlide(index); scheduleSlide(); }
     tabs.forEach((tab, index) => tab.addEventListener('click', () => navigateSlide(index)));
@@ -88,10 +88,10 @@ const corporateDiagnostic = localizedPath(locale, '/diagnostico-ingles-empresas'
     // Hover never stops rotation; keyboard focus pauses it for accessible navigation.
     hero?.addEventListener('focusin', () => {
       clearTimeout(timer);
-      caption?.setAttribute('aria-live', 'polite');
+      title?.setAttribute('aria-live', 'polite');
     });
     hero?.addEventListener('focusout', () => setTimeout(() => {
-      if (!hero.contains(document.activeElement)) caption?.setAttribute('aria-live', 'off');
+      if (!hero.contains(document.activeElement)) title?.setAttribute('aria-live', 'off');
       scheduleSlide();
     }, 0));
     hero?.addEventListener('touchstart', (event) => {
@@ -112,7 +112,6 @@ const corporateDiagnostic = localizedPath(locale, '/diagnostico-ingles-empresas'
     hero?.addEventListener('touchcancel', () => { touchStart = undefined; scheduleSlide(); }, { passive: true });
     document.addEventListener('visibilitychange', scheduleSlide);
     reducedMotion.addEventListener('change', scheduleSlide);
-    caption?.setAttribute('aria-live', 'off');
     scheduleSlide();
   </script>
 </Layout>

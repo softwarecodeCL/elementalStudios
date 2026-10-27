@@ -347,10 +347,18 @@ p {
   letter-spacing: 0.2em;
 }
 .hero h1 {
+  display: grid;
   font-size: clamp(54px, 5.25vw, 78px);
   line-height: 1.07;
   letter-spacing: -0.055em;
   font-weight: 800;
+}
+.hero-headline {
+  grid-area: 1 / 1;
+  visibility: hidden;
+}
+.hero-headline.is-active {
+  visibility: visible;
 }
 .hero-description {
   max-width: 425px;
@@ -466,13 +474,6 @@ p {
 }
 .hero-slide-tab.is-active span {
   color: var(--gold);
-}
-.hero-slide-caption {
-  display: flex;
-  gap: 25px;
-  align-items: center;
-  color: #bfccd7;
-  font-size: 10px;
 }
 .carousel-arrows {
   display: flex;
@@ -1176,10 +1177,6 @@ p {
   .hero-actions {
     gap: 18px;
   }
-  .hero-slide-caption > span {
-    max-width: 210px;
-    font-size: 9px;
-  }
   .program-scenario {
     min-height: 80px;
   }
@@ -1308,9 +1305,6 @@ p {
     background:
       linear-gradient(90deg, #04111ef5, #04111ed4 50%, #04111e44),
       linear-gradient(0deg, var(--navy), transparent 50%);
-  }
-  .hero-slide-caption > span {
-    display: none;
   }
   .hero-slide-tabs {
     gap: 24px;
@@ -1599,9 +1593,6 @@ p {
   }
   .hero-slide-tab span {
     font-size: 8px;
-  }
-  .hero-slide-caption {
-    gap: 0;
   }
   .carousel-arrows {
     gap: 5px;
