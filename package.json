@@ -18,7 +18,8 @@
     "@astrojs/sitemap": "^3.7.4",
     "@fontsource-variable/dm-sans": "^5.2.0",
     "@fontsource-variable/manrope": "^5.2.0",
-    "astro": "^7.4.2"
+    "astro": "^7.4.2",
+    "jspdf": "^4.2.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",

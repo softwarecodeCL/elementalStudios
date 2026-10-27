@@ -36,6 +36,7 @@ class DiagnosticApp extends HTMLElement {
   lastTick = Date.now();
   audio: HTMLAudioElement | null = null;
   audioToken = 0;
+  downloading = false;
   events = new AbortController();
 
   connectedCallback() {
@@ -311,7 +312,7 @@ class DiagnosticApp extends HTMLElement {
       this.save();
       this.render();
     }
-    if (action === 'download') this.download();
+    if (action === 'download') void this.download();
     if (action === 'print') window.print();
   }
   renderPaused() {
@@ -476,43 +477,38 @@ class DiagnosticApp extends HTMLElement {
         .join('')}</div></section>
       <section class="diagnostic-result-cta"><div><h2>${escapeHtml(corporate.corporateTitle)}</h2><p>${escapeHtml(corporate.corporateText)}</p></div><div><a class="button button-gold" href="${escapeHtml(corporateContact)}" data-corporate-diagnostic>${escapeHtml(corporate.corporateCta)} →</a><button class="diagnostic-text-button" type="button" data-action="retake">${escapeHtml(d.retake)}</button></div></section><p class="diagnostic-disclaimer">${escapeHtml(d.notice)}</p>`;
   }
-  download() {
-    const d = this.copy;
-    const result = summarize(this.state);
-    const lines = [
-      d.reportTitle,
-      this.state.name,
-      this.state.completedAt
-        ? new Date(this.state.completedAt).toLocaleDateString(this.locale)
-        : '',
-      `${d.accuracy}: ${result.percentage}%`,
-      formatText(d.correct, { correct: result.correct, total: result.total }),
-      `${d.elapsed}: ${clock(this.state.elapsedMs)}`,
-      ...result.sections.map(
-        (section) =>
-          `${sectionName(section.section)}: ${section.correct}/${section.total}`,
-      ),
-      '',
-      d.priorityTitle,
-      ...result.priorities.map((skill) => {
-        const translated = d.skills[skill.id as keyof typeof d.skills];
-        return `${translated.name}: ${translated.tip}`;
-      }),
-      '',
-      formatText(d.transcriptResult, { count: this.state.transcripts.length }),
-      '',
-      d.notice,
-    ].filter(Boolean);
-    const url = URL.createObjectURL(
-      new Blob(['\uFEFF' + lines.join('\n')], {
-        type: 'text/plain;charset=utf-8',
-      }),
-    );
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = d.reportFilename;
-    link.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  async download() {
+    if (this.downloading) return;
+    this.downloading = true;
+    const button = this.outlet.querySelector<HTMLButtonElement>('[data-action="download"]');
+    const label = button?.textContent || this.copy.download;
+    const notice = document.createElement('p');
+    notice.className = 'diagnostic-support-note';
+    notice.setAttribute('role', 'status');
+    this.outlet.querySelector('[data-report-status]')?.remove();
+    notice.dataset.reportStatus = '';
+    button?.closest('.diagnostic-result-actions')?.after(notice);
+    if (button) {
+      button.disabled = true;
+      button.setAttribute('aria-busy', 'true');
+      button.textContent = this.copy.reportGenerating;
+    }
+    notice.textContent = this.copy.reportGenerating;
+    try {
+      // Load the PDF engine only when a participant requests their report.
+      const { downloadDiagnosticReport } = await import('./report');
+      await downloadDiagnosticReport(this.state, this.locale);
+      notice.remove();
+    } catch {
+      notice.textContent = this.copy.reportError;
+    } finally {
+      this.downloading = false;
+      if (button) {
+        button.disabled = false;
+        button.removeAttribute('aria-busy');
+        button.textContent = label;
+      }
+    }
   }
 }
 if (!customElements.get('diagnostic-app'))

@@ -174,9 +174,11 @@ export default {
   notAnswered: "Sin responder",
   correctLabel: "Correcta",
   incorrectLabel: "Por reforzar",
-  download: "Descargar resumen",
+  download: "Descargar informe PDF",
+  reportGenerating: "Preparando PDF…",
+  reportError: "No pudimos generar el PDF. Inténtalo de nuevo o utiliza Imprimir informe.",
   print: "Imprimir informe",
-  reportFilename: "diagnostico-ingles-elemental.txt",
+  reportFilename: "informe-ingles-elemental.pdf",
   reportTitle: "Diagnóstico orientativo de inglés · Elemental Studios",
   ctaTitle: "Dale continuidad a tu aprendizaje.",
   ctaText:

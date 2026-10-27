@@ -173,9 +173,11 @@ export default {
   notAnswered: "Not answered",
   correctLabel: "Correct",
   incorrectLabel: "To practise",
-  download: "Download summary",
+  download: "Download PDF report",
+  reportGenerating: "Preparing PDF…",
+  reportError: "We could not generate the PDF. Please try again or use Print report.",
   print: "Print report",
-  reportFilename: "elemental-english-diagnostic.txt",
+  reportFilename: "elemental-english-report.pdf",
   reportTitle: "Indicative English diagnostic · Elemental Studios",
   ctaTitle: "Keep your learning moving.",
   ctaText:

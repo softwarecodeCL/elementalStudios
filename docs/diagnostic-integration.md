@@ -20,7 +20,7 @@ Las reproducciones de audio se contaban en una variable local que se reiniciaba 
 - Transcripciones de apoyo, registradas en el informe.
 - Persistencia validada y versionada en este navegador, bajo `elemental-english-diagnostic-v3`.
 - Informe inmediato con aciertos, habilidades, prioridades de práctica y revisión de respuestas.
-- Descarga del resumen en texto e impresión del informe.
+- Descarga de un informe PDF con identidad visual, resumen de resultados, gráficos vectoriales, mapa de habilidades, prioridades y revisión de las 36 respuestas. Textos seleccionables, paginación automática e idiomas ES/EN/PT. jsPDF se carga únicamente al solicitar la descarga y el documento se genera en el navegador, sin enviar resultados al servidor. Se conserva la opción de impresión.
 - Ningún envío automático de respuestas o datos personales. El nombre es opcional; el contacto posterior abre el WhatsApp público de la empresa.
 
 El banco es compartido entre idiomas: cambiar el idioma del sitio no convierte la herramienta en un diagnóstico de portugués.
