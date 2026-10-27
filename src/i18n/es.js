@@ -50,10 +50,10 @@ export default {
     previousPhoto: "Fotografía anterior",
     nextPhoto: "Fotografía siguiente",
     slides: ["Hotelería", "Turismo", "Empresas"],
-    captions: [
-      "Cada estadía comienza con una buena conversación.",
-      "Idiomas que acercan culturas y experiencias.",
-      "Nuevas herramientas para conectar profesionalmente.",
+    headlines: [
+      { title: "Cada estadía comienza", accent: "con una buena conversación" },
+      { title: "Idiomas que acercan", accent: "culturas y experiencias" },
+      { title: "Nuevas herramientas", accent: "para conectar profesionalmente" },
     ],
   },
   features: [

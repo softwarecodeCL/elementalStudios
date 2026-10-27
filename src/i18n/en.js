@@ -50,10 +50,10 @@ export default {
     previousPhoto: "Previous photograph",
     nextPhoto: "Next photograph",
     slides: ["Hospitality", "Tourism", "Businesses"],
-    captions: [
-      "Every stay begins with a good conversation.",
-      "Languages that connect cultures and experiences.",
-      "New tools for professional communication.",
+    headlines: [
+      { title: "Every stay begins", accent: "with a good conversation" },
+      { title: "Languages that connect", accent: "cultures and experiences" },
+      { title: "New tools", accent: "for professional communication" },
     ],
   },
   features: [
